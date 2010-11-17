@@ -2,7 +2,7 @@
 
 /*
 Plugin Name: Ad Inserter
-Version: 1.0.0
+Version: 1.0.1
 Description: An elegant solution to put any ad into Wordpress. Simply enter any HTML code and select where and how you want to display it (including Widgets). You can also use {category}, {short_category}, {title}, {short_title} or {smart_tag} for actual post data.
 Author: Igor Funa
 Author URI: http://igorfuna.com/
@@ -17,6 +17,9 @@ http://www.mkyong.com/blog/adsense-daemon-wordpress-plugin
 
 /*
 Change Log
+
+Ad Inserter 1.0.1 - 17/11/2010
+- Added support for different sidebar implementations
 
 Ad Inserter 1.0.0 - 14/11/2010
 - Initial release
@@ -497,7 +500,7 @@ function ai_generateDivAfter($content, $obj){
 
 }
 
-function ai_widget1() {
+function ai_widget1($args) {
 
   $ad = new Ad1();
 
@@ -513,10 +516,10 @@ function ai_widget1() {
       $http_referer = $_SERVER['HTTP_REFERER'];
   }
 
-  ai_widget_draw ($ad, $publish_date, $http_referer);
+  ai_widget_draw ($ad, $publish_date, $http_referer, $args);
 }
 
-function ai_widget2() {
+function ai_widget2($args) {
 
   $ad = new Ad2();
 
@@ -532,10 +535,10 @@ function ai_widget2() {
       $http_referer = $_SERVER['HTTP_REFERER'];
   }
 
-  ai_widget_draw ($ad, $publish_date, $http_referer);
+  ai_widget_draw ($ad, $publish_date, $http_referer, $args);
 }
 
-function ai_widget3() {
+function ai_widget3($args) {
 
   $ad = new Ad3();
 
@@ -551,10 +554,10 @@ function ai_widget3() {
       $http_referer = $_SERVER['HTTP_REFERER'];
   }
 
-  ai_widget_draw ($ad, $publish_date, $http_referer);
+  ai_widget_draw ($ad, $publish_date, $http_referer, $args);
 }
 
-function ai_widget4() {
+function ai_widget4($args) {
 
   $ad = new Ad4();
 
@@ -570,10 +573,10 @@ function ai_widget4() {
       $http_referer = $_SERVER['HTTP_REFERER'];
   }
 
-  ai_widget_draw ($ad, $publish_date, $http_referer);
+  ai_widget_draw ($ad, $publish_date, $http_referer, $args);
 }
 
-function ai_widget5() {
+function ai_widget5($args) {
 
   $ad = new Ad5();
 
@@ -589,12 +592,12 @@ function ai_widget5() {
       $http_referer = $_SERVER['HTTP_REFERER'];
   }
 
-  ai_widget_draw ($ad, $publish_date, $http_referer);
+  ai_widget_draw ($ad, $publish_date, $http_referer, $args);
 }
 
-function ai_widget6() {
+function ai_widget6($args) {
 
-  $ad = new Ad6();
+  $ad = new Ad6($args);
 
   //load options from db
   $ad->wp_options = ai_get_option (AD_AD6_OPTIONS);
@@ -608,10 +611,10 @@ function ai_widget6() {
       $http_referer = $_SERVER['HTTP_REFERER'];
   }
 
-  ai_widget_draw ($ad, $publish_date, $http_referer);
+  ai_widget_draw ($ad, $publish_date, $http_referer, $args);
 }
 
-function ai_widget7() {
+function ai_widget7($args) {
 
   $ad = new Ad7();
 
@@ -627,10 +630,10 @@ function ai_widget7() {
       $http_referer = $_SERVER['HTTP_REFERER'];
   }
 
-  ai_widget_draw ($ad, $publish_date, $http_referer);
+  ai_widget_draw ($ad, $publish_date, $http_referer, $args);
 }
 
-function ai_widget8() {
+function ai_widget8($args) {
 
   $ad = new Ad8();
 
@@ -646,10 +649,10 @@ function ai_widget8() {
       $http_referer = $_SERVER['HTTP_REFERER'];
   }
 
-  ai_widget_draw ($ad, $publish_date, $http_referer);
+  ai_widget_draw ($ad, $publish_date, $http_referer, $args);
 }
 
-function ai_widget_draw ($obj, $publish_date, $http_referer) {
+function ai_widget_draw ($obj, $publish_date, $http_referer, $args) {
 
      //if empty data, continue next
      if($obj->get_ad_data()==AD_EMPTY_DATA){
@@ -674,7 +677,7 @@ function ai_widget_draw ($obj, $publish_date, $http_referer) {
 
      if($obj->get_append_type() == AD_SELECT_WIDGET){
 
-       echo "<li>" . $obj->get_ad_data_replaced() . "</li>";
+       echo $args['before_widget'] . $obj->get_ad_data_replaced() . $args['after_widget'];
 
      }
 }

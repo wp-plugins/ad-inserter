@@ -4,7 +4,7 @@ Donate link: http://igorfuna.com/software/web/ad-inserter-wordpress-plugin
 Tags: adsense, amazon, ad, ads, html, javascript, html code
 Requires at least: 2.0
 Tested up to: 3.0.1
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 
 Integrate any HTML code into Wordpress. Just paste the code and select the location and display mode. Perfect for AdSense or Amazon ads.
 
@@ -28,8 +28,7 @@ An elegant solution to put any ad into Wordpress. Simply enter any HTML code and
 
 4. Do not display ads in certain caregory e.g sport, news, science,...
 
-Inspired by the Adsense Daemon plugin by Yong Mook Kim
-http://www.mkyong.com/blog/adsense-daemon-wordpress-plugin
+Inspired by the <a href="http://wordpress.org/extend/plugins/adsense-daemon/">Adsense Daemon</a> plugin by <a href="http://www.mkyong.com/blog/adsense-daemon-wordpress-plugin">Yong Mook Kim</a>
 
 == Installation ==
 
@@ -70,6 +69,9 @@ http://www.mkyong.com/blog/adsense-daemon-wordpress-plugin
 
 
 == Changelog ==
+
+= 1.0.1 =
+* Added support for different sidebar implementations
 
 = 1.0.0 =
 * Initial release
