@@ -1,16 +1,16 @@
 === Ad Inserter ===
 Contributors: spacetime
 Donate link: http://igorfuna.com/software/web/ad-inserter-wordpress-plugin
-Tags: adsense, amazon, ad, ads, html, javascript, html code
+Tags: adsense, amazon, ad, ads, html, javascript, html code, widget, sidebar, rotating ads, rotating banners
 Requires at least: 2.0
-Tested up to: 3.0.1
-Stable tag: 1.0.1
+Tested up to: 3.0.2
+Stable tag: 1.0.2
 
 Integrate any HTML code into Wordpress. Just paste the code and select the location and display mode. Perfect for AdSense or Amazon ads.
 
 == Description ==
 
-An elegant solution to put any ad into Wordpress. Simply enter any HTML code and select where and how you want to display it (including widgets). You can also use {category}, {short_category}, {title}, {short_title} or {smart_tag} for actual article data.
+An elegant solution to put any ad into Wordpress. Simply enter any HTML code and select where and how you want to display it (including widgets). You can also use {category}, {short_category}, {title}, {short_title} or {smart_tag} for actual article data. To rotate different ad versions separate them with ||.
 
 1. Display Options:
 
@@ -28,7 +28,7 @@ An elegant solution to put any ad into Wordpress. Simply enter any HTML code and
 
 4. Do not display ads in certain caregory e.g sport, news, science,...
 
-Inspired by the <a href="http://wordpress.org/extend/plugins/adsense-daemon/">Adsense Daemon</a> plugin by <a href="http://www.mkyong.com/blog/adsense-daemon-wordpress-plugin">Yong Mook Kim</a>
+Inspired by the <a href="http://wordpress.org/extend/plugins/adsense-daemon/">Adsense Daemon</a> plugin by Yong Mook Kim. Ad Inserter is perfect to display AdSense or Amazon ads. It can also be used to display various versions of <a href="https://www.google.com/adsense/support/bin/answer.py?answer=32614">AdSense ads using channels</a> to test which format or color combination performs best.
 
 == Installation ==
 
@@ -62,6 +62,10 @@ Inspired by the <a href="http://wordpress.org/extend/plugins/adsense-daemon/">Ad
   *   If the first and second tags are single words then both words are used
   *   First three words of the first tag
 
+= How can I rotate two versions of the same ad? =
+
+Enter them into the ad box and separate them with || (double vertical bar). Ad Inserter will display them randomly.
+
 
 == Screenshots ==
 
@@ -70,13 +74,23 @@ Inspired by the <a href="http://wordpress.org/extend/plugins/adsense-daemon/">Ad
 
 == Changelog ==
 
+= 1.0.2 =
+* Added support for rotating ads
+
 = 1.0.1 =
 * Added support for different sidebar implementations
 
 = 1.0.0 =
 * Initial release
 
+
 == Upgrade Notice ==
+
+= 1.0.2 =
+Support for rotating ads
+
+= 1.0.1 =
+Support for different sidebar implementations in various themes
 
 = 1.0.0 =
 Initial release
