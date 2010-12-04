@@ -65,7 +65,13 @@ Inspired by the <a href="http://wordpress.org/extend/plugins/adsense-daemon/">Ad
 = How can I rotate two versions of the same ad? =
 
 Enter them into the ad box and separate them with || (double vertical bar). Ad Inserter will display them randomly.
+Example:
 
+ad_code_1<br />
+||<br />
+ad_code_2<br />
+||<br />
+ad_code_3<br />
 
 == Screenshots ==
 
