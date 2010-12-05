@@ -4,7 +4,7 @@ Donate link: http://igorfuna.com/software/web/ad-inserter-wordpress-plugin
 Tags: adsense, amazon, ad, ads, html, javascript, html code, widget, sidebar, rotating ads, rotating banners
 Requires at least: 2.0
 Tested up to: 3.0.2
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 
 Integrate any HTML code into Wordpress. Just paste the code and select the location and display mode. Perfect for AdSense or Amazon ads.
 
@@ -62,7 +62,8 @@ Inspired by the <a href="http://wordpress.org/extend/plugins/adsense-daemon/">Ad
   *   If the first and second tags are single words then both words are used
   *   First three words of the first tag
 
-= How can I rotate two versions of the same ad? =
+
+= How can I rotate few versions of the same ad? =
 
 Enter them into the ad box and separate them with || (double vertical bar). Ad Inserter will display them randomly.
 Example:
@@ -80,6 +81,9 @@ ad_code_3<br />
 
 == Changelog ==
 
+= 1.0.3 =
+* Fixed bug with rotating ads
+
 = 1.0.2 =
 * Added support for rotating ads
 
@@ -91,6 +95,9 @@ ad_code_3<br />
 
 
 == Upgrade Notice ==
+
+= 1.0.3 =
+Fixed bug with rotating ads
 
 = 1.0.2 =
 Support for rotating ads
