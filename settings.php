@@ -35,7 +35,7 @@ by Igor Funa - <a href="http://igorfuna.com/contact/contact-igor-funa" target="_
       Ad Name:  <input type="text" name="<?php echo $obj->option_ad_name; ?>" value="<?php echo $obj->get_ad_name() ?>" size="40" maxlength="50"/> (Here you can rename ad block.)
    </div>
   <div style="padding-left:16px;">
-      Put ad or any HTML code here:
+      Put ad or any HTML code here (separate rotating versions with ||):
   </div>
   <div style="padding:8px;">
       <textarea name="<?php echo $obj->option_ad_data; ?>" rows="24" cols="90" style="background-color:#F9F9F9;"><?php echo $obj->get_ad_data(); ?></textarea>
