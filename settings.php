@@ -22,24 +22,24 @@ by Igor Funa - <a href="http://igorfuna.com/contact/contact-igor-funa" target="_
 
 <?php
   $ad_number = 0;
-	foreach($ad_array as $obj){
+  foreach($ad_array as $obj){
     $ad_number ++;
 ?>
 <div style="padding:8px; margin-bottom:16px; width:770px; background-color: white; border: 1px solid rgb(221, 221, 221);">
 
-	<div style="padding-left:4px;">
+  <div style="padding-left:4px;">
     <h3><?php echo $ad_number, ".  ", $obj->get_ad_name(); ?></h3>
-	</div>
+  </div>
 
    <div style="padding:0px 8px 16px 16px;">
       Ad Name:  <input type="text" name="<?php echo $obj->option_ad_name; ?>" value="<?php echo $obj->get_ad_name() ?>" size="40" maxlength="50"/> (Here you can rename ad block.)
    </div>
-	<div style="padding-left:16px;">
-      Put ad or any HTML code here:
-	</div>
-	<div style="padding:8px;">
+  <div style="padding-left:16px;">
+      Put ad or any HTML code here (separate rotating versions with ||):
+  </div>
+  <div style="padding:8px;">
       <textarea name="<?php echo $obj->option_ad_data; ?>" rows="24" cols="90" style="background-color:#F9F9F9;"><?php echo $obj->get_ad_data(); ?></textarea>
-	</div>
+  </div>
 
    <div style="padding:8px 8px 16px 16px;">
       Display:
@@ -52,18 +52,15 @@ by Igor Funa - <a href="http://igorfuna.com/contact/contact-igor-funa" target="_
       </select>
    </div>
    <div style="border: 1px solid #ddd;">
-     <div style="padding:0px 8px 16px 16px;">
-        Before Paragraph:  <input type="text" name="<?php echo $obj->option_paragraph_number; ?>" value="<?php echo $obj->get_paragraph_number() ?>" size="2" maxlength="3"/> (0 means random paragraph)
-     </div>
-     <div style="padding:8px 8px 16px 16px;">
-        Direction:
+     <div style="padding:8px 8px 8px 8px;">
+        <strong>Before Paragraph</strong> display settings
+        <br /><br />
+        Paragraph number (0 = random) <input type="text" name="<?php echo $obj->option_paragraph_number; ?>" value="<?php echo $obj->get_paragraph_number() ?>" size="2" maxlength="3"/> &nbsp;&nbsp;&nbsp; Counting direction:
         <select name="<?php echo $obj->option_direction_type; ?>" style="width:120px">
            <option value="<?php echo AD_DIRECTION_FROM_TOP; ?>" <?php echo ($obj->get_direction_type()==AD_DIRECTION_FROM_TOP) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DIRECTION_FROM_TOP; ?></option>
            <option value="<?php echo AD_DIRECTION_FROM_BOTTOM; ?>" <?php echo ($obj->get_direction_type()==AD_DIRECTION_FROM_BOTTOM) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DIRECTION_FROM_BOTTOM; ?></option>
         </select>
-     </div>
-     <div style="padding:8px 8px 16px 16px;">
-        Float:
+        &nbsp;&nbsp;&nbsp; Float:
         <select name="<?php echo $obj->option_float_type; ?>" style="width:80px">
            <option value="<?php echo AD_FLOAT_NONE; ?>" <?php echo ($obj->get_float_type()==AD_FLOAT_NONE) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_FLOAT_NONE; ?></option>
            <option value="<?php echo AD_FLOAT_LEFT; ?>" <?php echo ($obj->get_float_type()==AD_FLOAT_LEFT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_FLOAT_LEFT; ?></option>
@@ -76,24 +73,24 @@ by Igor Funa - <a href="http://igorfuna.com/contact/contact-igor-funa" target="_
       General Tag:  <input type="text" name="<?php echo $obj->option_ad_general_tag; ?>" value="<?php echo $obj->get_ad_general_tag() ?>" size="30" maxlength="40"/> (Used for {xxx} tags when no appropriate data is found.)
    </div>
   <div style="padding:0px 8px 16px 16px;">
-		Display ads for post published after :  <input type="text" name="<?php echo $obj->option_ad_after_day; ?>" value="<?php echo $obj->get_ad_after_day() ?>" size="2" maxlength="3"/> day(s). (0 = immediately)
-	</div>
-	<div style="padding:0px 8px 16px 16px;">
+    Display ads for post published after :  <input type="text" name="<?php echo $obj->option_ad_after_day; ?>" value="<?php echo $obj->get_ad_after_day() ?>" size="2" maxlength="3"/> day(s). (0 = immediately)
+  </div>
+  <div style="padding:0px 8px 16px 16px;">
       Do not display ads to users from website :  <input type="text" name="<?php echo $obj->option_ad_block_user; ?>" value="<?php echo $obj->get_ad_block_user() ?>" size="30" maxlength="200"/> (e.g. technorati.com, facebook.com)
-	</div>
-	<div style="padding:0px 8px 16px 16px;">
+  </div>
+  <div style="padding:0px 8px 16px 16px;">
       Do not display ads to this category :  <input type="text" name="<?php echo $obj->option_ad_block_cat; ?>" value="<?php echo $obj->get_ad_block_cat() ?>" size="30" maxlength="200"/> (e.g. sport, news, science)
-	</div>
+  </div>
 
 </div>
 
 <?php
-	}
+  }
 ?>
 
 <div style="padding:16px 16px 16px 540px">
       <input onclick="if (confirm('Are you sure you want to reset all settings?'))return true;return false" name="<?php echo AD_FORM_CLEAR; ?>" value="Reset" type="submit" style="width:100px;"/>
-		<input name="<?php echo AD_FORM_SAVE; ?>" value="Save" type="submit" style="width:100px;" />
+    <input name="<?php echo AD_FORM_SAVE; ?>" value="Save" type="submit" style="width:100px;" />
 </div>
 
 </form>
