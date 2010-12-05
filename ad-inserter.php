@@ -18,7 +18,7 @@ http://www.mkyong.com/blog/adsense-daemon-wordpress-plugin
 /*
 Change Log
 
-Ad Inserter 1.0.3 - 04/12/2010
+Ad Inserter 1.0.3 - 05/12/2010
 - Fixed bug for rotating ads
 
 Ad Inserter 1.0.2 - 04/12/2010
