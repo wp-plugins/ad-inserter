@@ -65,6 +65,7 @@ abstract class BaseAdInserter {
      $short_title = $general_tag;
      $category = $general_tag;
      $short_category = $general_tag;
+     $tag = $general_tag;
      $smart_tag = $general_tag;
      if (is_category ()) {
          $categories = get_the_category();
@@ -85,6 +86,7 @@ abstract class BaseAdInserter {
          $title = $category;
          $title = str_replace ("&amp;", "and", $title);
          $short_title = implode (" ", array_slice (explode (" ", $title), 0, 3));
+         $tag = $short_title;
          $smart_tag = $short_title;
      } elseif (is_tag ()) {
          $title = single_tag_title('', false);
@@ -97,6 +99,7 @@ abstract class BaseAdInserter {
          if (strpos ($short_category, "and") !== false) {
            $short_category = trim (substr ($short_category, 0, strpos ($short_category, "and")));
          }
+         $tag = $short_title;
          $smart_tag = $short_title;
      } elseif (is_search ()) {
          $title = get_search_query();
@@ -109,6 +112,7 @@ abstract class BaseAdInserter {
          if (strpos ($short_category, "and") !== false) {
            $short_category = trim (substr ($short_category, 0, strpos ($short_category, "and")));
          }
+         $tag = $short_title;
          $smart_tag = $short_title;
      } elseif (is_page () || is_single ()) {
          $title = get_the_title();
@@ -133,6 +137,9 @@ abstract class BaseAdInserter {
 
          $tags = get_the_tags();
          if (!empty ($tags)) {
+
+           $first_tag = reset ($tags);
+           $tag = $first_tag->name;
 
            $tag_array = array ();
            foreach ($tags as $tag_data) {
@@ -166,14 +173,22 @@ abstract class BaseAdInserter {
            $smart_tag = str_replace ("&amp;", "and", $smart_tag);
 
          } else {
+             $tag = $category;
              $smart_tag = $category;
          }
      }
+
+     $title = str_replace (array ("'", '"'), array ("&#8217;", "&#8221;"), $title);
+     $title = html_entity_decode ($title, ENT_QUOTES, "utf-8");
+
+     $short_title = str_replace (array ("'", '"'), array ("&#8217;", "&#8221;"), $short_title);
+     $short_title = html_entity_decode ($short_title, ENT_QUOTES, "utf-8");
 
      $ad_data = preg_replace ("/{title}/i",          $title,          $this->wp_options[$this->option_ad_data]);
      $ad_data = preg_replace ("/{short_title}/i",    $short_title,    $ad_data);
      $ad_data = preg_replace ("/{category}/i",       $category,       $ad_data);
      $ad_data = preg_replace ("/{short_category}/i", $short_category, $ad_data);
+     $ad_data = preg_replace ("/{tag}/i",            $tag,            $ad_data);
      $ad_data = preg_replace ("/{smart_tag}/i",      $smart_tag,      $ad_data);
 
      return $ad_data;
