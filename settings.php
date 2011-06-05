@@ -16,8 +16,7 @@ by Igor Funa - <a href="http://igorfuna.com/contact/contact-igor-funa" target="_
 <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" id="ad_form" name="ad_form">
 
 <div style="padding:16px 16px 16px 560px">
-      <input onclick="if (confirm('Are you sure you want to reset all settings?'))return true;return false" name="<?php echo AD_FORM_CLEAR; ?>" value="Reset" type="submit" style="width:100px;"/>
-      <input name="<?php echo AD_FORM_SAVE; ?>" value="Save" type="submit" style="width:100px;" />
+      Reset all settings <input onclick="if (confirm('Are you sure you want to reset all settings?'))return true;return false" name="<?php echo AD_FORM_CLEAR; ?>" value="Reset" type="submit" style="width:100px;"/>
 </div>
 
 <?php
@@ -25,6 +24,10 @@ by Igor Funa - <a href="http://igorfuna.com/contact/contact-igor-funa" target="_
   foreach($ad_array as $obj){
     $ad_number ++;
 ?>
+<div style="padding:16px 16px 16px 680px">
+      <input name="<?php echo AD_FORM_SAVE; ?>" value="Save" type="submit" style="width:100px;" />
+</div>
+
 <div style="padding:8px; margin-bottom:16px; width:770px; background-color: white; border: 1px solid rgb(221, 221, 221);">
 
   <div style="padding-left:4px;">
@@ -49,6 +52,7 @@ by Igor Funa - <a href="http://igorfuna.com/contact/contact-igor-funa" target="_
          <option value="<?php echo AD_SELECT_BEFORE_CONTENT; ?>" <?php echo ($obj->get_append_type()==AD_SELECT_BEFORE_CONTENT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_BEFORE_CONTENT; ?></option>
          <option value="<?php echo AD_SELECT_AFTER_CONTENT; ?>" <?php echo ($obj->get_append_type()==AD_SELECT_AFTER_CONTENT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_AFTER_CONTENT; ?></option>
          <option value="<?php echo AD_SELECT_WIDGET; ?>" <?php echo ($obj->get_append_type()==AD_SELECT_WIDGET) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_WIDGET; ?></option>
+         <option value="<?php echo AD_SELECT_MANUAL; ?>" <?php echo ($obj->get_append_type()==AD_SELECT_MANUAL) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_MANUAL; ?></option>
       </select>
    </div>
    <div style="border: 1px solid #ddd;">
@@ -60,11 +64,14 @@ by Igor Funa - <a href="http://igorfuna.com/contact/contact-igor-funa" target="_
            <option value="<?php echo AD_DIRECTION_FROM_TOP; ?>" <?php echo ($obj->get_direction_type()==AD_DIRECTION_FROM_TOP) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DIRECTION_FROM_TOP; ?></option>
            <option value="<?php echo AD_DIRECTION_FROM_BOTTOM; ?>" <?php echo ($obj->get_direction_type()==AD_DIRECTION_FROM_BOTTOM) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DIRECTION_FROM_BOTTOM; ?></option>
         </select>
-        &nbsp;&nbsp;&nbsp; Float:
-        <select name="<?php echo $obj->option_float_type; ?>" style="width:80px">
-           <option value="<?php echo AD_FLOAT_NONE; ?>" <?php echo ($obj->get_float_type()==AD_FLOAT_NONE) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_FLOAT_NONE; ?></option>
-           <option value="<?php echo AD_FLOAT_LEFT; ?>" <?php echo ($obj->get_float_type()==AD_FLOAT_LEFT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_FLOAT_LEFT; ?></option>
-           <option value="<?php echo AD_FLOAT_RIGHT; ?>" <?php echo ($obj->get_float_type()==AD_FLOAT_RIGHT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_FLOAT_RIGHT; ?></option>
+        &nbsp;&nbsp;&nbsp; Alignment:
+        <select name="<?php echo $obj->option_float_type; ?>" style="width:100px">
+           <option value="<?php echo AD_ALIGNMENT_NONE; ?>" <?php echo ($obj->get_float_type()==AD_ALIGNMENT_NONE) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ALIGNMENT_NONE; ?></option>
+           <option value="<?php echo AD_ALIGNMENT_LEFT; ?>" <?php echo ($obj->get_float_type()==AD_ALIGNMENT_LEFT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ALIGNMENT_LEFT; ?></option>
+           <option value="<?php echo AD_ALIGNMENT_RIGHT; ?>" <?php echo ($obj->get_float_type()==AD_ALIGNMENT_RIGHT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ALIGNMENT_RIGHT; ?></option>
+           <option value="<?php echo AD_ALIGNMENT_CENTER; ?>" <?php echo ($obj->get_float_type()==AD_ALIGNMENT_CENTER) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ALIGNMENT_CENTER; ?></option>
+           <option value="<?php echo AD_ALIGNMENT_FLOAT_LEFT; ?>" <?php echo ($obj->get_float_type()==AD_ALIGNMENT_FLOAT_LEFT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ALIGNMENT_FLOAT_LEFT; ?></option>
+           <option value="<?php echo AD_ALIGNMENT_FLOAT_RIGHT; ?>" <?php echo ($obj->get_float_type()==AD_FLOAT_RIGHT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ALIGNMENT_FLOAT_RIGHT; ?></option>
         </select>
      </div>
    </div>
@@ -73,24 +80,25 @@ by Igor Funa - <a href="http://igorfuna.com/contact/contact-igor-funa" target="_
       General Tag:  <input type="text" name="<?php echo $obj->option_ad_general_tag; ?>" value="<?php echo $obj->get_ad_general_tag() ?>" size="30" maxlength="40"/> (Used for {xxx} tags when no appropriate data is found.)
    </div>
   <div style="padding:0px 8px 16px 16px;">
-    Display ads for post published after :  <input type="text" name="<?php echo $obj->option_ad_after_day; ?>" value="<?php echo $obj->get_ad_after_day() ?>" size="2" maxlength="3"/> day(s). (0 = immediately)
+    Display ads for post published after:  <input type="text" name="<?php echo $obj->option_ad_after_day; ?>" value="<?php echo $obj->get_ad_after_day() ?>" size="2" maxlength="3"/> day(s). (0 = immediately)
   </div>
   <div style="padding:0px 8px 16px 16px;">
-      Do not display ads to users from website :  <input type="text" name="<?php echo $obj->option_ad_block_user; ?>" value="<?php echo $obj->get_ad_block_user() ?>" size="30" maxlength="200"/> (e.g. technorati.com, facebook.com)
+      Do not display ads to users from domains:  <input type="text" name="<?php echo $obj->option_ad_block_user; ?>" value="<?php echo $obj->get_ad_block_user() ?>" size="30" maxlength="200"/> (e.g. technorati.com, facebook.com)
   </div>
   <div style="padding:0px 8px 16px 16px;">
-      Do not display ads to this category :  <input type="text" name="<?php echo $obj->option_ad_block_cat; ?>" value="<?php echo $obj->get_ad_block_cat() ?>" size="30" maxlength="200"/> (e.g. sport, news, science)
-  </div>
+      Categories:  <input type="text" name="<?php echo $obj->option_ad_block_cat; ?>" value="<?php echo $obj->get_ad_block_cat() ?>" size="60" maxlength="200"/> (comma separated)&nbsp;&nbsp;&nbsp;
+      <input type="radio" name="<?php echo $obj->option_ad_block_cat_type; ?>" value="<?php echo AD_CATEGORY_BLACK_LIST; ?>" <?php if ($obj->get_ad_block_cat_type() == AD_CATEGORY_BLACK_LIST) echo 'checked '; ?>/><?php echo AD_CATEGORY_BLACK_LIST; ?>&nbsp;&nbsp;
+      <input type="radio" name="<?php echo $obj->option_ad_block_cat_type; ?>" value="<?php echo AD_CATEGORY_WHITE_LIST; ?>" <?php if ($obj->get_ad_block_cat_type() == AD_CATEGORY_WHITE_LIST) echo 'checked '; ?>/><?php echo AD_CATEGORY_WHITE_LIST; ?>
 
+  </div>
 </div>
 
 <?php
   }
 ?>
 
-<div style="padding:16px 16px 16px 540px">
-      <input onclick="if (confirm('Are you sure you want to reset all settings?'))return true;return false" name="<?php echo AD_FORM_CLEAR; ?>" value="Reset" type="submit" style="width:100px;"/>
-    <input name="<?php echo AD_FORM_SAVE; ?>" value="Save" type="submit" style="width:100px;" />
+<div style="padding:16px 16px 16px 680px">
+      <input name="<?php echo AD_FORM_SAVE; ?>" value="Save" type="submit" style="width:100px;" />
 </div>
 
 </form>

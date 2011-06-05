@@ -2,7 +2,7 @@
 
 /*
 Plugin Name: Ad Inserter
-Version: 1.0.4
+Version: 1.1.0
 Description: An elegant solution to put any ad into Wordpress. Simply enter any HTML code and select where and how you want to display it (including Widgets). You can also use {category}, {short_category}, {title}, {short_title}, {tag} or {smart_tag} for actual post data. To rotate different ad versions separate them with ||.
 Author: Igor Funa
 Author URI: http://igorfuna.com/
@@ -14,9 +14,19 @@ Inspired by the Adsense Daemon plugin by Yong Mook Kim
 http://www.mkyong.com/blog/adsense-daemon-wordpress-plugin
 */
 
+/*
+TO DO
+Above and below title
+*/
 
 /*
 Change Log
+
+Ad Inserter 1.1.0 - 05/06/2011
+- Added option to manually display individual ads
+- Added new ad alignments: left, center, right
+- Added {search_query} tag
+- Added support for category black list and white list
 
 Ad Inserter 1.0.4 - 19/12/2010
 - HTML entities for {title} and {short_title} are now decoded
@@ -318,40 +328,71 @@ function ai_content_hook($content = ''){
    return $content;
 }
 
-function ai_isCategoryAllow($categorys){
+function ai_isCategoryAllowed($categories, $cat_type){
 
-  $categorys = trim(strtolower($categorys));
+  $categories = trim(strtolower($categories));
 
-  //echo ' Categorys disabled : ' . $categorys;
+  //echo ' listed categories: ' . $categories;
 
-  if($categorys == AD_EMPTY_DATA){
-    return true;
-  }
+  if ($cat_type == AD_CATEGORY_BLACK_LIST) {
 
-  $cats_disabled = explode(",", strtolower($categorys));
+    if($categories == AD_EMPTY_DATA){
+      return true;
+    }
 
-  foreach((get_the_category()) as $post_category) {
+    $cats_listed = explode(",", strtolower($categories));
 
-    //echo '<br/> post category name : ' . $post_category->cat_name;
+    foreach((get_the_category()) as $post_category) {
 
-    foreach($cats_disabled as $cat_disabled){
+      //echo '<br/> post category name : ' . $post_category->cat_name;
 
-      $post_category_name = strtolower($post_category->cat_name);
+      foreach($cats_listed as $cat_disabled){
 
-      //echo '<br/>Category disabled loop : ' . $cat_disabled . '<br/> category name : ' . $post_category_name;
+        $post_category_name = strtolower($post_category->cat_name);
 
-      if($post_category_name==trim($cat_disabled)){
-        //echo ' match';
-        return false;
-      }else{
-        //echo ' not match';
+        //echo '<br/>Category disabled loop : ' . $cat_disabled . '<br/> category name : ' . $post_category_name;
+
+        if($post_category_name==trim($cat_disabled)){
+          //echo ' match';
+          return false;
+        }else{
+          //echo ' not match';
+        }
       }
     }
-  }
-  return true;
+    return true;
+
+  } else {
+
+      if($categories == AD_EMPTY_DATA){
+        return false;
+      }
+
+      $cats_listed = explode(",", strtolower($categories));
+
+      foreach((get_the_category()) as $post_category) {
+
+        //echo '<br/> post category name : ' . $post_category->cat_name;
+
+        foreach($cats_listed as $cat_enabled){
+
+          $post_category_name = strtolower($post_category->cat_name);
+
+          //echo '<br/>Category enabled loop : ' . $cat_enabled . '<br/> category name : ' . $post_category_name;
+
+          if($post_category_name==trim($cat_enabled)){
+            //echo ' match';
+            return true;
+          }else{
+            //echo ' not match';
+          }
+        }
+      }
+      return false;
+    }
 }
 
-function ai_isAllowDisplayContent($obj, $content){
+function ai_isDisplayAllowed($obj, $content){
 
   if (preg_match("/" . $obj->get_ad_disable() . "/i", $content)) {
       return false;
@@ -361,7 +402,7 @@ function ai_isAllowDisplayContent($obj, $content){
 
 }
 
-function ai_isAllowDisplayAfterDay($obj, $publish_date){
+function ai_isDisplayDateAllowed($obj, $publish_date){
 
   $after_days = trim ($obj->get_ad_after_day());
 
@@ -374,7 +415,7 @@ function ai_isAllowDisplayAfterDay($obj, $publish_date){
 }
 
 
-function ai_isRefererAllow($obj, $http_referer){
+function ai_isRefererAllowed($obj, $http_referer){
 
   $websites = explode(",",$obj->get_ad_block_user());
 
@@ -409,36 +450,43 @@ function generateAdInserterDiv($content, $ad_all_data, $publish_date, $http_refe
       continue;
     }
 
-      if(ai_isAllowDisplayContent($obj, $content)==false){
+      if(ai_isDisplayAllowed($obj, $content)==false){
       continue;
     }
 
-      if(ai_isCategoryAllow($obj->get_ad_block_cat())==false){
+      if(ai_isCategoryAllowed($obj->get_ad_block_cat(), $obj->get_ad_block_cat_type())==false){
       continue;
     }
 
-      if(ai_isAllowDisplayAfterDay($obj, $publish_date)==false){
+      if(ai_isDisplayDateAllowed($obj, $publish_date)==false){
       continue;
     }
 
-      if(ai_isRefererAllow($obj, $http_referer)==false){
+      if(ai_isRefererAllowed($obj, $http_referer)==false){
       continue;
     }
 
-      if($obj->get_append_type() == AD_SELECT_BEFORE_PARAGRAPH){
+    if($obj->get_append_type() == AD_SELECT_BEFORE_PARAGRAPH){
 
-         $content = ai_generateBeforeParagraph($content, $obj);
+       $content = ai_generateBeforeParagraph($content, $obj);
 
-      }elseif($obj->get_append_type() == AD_SELECT_BEFORE_CONTENT){
+    }elseif($obj->get_append_type() == AD_SELECT_BEFORE_CONTENT){
 
-         $content = ai_generateDivBefore($content, $obj);
+       $content = ai_generateDivBefore($content, $obj);
 
-      }elseif($obj->get_append_type() == AD_SELECT_AFTER_CONTENT){
+    }elseif($obj->get_append_type() == AD_SELECT_AFTER_CONTENT){
 
-         $content = ai_generateDivAfter($content, $obj);
+       $content = ai_generateDivAfter($content, $obj);
 
-      }
+    }elseif($obj->get_append_type() == AD_SELECT_MANUAL){
+
+       $content = ai_generateDivManual($content, $obj);
+
+    }
   }
+
+   // Clean remaining tags
+   $content = preg_replace ("/{adinserter (.*)}/", "", $content);
 
    $content .= AD_AUTHOR_SITE;
 
@@ -458,11 +506,23 @@ function ai_getAdCode ($obj){
 
 function ai_generateBeforeParagraph($content, $obj){
 
-   if ($obj->get_float_type() == AD_FLOAT_LEFT)
+   if ($obj->get_float_type() == AD_ALIGNMENT_LEFT)
+   {
+      $style = "text-align:left;padding:8px 0px;";
+   }
+   elseif ($obj->get_float_type() == AD_ALIGNMENT_RIGHT)
+   {
+      $style = "text-align:right;padding:8px 0px;";
+   }
+   elseif ($obj->get_float_type() == AD_ALIGNMENT_CENTER)
+   {
+      $style = "text-align:center;margin-left:auto;margin-right:auto;padding:8px 0px;";
+   }
+   elseif ($obj->get_float_type() == AD_ALIGNMENT_FLOAT_LEFT)
    {
       $style = "float:left;padding:8px 8px 8px 0px;";
    }
-   elseif ($obj->get_float_type() == AD_FLOAT_RIGHT)
+   elseif ($obj->get_float_type() == AD_ALIGNMENT_FLOAT_RIGHT)
    {
       $style = "float:right;padding:8px 0px 8px 8px;";
    }
@@ -518,6 +578,21 @@ function ai_generateDivAfter($content, $obj){
 
    return $content . "<div style='padding-top:8px; padding-bottom:8px'>" . ai_getAdCode ($obj) . "</div>";
 
+}
+
+function ai_generateDivManual($content, $obj){
+
+   if (preg_match_all("/{adinserter (.+?)}/", $content, $tags)){
+     foreach ($tags [1] as $tag) {
+        $ad_tag = strtolower (trim ($tag));
+        $ad_name = strtolower (trim ($obj->get_ad_name()));
+        if ($ad_tag == $ad_name) {
+          $content = preg_replace ("/{adinserter " . $tag . "}/", ai_getAdCode ($obj), $content);
+        }
+     }
+   }
+
+   return $content;
 }
 
 function ai_widget1($args) {
@@ -679,19 +754,19 @@ function ai_widget_draw ($obj, $publish_date, $http_referer, $args) {
         return;
      }
 
-     if(ai_isAllowDisplayContent($obj, $content)==false){
+     if(ai_isDisplayAllowed($obj, $content)==false){
         return;
      }
 
-     if(ai_isCategoryAllow($obj->get_ad_block_cat())==false){
+     if(ai_isCategoryAllowed($obj->get_ad_block_cat(), $obj->get_ad_block_cat_type())==false){
         return;
      }
 
-     if(ai_isAllowDisplayAfterDay($obj, $publish_date)==false){
+     if(ai_isDisplayDateAllowed($obj, $publish_date)==false){
         return;
      }
 
-     if(ai_isRefererAllow($obj, $http_referer)==false){
+     if(ai_isRefererAllowed($obj, $http_referer)==false){
         return;
      }
 

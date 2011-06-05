@@ -18,6 +18,7 @@ abstract class BaseAdInserter {
     var $option_ad_block_user;
     var $option_ad_disabled;
     var $option_ad_block_cat;
+    var $option_ad_block_cat_type;
 
     function BaseAdInserter() {
 
@@ -27,13 +28,14 @@ abstract class BaseAdInserter {
       $this->wp_options[$this->option_append_type] = AD_SELECT_NONE;
       $this->wp_options[$this->option_paragraph_number] = AD_ZERO_DATA;
       $this->wp_options[$this->option_direction_type] = AD_DIRECTION_FROM_TOP;
-      $this->wp_options[$this->option_float_type] = AD_FLOAT_NONE;
+      $this->wp_options[$this->option_float_type] = AD_ALIGNMENT_NONE;
       $this->wp_options[$this->option_ad_data] = AD_EMPTY_DATA;
       $this->wp_options[$this->option_ad_general_tag] = AD_GENERAL_TAG;
     	$this->wp_options[$this->option_ad_after_day] = AD_ZERO_DATA;
     	$this->wp_options[$this->option_ad_block_user] = AD_EMPTY_DATA;
     	$this->wp_options[$this->option_ad_disabled] = AD_EMPTY_DATA;
     	$this->wp_options[$this->option_ad_block_cat] = AD_EMPTY_DATA;
+      $this->wp_options[$this->option_ad_block_cat_type] = AD_CATEGORY_BLACK_LIST;
     }
 
    public function get_append_type(){
@@ -49,6 +51,17 @@ abstract class BaseAdInserter {
     }
 
    public function get_float_type(){
+     // Update old field names
+     $alignment = $this->wp_options[$this->option_float_type];
+     if($alignment == 'Left'){
+       $alignment = AD_ALIGNMENT_FLOAT_LEFT;
+       $this->wp_options[$this->option_float_type] = $alignment;
+     } else
+     if($alignment == 'Right'){
+       $alignment = AD_ALIGNMENT_FLOAT_RIGHT;
+       $this->wp_options[$this->option_float_type] = $alignment;
+     }
+
       return $this->wp_options[$this->option_float_type];
     }
 
@@ -184,12 +197,24 @@ abstract class BaseAdInserter {
      $short_title = str_replace (array ("'", '"'), array ("&#8217;", "&#8221;"), $short_title);
      $short_title = html_entity_decode ($short_title, ENT_QUOTES, "utf-8");
 
+     $referrer = $_SERVER['HTTP_REFERER'];
+     if (preg_match("/[\.\/](google|yahoo|bing|ask)\.[a-z\.]{2,5}[\/]/i",$referrer,$search_engine)){
+        $referrer_query = parse_url($referrer);
+        $referrer_query = $referrer_query["query"];
+        parse_str ($referrer_query, $value);
+        $search_query = $value ["q"];
+        if ($search_query == "") {
+          $search_query = $value ["p"];
+        }
+     } else $search_query = "";
+
      $ad_data = preg_replace ("/{title}/i",          $title,          $this->wp_options[$this->option_ad_data]);
      $ad_data = preg_replace ("/{short_title}/i",    $short_title,    $ad_data);
      $ad_data = preg_replace ("/{category}/i",       $category,       $ad_data);
      $ad_data = preg_replace ("/{short_category}/i", $short_category, $ad_data);
      $ad_data = preg_replace ("/{tag}/i",            $tag,            $ad_data);
      $ad_data = preg_replace ("/{smart_tag}/i",      $smart_tag,      $ad_data);
+     $ad_data = preg_replace ("/{search_query}/i",   $search_query,   $ad_data);
 
      return $ad_data;
    }
@@ -218,6 +243,14 @@ abstract class BaseAdInserter {
     	return $this->wp_options[$this->option_ad_block_cat];
    }
 
+  public function get_ad_block_cat_type(){
+     // Update old data
+     if($this->wp_options[$this->option_ad_block_cat_type] == ''){
+       $this->wp_options[$this->option_ad_block_cat_type] = AD_CATEGORY_BLACK_LIST;
+     }
+
+     return $this->wp_options[$this->option_ad_block_cat_type];
+   }
 }
 
 class Ad1 extends BaseAdInserter{
@@ -233,6 +266,7 @@ class Ad1 extends BaseAdInserter{
    const OPTION_AD_BLOCK_USER = "ad1_block_user";
    const OPTION_AD_DISABLE = "ad1_disabled";
    const OPTION_AD_BLOCK_CAT = "ad1_block_cat";
+   const OPTION_AD_BLOCK_CAT_TYPE = "ad1_block_cat_type";
 
 	//constructor
     public function Ad1() {
@@ -248,6 +282,7 @@ class Ad1 extends BaseAdInserter{
       $this->option_ad_block_user = self::OPTION_AD_BLOCK_USER;
       $this->option_ad_disabled = self::OPTION_AD_DISABLE;
       $this->option_ad_block_cat = self::OPTION_AD_BLOCK_CAT;
+      $this->option_ad_block_cat_type = self::OPTION_AD_BLOCK_CAT_TYPE;
 
       parent::BaseAdInserter();
       $this->wp_options[$this->option_ad_name] = AD_NAME." 1";
@@ -269,6 +304,7 @@ class Ad2 extends BaseAdInserter{
    const OPTION_AD_BLOCK_USER = "ad2_block_user";
    const OPTION_AD_DISABLE = "ad2_disabled";
    const OPTION_AD_BLOCK_CAT = "ad2_block_cat";
+   const OPTION_AD_BLOCK_CAT_TYPE = "ad2_block_cat_type";
 
 	//constructor
     public function Ad2() {
@@ -284,6 +320,7 @@ class Ad2 extends BaseAdInserter{
       $this->option_ad_block_user = self::OPTION_AD_BLOCK_USER;
       $this->option_ad_disabled = self::OPTION_AD_DISABLE;
       $this->option_ad_block_cat = self::OPTION_AD_BLOCK_CAT;
+      $this->option_ad_block_cat_type = self::OPTION_AD_BLOCK_CAT_TYPE;
 
       parent::BaseAdInserter();
       $this->wp_options[$this->option_ad_name] = AD_NAME." 2";
@@ -305,6 +342,7 @@ class Ad3 extends BaseAdInserter{
    const OPTION_AD_BLOCK_USER = "ad3_block_user";
    const OPTION_AD_DISABLE = "ad3_disabled";
    const OPTION_AD_BLOCK_CAT = "ad3_block_cat";
+   const OPTION_AD_BLOCK_CAT_TYPE = "ad3_block_cat_type";
 
 	//constructor
     public function Ad3() {
@@ -320,6 +358,7 @@ class Ad3 extends BaseAdInserter{
       $this->option_ad_block_user = self::OPTION_AD_BLOCK_USER;
       $this->option_ad_disabled = self::OPTION_AD_DISABLE;
       $this->option_ad_block_cat = self::OPTION_AD_BLOCK_CAT;
+      $this->option_ad_block_cat_type = self::OPTION_AD_BLOCK_CAT_TYPE;
 
       parent::BaseAdInserter();
       $this->wp_options[$this->option_ad_name] = AD_NAME." 3";
@@ -341,6 +380,7 @@ class Ad4 extends BaseAdInserter{
    const OPTION_AD_BLOCK_USER = "ad4_block_user";
    const OPTION_AD_DISABLE = "ad4_disabled";
    const OPTION_AD_BLOCK_CAT = "ad4_block_cat";
+   const OPTION_AD_BLOCK_CAT_TYPE = "ad4_block_cat_type";
 
 	//constructor
     public function Ad4() {
@@ -356,6 +396,7 @@ class Ad4 extends BaseAdInserter{
       $this->option_ad_block_user = self::OPTION_AD_BLOCK_USER;
       $this->option_ad_disabled = self::OPTION_AD_DISABLE;
       $this->option_ad_block_cat = self::OPTION_AD_BLOCK_CAT;
+      $this->option_ad_block_cat_type = self::OPTION_AD_BLOCK_CAT_TYPE;
 
       parent::BaseAdInserter();
       $this->wp_options[$this->option_ad_name] = AD_NAME." 4";
@@ -377,6 +418,7 @@ class Ad5 extends BaseAdInserter{
    const OPTION_AD_BLOCK_USER = "ad5_block_user";
    const OPTION_AD_DISABLE = "ad5_disabled";
    const OPTION_AD_BLOCK_CAT = "ad5_block_cat";
+   const OPTION_AD_BLOCK_CAT_TYPE = "ad5_block_cat_type";
 
   //constructor
     public function Ad5() {
@@ -392,6 +434,7 @@ class Ad5 extends BaseAdInserter{
       $this->option_ad_block_user = self::OPTION_AD_BLOCK_USER;
       $this->option_ad_disabled = self::OPTION_AD_DISABLE;
       $this->option_ad_block_cat = self::OPTION_AD_BLOCK_CAT;
+      $this->option_ad_block_cat_type = self::OPTION_AD_BLOCK_CAT_TYPE;
 
       parent::BaseAdInserter();
       $this->wp_options[$this->option_ad_name] = AD_NAME." 5";
@@ -413,6 +456,7 @@ class Ad6 extends BaseAdInserter{
    const OPTION_AD_BLOCK_USER = "ad6_block_user";
    const OPTION_AD_DISABLE = "ad6_disabled";
    const OPTION_AD_BLOCK_CAT = "ad6_block_cat";
+   const OPTION_AD_BLOCK_CAT_TYPE = "ad6_block_cat_type";
 
   //constructor
     public function Ad6() {
@@ -428,6 +472,7 @@ class Ad6 extends BaseAdInserter{
       $this->option_ad_block_user = self::OPTION_AD_BLOCK_USER;
       $this->option_ad_disabled = self::OPTION_AD_DISABLE;
       $this->option_ad_block_cat = self::OPTION_AD_BLOCK_CAT;
+      $this->option_ad_block_cat_type = self::OPTION_AD_BLOCK_CAT_TYPE;
 
       parent::BaseAdInserter();
       $this->wp_options[$this->option_ad_name] = AD_NAME." 6";
@@ -449,6 +494,7 @@ class Ad7 extends BaseAdInserter{
    const OPTION_AD_BLOCK_USER = "ad7_block_user";
    const OPTION_AD_DISABLE = "ad7_disabled";
    const OPTION_AD_BLOCK_CAT = "ad7_block_cat";
+   const OPTION_AD_BLOCK_CAT_TYPE = "ad7_block_cat_type";
 
   //constructor
     public function Ad7() {
@@ -464,6 +510,7 @@ class Ad7 extends BaseAdInserter{
       $this->option_ad_block_user = self::OPTION_AD_BLOCK_USER;
       $this->option_ad_disabled = self::OPTION_AD_DISABLE;
       $this->option_ad_block_cat = self::OPTION_AD_BLOCK_CAT;
+      $this->option_ad_block_cat_type = self::OPTION_AD_BLOCK_CAT_TYPE;
 
       parent::BaseAdInserter();
       $this->wp_options[$this->option_ad_name] = AD_NAME." 7";
@@ -485,6 +532,7 @@ class Ad8 extends BaseAdInserter{
    const OPTION_AD_BLOCK_USER = "ad8_block_user";
    const OPTION_AD_DISABLE = "ad8_disabled";
    const OPTION_AD_BLOCK_CAT = "ad8_block_cat";
+   const OPTION_AD_BLOCK_CAT_TYPE = "ad8_block_cat_type";
 
   //constructor
     public function Ad8() {
@@ -500,6 +548,7 @@ class Ad8 extends BaseAdInserter{
       $this->option_ad_block_user = self::OPTION_AD_BLOCK_USER;
       $this->option_ad_disabled = self::OPTION_AD_DISABLE;
       $this->option_ad_block_cat = self::OPTION_AD_BLOCK_CAT;
+      $this->option_ad_block_cat_type = self::OPTION_AD_BLOCK_CAT_TYPE;
 
       parent::BaseAdInserter();
       $this->wp_options[$this->option_ad_name] = AD_NAME." 8";
