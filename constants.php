@@ -2,7 +2,7 @@
 
 //define constant variable Ad Inserter
 define('AD_INSERTER_TITLE','Ad Inserter');
-define('AD_INSERTER_VERSION','1.0');
+define('AD_INSERTER_VERSION','1.1.0');
 
 define('AD_DISABLED_1', '<!-- Ad Inserter Ad 1 Disabled -->');
 define('AD_DISABLED_2', '<!-- Ad Inserter Ad 2 Disabled -->');
