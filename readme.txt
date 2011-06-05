@@ -31,7 +31,7 @@ An elegant solution to put any ad into Wordpress. Simply enter any HTML code and
 
 3. Do not display ads to users from certain domain e.g technorati.com, facebook.com
 
-4. Do not display ads in certain caregories e.g sport, news, science,... (black list) or display ads only in certain categories (white list)
+4. Do not display ads in certain caregories e.g sport, news, science,... (black list) or display ads only in certain categories (white list). **Leave category list empty and set to Black list to show ads in all categories.**
 
 Ad Inserter is perfect to display AdSense or Amazon ads. It can also be used to display various versions of <a href="https://www.google.com/adsense/support/bin/answer.py?answer=32614">AdSense ads using channels</a> to test which format or color combination performs best.
 
