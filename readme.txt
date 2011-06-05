@@ -82,11 +82,11 @@ Manual installation:
 Enter them into the ad box and separate them with || (double vertical bar). Ad Inserter will display them randomly.
 Example:
 
-`ad_code_1`
-`||`
-`ad_code_2`
-`||`
-`ad_code_3`
+`ad_code_1
+||
+ad_code_2
+||
+ad_code_3`
 
 
 = Center alignment does not work for some ads! =
@@ -94,9 +94,9 @@ Example:
 Some iframe ads can not be centered using standard approach so some additional code is needed to put them in the middle.
 Simply wrap ad code in a div with some style e.g. left padding. Example:
 
-`<div style="padding-left: 200px;">`
-`ad_code`
-`</div>`
+`<div style="padding-left: 200px;">
+ad_code
+</div>`
 
 
 == Screenshots ==
