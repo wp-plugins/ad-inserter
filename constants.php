@@ -41,20 +41,31 @@ define('AD_AUTHOR_SITE', '<!-- Powered by Ad Inserter Wordpress Plugin, Author: 
 
 //form select options
 define('AD_SELECT_SELECTED','selected');
+
+//Position options
+define('AD_SELECT_SELECTED','selected');
 define('AD_SELECT_NONE','None');
 define('AD_SELECT_BEFORE_PARAGRAPH','Before Paragraph');
 define('AD_SELECT_BEFORE_CONTENT','Before Content');
 define('AD_SELECT_AFTER_CONTENT','After Content');
 define('AD_SELECT_WIDGET','Widget');
+define('AD_SELECT_MANUAL','Manual');
 
 //Direction options
 define('AD_DIRECTION_FROM_TOP','From Top');
 define('AD_DIRECTION_FROM_BOTTOM','From Bottom');
 
-//Float options
-define('AD_FLOAT_NONE','None');
-define('AD_FLOAT_LEFT','Left');
-define('AD_FLOAT_RIGHT','Right');
+//Alignment options
+define('AD_ALIGNMENT_NONE','None');
+define('AD_ALIGNMENT_LEFT','Align Left');
+define('AD_ALIGNMENT_RIGHT','Align Right');
+define('AD_ALIGNMENT_CENTER','Center');
+define('AD_ALIGNMENT_FLOAT_LEFT','Float Left');
+define('AD_ALIGNMENT_FLOAT_RIGHT','Float Right');
+
+//Category List Type
+define('AD_CATEGORY_BLACK_LIST','Black List');
+define('AD_CATEGORY_WHITE_LIST','White List');
 
 // Check for location modifications in wp-config
 if ( !defined('WP_CONTENT_URL') ) {
