@@ -22,6 +22,8 @@ Above and below title
 /*
 Change Log
 
+ - Fixed bug in Float Right setting display
+
 Ad Inserter 1.1.0 - 05/06/2011
 - Added option to manually display individual ads
 - Added new ad alignments: left, center, right
