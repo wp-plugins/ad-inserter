@@ -106,6 +106,9 @@ ad_code
 
 == Changelog ==
 
+= 1.1.2 =
+* Fixed bug for multisite installations
+
 = 1.1.1 =
 * Fixed bug in Float Right setting display
 
@@ -133,6 +136,9 @@ ad_code
 
 
 == Upgrade Notice ==
+
+= 1.1.2 =
+Fixed bug for multisite installations
 
 = 1.1.1 =
 Fixed bug in Float Right setting display
