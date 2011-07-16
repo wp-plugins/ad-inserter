@@ -22,8 +22,8 @@ Above and below title
 /*
 Change Log
 
-Ad Inserter 1.1.2 - 17/07/2011
-- Fixed bug for multisite installations
+Ad Inserter 1.1.2 - 16/07/2011
+- Fixed error with multisite/network installations
 
 Ad Inserter 1.1.1 - 16/07/2011
 - Fixed bug in Float Right setting display
