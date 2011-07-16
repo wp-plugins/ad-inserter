@@ -93,7 +93,7 @@ Some iframe ads can not be centered using standard approach so some additional c
 Simply wrap ad code in a div with some style e.g. left padding. Example:
 
 `<div style="padding-left: 200px;">
-ad_code
+ad code
 </div>`
 
 
