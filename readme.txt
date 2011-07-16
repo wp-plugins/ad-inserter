@@ -4,7 +4,7 @@ Donate link: http://igorfuna.com/software/web/ad-inserter-wordpress-plugin
 Tags: adsense, amazon, ad, ads, html, javascript, html code, widget, sidebar, rotating ads, rotating banners
 Requires at least: 2.0
 Tested up to: 3.2.1
-Stable tag: 1.1.0
+Stable tag: 1.1.2
 
 Integrate any HTML code into Wordpress. Just paste the code and select the location and display mode. Perfect for AdSense or Amazon ads.
 
