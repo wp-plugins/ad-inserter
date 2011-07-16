@@ -2,7 +2,7 @@
 
 /*
 Plugin Name: Ad Inserter
-Version: 1.1.0
+Version: 1.1.2
 Description: An elegant solution to put any ad into Wordpress. Simply enter any HTML code and select where and how you want to display it (including Widgets). You can also use {category}, {short_category}, {title}, {short_title}, {tag} or {smart_tag} for actual post data. To rotate different ad versions separate them with ||. Manual insertion is also possible with {adinserter Ad Name} tag.
 Author: Igor Funa
 Author URI: http://igorfuna.com/
@@ -21,6 +21,12 @@ Above and below title
 
 /*
 Change Log
+
+Ad Inserter 1.1.2 - 17/07/2011
+- Fixed error with multisite/network installations
+
+Ad Inserter 1.1.1 - 16/07/2011
+- Fixed bug in Float Right setting display
 
 Ad Inserter 1.1.0 - 05/06/2011
 - Added option to manually display individual ads
@@ -62,7 +68,7 @@ if (version_compare ($wp_version, "2.0", "<")) {
 //include required files
 require_once 'class.php';
 require_once 'constants.php';
-require_once 'settings.php';
+require_once 'settings_form.php';
 
 //hook
 add_action('admin_menu', 'ai_admin_menu');

@@ -3,7 +3,7 @@ Contributors: spacetime
 Donate link: http://igorfuna.com/software/web/ad-inserter-wordpress-plugin
 Tags: adsense, amazon, ad, ads, html, javascript, html code, widget, sidebar, rotating ads, rotating banners
 Requires at least: 2.0
-Tested up to: 3.1.3
+Tested up to: 3.2.1
 Stable tag: 1.1.0
 
 Integrate any HTML code into Wordpress. Just paste the code and select the location and display mode. Perfect for AdSense or Amazon ads.
@@ -31,11 +31,9 @@ An elegant solution to put any ad into Wordpress. Simply enter any HTML code and
 
 3. Do not display ads to users from certain domain e.g technorati.com, facebook.com
 
-4. Do not display ads in certain caregories e.g sport, news, science,... (black list) or display ads only in certain categories (white list)
+4. Do not display ads in certain caregories e.g sport, news, science,... (black list) or display ads only in certain categories (white list). **Leave category list empty and set to Black list to show ads in all categories.**
 
 Ad Inserter is perfect to display AdSense or Amazon ads. It can also be used to display various versions of <a href="https://www.google.com/adsense/support/bin/answer.py?answer=32614">AdSense ads using channels</a> to test which format or color combination performs best.
-
-Inspired by the <a href="http://wordpress.org/extend/plugins/adsense-daemon/">Adsense Daemon</a> plugin by Yong Mook Kim.
 
 == Installation ==
 
@@ -82,11 +80,11 @@ Manual installation:
 Enter them into the ad box and separate them with || (double vertical bar). Ad Inserter will display them randomly.
 Example:
 
-`ad_code_1`
-`||`
-`ad_code_2`
-`||`
-`ad_code_3`
+`ad_code_1
+||
+ad_code_2
+||
+ad_code_3`
 
 
 = Center alignment does not work for some ads! =
@@ -94,9 +92,9 @@ Example:
 Some iframe ads can not be centered using standard approach so some additional code is needed to put them in the middle.
 Simply wrap ad code in a div with some style e.g. left padding. Example:
 
-`<div style="padding-left: 200px;">`
-`ad_code`
-`</div>`
+`<div style="padding-left: 200px;">
+ad_code
+</div>`
 
 
 == Screenshots ==
@@ -105,6 +103,12 @@ Simply wrap ad code in a div with some style e.g. left padding. Example:
 
 
 == Changelog ==
+
+= 1.1.2 =
+* Fixed error with multisite/network installations
+
+= 1.1.1 =
+* Fixed bug in Float Right setting display
 
 = 1.1.0 =
 * Added option to manually display individual ads
@@ -130,6 +134,12 @@ Simply wrap ad code in a div with some style e.g. left padding. Example:
 
 
 == Upgrade Notice ==
+
+= 1.1.2 =
+Fixed error with multisite/network installations
+
+= 1.1.1 =
+Fixed bug in Float Right setting display
 
 = 1.1.0 =
 Added new features

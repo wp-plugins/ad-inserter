@@ -41,7 +41,7 @@ by Igor Funa - <a href="http://igorfuna.com/contact/contact-igor-funa" target="_
       Put ad or any HTML code here (separate rotating versions with ||):
   </div>
   <div style="padding:8px;">
-      <textarea name="<?php echo $obj->option_ad_data; ?>" rows="24" cols="90" style="background-color:#F9F9F9;"><?php echo $obj->get_ad_data(); ?></textarea>
+      <textarea name="<?php echo $obj->option_ad_data; ?>" rows="24" cols="92" style="background-color:#F9F9F9; font-family: Courier, 'Courier New', monospace;"><?php echo $obj->get_ad_data(); ?></textarea>
   </div>
 
    <div style="padding:8px 8px 16px 16px;">
@@ -71,7 +71,7 @@ by Igor Funa - <a href="http://igorfuna.com/contact/contact-igor-funa" target="_
            <option value="<?php echo AD_ALIGNMENT_RIGHT; ?>" <?php echo ($obj->get_float_type()==AD_ALIGNMENT_RIGHT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ALIGNMENT_RIGHT; ?></option>
            <option value="<?php echo AD_ALIGNMENT_CENTER; ?>" <?php echo ($obj->get_float_type()==AD_ALIGNMENT_CENTER) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ALIGNMENT_CENTER; ?></option>
            <option value="<?php echo AD_ALIGNMENT_FLOAT_LEFT; ?>" <?php echo ($obj->get_float_type()==AD_ALIGNMENT_FLOAT_LEFT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ALIGNMENT_FLOAT_LEFT; ?></option>
-           <option value="<?php echo AD_ALIGNMENT_FLOAT_RIGHT; ?>" <?php echo ($obj->get_float_type()==AD_FLOAT_RIGHT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ALIGNMENT_FLOAT_RIGHT; ?></option>
+           <option value="<?php echo AD_ALIGNMENT_FLOAT_RIGHT; ?>" <?php echo ($obj->get_float_type()==AD_ALIGNMENT_FLOAT_RIGHT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ALIGNMENT_FLOAT_RIGHT; ?></option>
         </select>
      </div>
    </div>
