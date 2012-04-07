@@ -9,13 +9,30 @@ function print_settings_form($ad_array){
 <div style="padding:8px;">
 <h2><?php echo AD_INSERTER_TITLE . ' (version ' . AD_INSERTER_VERSION . ')' ?></h2>
 by Igor Funa - <a href="http://igorfuna.com/contact/contact-igor-funa" target="_blank">Contact Me</a> |
-<a href="http://igorfuna.com/contact/contact-igor-funa" target="_blank">Bug Report &amp; Feature Request</a>
+<a href="http://igorfuna.com/contact/contact-igor-funa" target="_blank">Bug Report &amp; Feature Request</a> |
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LHGZEMRTR7WB4" target="_blank">Donate</a>
+<br />
+<hr />
 
+<div style="width: 770px; padding: 0 8px 8px 8px; margin: 12px 0 12px 0; border: 1px solid rgb(221, 221, 221); -moz-border-radius: 5px; -webkit-border-radius: 5px;">
+  <h3>Monitor Google AdSense and Amazon Associates earnings with <a href="http://tinymonitor.com/" target="_blank">Tiny Monitor</a></h3>
+  <a href="http://tinymonitor.com/" target="_blank"><img src="<?php echo AD_INSERTER_PLUGIN_IMAGES_URL; ?>tinymonitor-logo.png" alt="Tiny Monitor" /></a>
+  <br />
+  <a href="http://tinymonitor.com/adsense-monitor" target="_blank"><img src="<?php echo AD_INSERTER_PLUGIN_IMAGES_URL; ?>adsense-header.png" alt="Google AdSense" /></a>
+  <br />
+  <a href="http://tinymonitor.com/amazon-monitor" target="_blank"><img src="<?php echo AD_INSERTER_PLUGIN_IMAGES_URL; ?>amazon-header.png" alt="Amazon Associates" /></a>
+  <br />
+</div>
+
+
+<div style="width: 770px; padding: 0 8px 8px 8px; margin: 12px 0 12px 0; border: 1px solid rgb(221, 221, 221); -moz-border-radius: 5px; -webkit-border-radius: 5px;">
+  <h3>Reliable WordPress Hosting - <a href="http://hostgator.si/" target="_blank">Unlimited EVERYTHING</a>: Domains, Disk Space, Traffic, etc.</h3>
+  <a href="http://hostgator.si/" target="_blank"><img src="<?php echo AD_INSERTER_PLUGIN_IMAGES_URL; ?>hostgator.gif" alt="HostGator" /></a>
 </div>
 
 <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" id="ad_form" name="ad_form">
 
-<div style="padding:16px 16px 16px 560px">
+<div style="padding:16px 16px 16px 580px">
       Reset all settings <input onclick="if (confirm('Are you sure you want to reset all settings?'))return true;return false" name="<?php echo AD_FORM_CLEAR; ?>" value="Reset" type="submit" style="width:100px;"/>
 </div>
 
@@ -28,7 +45,7 @@ by Igor Funa - <a href="http://igorfuna.com/contact/contact-igor-funa" target="_
       <input name="<?php echo AD_FORM_SAVE; ?>" value="Save" type="submit" style="width:100px;" />
 </div>
 
-<div style="padding:8px; margin-bottom:16px; width:770px; background-color: white; border: 1px solid rgb(221, 221, 221);">
+<div style="padding:8px; margin-bottom:16px; width:770px; background-color: white; border: 1px solid rgb(221, 221, 221); -moz-border-radius: 5px; -webkit-border-radius: 5px;">
 
   <div style="padding-left:4px;">
     <h3><?php echo $ad_number, ".  ", $obj->get_ad_name(); ?></h3>

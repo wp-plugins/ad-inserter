@@ -2,8 +2,8 @@
 
 /*
 Plugin Name: Ad Inserter
-Version: 1.1.2
-Description: An elegant solution to put any ad into Wordpress. Simply enter any HTML code and select where and how you want to display it (including Widgets). You can also use {category}, {short_category}, {title}, {short_title}, {tag} or {smart_tag} for actual post data. To rotate different ad versions separate them with ||. Manual insertion is also possible with {adinserter Ad Name} tag.
+Version: 1.1.3
+Description: An elegant solution to put any ad into Wordpress. Simply enter any HTML code and select where and how you want to display it (including Widgets). You can also use {category}, {short_category}, {title}, {short_title}, {tag}, {smart_tag} or {search_query} for actual post data. To rotate different ad versions separate them with ||. Manual insertion is also possible with {adinserter AD_NAME} tag.
 Author: Igor Funa
 Author URI: http://igorfuna.com/
 Plugin URI: http://igorfuna.com/software/web/ad-inserter-wordpress-plugin
@@ -16,11 +16,15 @@ http://www.mkyong.com/blog/adsense-daemon-wordpress-plugin
 
 /*
 TO DO
-Above and below title
+- Above and below title
 */
 
 /*
 Change Log
+
+Ad Inserter 1.1.3 - 07/04/2012
+- Fixed bug for {search_query}: When the tag is empty {smart_tag} is used in all cases
+- Few changes in the settings page
 
 Ad Inserter 1.1.2 - 16/07/2011
 - Fixed error with multisite/network installations
@@ -59,9 +63,9 @@ error_reporting(E_ALL);
 
 /* Version check */
 global $wp_version;
-$exit_msg = 'Ad Inserter requires WordPress 2.0 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please update!</a>';
+$exit_msg = 'Ad Inserter requires WordPress 3.0 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please update!</a>';
 
-if (version_compare ($wp_version, "2.0", "<")) {
+if (version_compare ($wp_version, "3.0", "<")) {
   exit ($exit_msg);
 }
 

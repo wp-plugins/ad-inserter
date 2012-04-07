@@ -206,7 +206,8 @@ abstract class BaseAdInserter {
         if ($search_query == "") {
           $search_query = $value ["p"];
         }
-     } else $search_query = "";
+     }
+     if ($search_query == "") $search_query = $smart_tag;
 
      $ad_data = preg_replace ("/{title}/i",          $title,          $this->wp_options[$this->option_ad_data]);
      $ad_data = preg_replace ("/{short_title}/i",    $short_title,    $ad_data);

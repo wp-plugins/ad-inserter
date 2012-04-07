@@ -1,8 +1,43 @@
 <?php
 
 //define constant variable Ad Inserter
-define('AD_INSERTER_TITLE','Ad Inserter');
-define('AD_INSERTER_VERSION','1.1.2');
+
+if (!defined( 'AD_INSERTER_TITLE'))
+  define ('AD_INSERTER_TITLE', 'Ad Inserter');
+
+if (!defined( 'AD_INSERTER_VERSION'))
+  define ('AD_INSERTER_VERSION', '1.1.13');
+
+if (!defined ('AD_INSERTER_PLUGIN_DIR'))
+  define ('AD_INSERTER_PLUGIN_DIR', plugin_dir_path (__FILE__));
+
+if (!defined ('AD_INSERTER_PLUGIN_BASENAME'))
+  define ('AD_INSERTER_PLUGIN_BASENAME', plugin_basename (__FILE__));
+
+if (!defined ('AD_INSERTER_PLUGIN_DIRNAME'))
+  define ('AD_INSERTER_PLUGIN_DIRNAME', dirname (AD_INSERTER_PLUGIN_BASENAME));
+
+if (!defined ('AD_INSERTER_PLUGIN_URL'))
+  define ('AD_INSERTER_PLUGIN_URL', plugin_dir_url ( __FILE__));
+
+if (!defined ('AD_INSERTER_PLUGIN_IMAGES_URL'))
+  define ('AD_INSERTER_PLUGIN_IMAGES_URL', AD_INSERTER_PLUGIN_URL. 'images/');
+
+if (!defined( 'WP_CONTENT_URL'))
+  define ('WP_CONTENT_URL', get_option ('siteurl') . '/wp-content');
+
+if (!defined ('WP_ADMIN_URL'))
+  define ('WP_ADMIN_URL', get_option ('siteurl') . '/wp-admin');
+
+if (!defined ('WP_CONTENT_DIR'))
+  define ('WP_CONTENT_DIR', ABSPATH . 'wp-content');
+
+if (!defined ('WP_PLUGIN_URL'))
+  define ('WP_PLUGIN_URL', WP_CONTENT_URL. '/plugins');
+
+if (!defined ('WP_PLUGIN_DIR'))
+  define ('WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins');
+
 
 define('AD_DISABLED_1', '<!-- Ad Inserter Ad 1 Disabled -->');
 define('AD_DISABLED_2', '<!-- Ad Inserter Ad 2 Disabled -->');
@@ -68,10 +103,10 @@ define('AD_CATEGORY_BLACK_LIST','Black List');
 define('AD_CATEGORY_WHITE_LIST','White List');
 
 // Check for location modifications in wp-config
-if ( !defined('WP_CONTENT_URL') ) {
-  define('AD_PLUGPATH',get_option('siteurl').'/wp-content/plugins/'.plugin_basename(dirname(__FILE__)).'/');
-} else {
-	define('AD_PLUGPATH',WP_CONTENT_URL.'/plugins/'.plugin_basename(dirname(__FILE__)).'/');
-}
+//if ( !defined('WP_CONTENT_URL') ) {
+//  define('AD_PLUGPATH',get_option('siteurl').'/wp-content/plugins/'.plugin_basename(dirname(__FILE__)).'/');
+//} else {
+//  define('AD_PLUGPATH',WP_CONTENT_URL.'/plugins/'.plugin_basename(dirname(__FILE__)).'/');
+//}
 
 ?>

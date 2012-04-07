@@ -1,16 +1,16 @@
 === Ad Inserter ===
 Contributors: spacetime
-Donate link: http://igorfuna.com/software/web/ad-inserter-wordpress-plugin
-Tags: adsense, amazon, ad, ads, html, javascript, html code, widget, sidebar, rotating ads, rotating banners
-Requires at least: 2.0
-Tested up to: 3.2.1
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LHGZEMRTR7WB4
+Tags: adsense, amazon, ad, ads, html, code, widget, sidebar, rotating, banners
+Requires at least: 3.0
+Tested up to: 3.3.1
 Stable tag: 1.1.2
 
-Integrate any HTML code into Wordpress. Just paste the code and select the location and display mode. Perfect for AdSense or Amazon ads.
+Integrate any HTML code into Wordpress. Just paste the code and select the location and display mode. Perfect for AdSense or contextual Amazon ads.
 
 == Description ==
 
-An elegant solution to put any ad into Wordpress. Simply enter any HTML code and select where and how you want to display it (including widgets). You can also use {category}, {short_category}, {title}, {short_title}, {tag} or {smart_tag} for actual article data. To rotate different ad versions separate them with ||.
+An elegant solution to put any ad into Wordpress. **Perfect for AdSense or contextual Amazon ads.** Simply enter any HTML code and select where and how you want to display it (including widgets). You can also use {category}, {short_category}, {title}, {short_title}, {tag}, {smart_tag} or {search_query} for actual article data. To rotate different ad versions separate them with ||.
 
 1. Display Options:
 
@@ -24,7 +24,7 @@ An elegant solution to put any ad into Wordpress. Simply enter any HTML code and
 *   Display ad Before Content
 *   Display ad After Content
 *   Ad as Widget
-*   Manual - Insert {adinserter Ad Name} into post to display ad with Ad Name at this position
+*   Manual - Insert {adinserter AD_NAME} into post to display ad with AD_NAME name at this position
 
 
 2. Display ad only for posts published after N days.
@@ -72,7 +72,7 @@ Manual installation:
   *   If the first and second tags are single words then both words are used
   *   First three words of the first tag
   *   General tag
-*   {search_query} - Search engine query that brought visitor to our website (supports Google, Yahoo, Bing and Ask search engines)
+*   {search_query} - Search engine query that brought visitor to your website (supports Google, Yahoo, Bing and Ask search engines), {smart_tag} is used when there is no search query. You need to disable caching to use this tag.
 
 
 = How can I rotate few versions of the same ad? =
@@ -85,6 +85,54 @@ Example:
 ad_code_2
 ||
 ad_code_3`
+
+
+= How can I create contextual Amazon ad (to show items related to the post)? =
+
+Sign in to Amazon Associates, go to Widgets/Widget Source, choose ad type and set parameters.
+For titles and search terms use tags. For example, the code below would display 5 amazon items related to the post tag - check above for all possible tags.
+
+`<div style="height: 531px;">
+<script type="text/javascript">
+var amzn_wdgt={widget:"Search"};
+amzn_wdgt.tag="adinserter-20";
+amzn_wdgt.columns="1";
+amzn_wdgt.rows="5";
+amzn_wdgt.defaultSearchTerm="{smart_tag}";
+amzn_wdgt.searchIndex="All";
+amzn_wdgt.width="300";
+amzn_wdgt.showImage="True";
+amzn_wdgt.showPrice="True";
+amzn_wdgt.showRating="True";
+amzn_wdgt.design="2";
+amzn_wdgt.colorTheme="Default";
+amzn_wdgt.headerTextColor="#0000AA";
+amzn_wdgt.outerBackgroundColor="#FFFFFF";
+amzn_wdgt.borderColor="#FFFFFF";
+amzn_wdgt.marketPlace="US";
+</script>
+<script type="text/javascript" src="http://wms.assoc-amazon.com/20070822/US/js/AmazonWidgets.js">
+</script>
+</div>`
+
+
+Another example for nice contextual carousel below posts:
+
+`<div style="overflow: auto; width: 100%;">
+<script type='text/javascript'>
+var amzn_wdgt={widget:'Carousel'};
+amzn_wdgt.tag='adinserter-20';
+amzn_wdgt.widgetType='SearchAndAdd';
+amzn_wdgt.searchIndex='All';
+amzn_wdgt.keywords='{smart_tag}';
+amzn_wdgt.title='{title}';
+amzn_wdgt.width='460';
+amzn_wdgt.height='250';
+amzn_wdgt.marketPlace='US';
+</script>
+<script type='text/javascript' src='http://wms.assoc-amazon.com/20070822/US/js/swfobject_1_5.js'>
+</script>
+</div>`
 
 
 = Center alignment does not work for some ads! =
@@ -103,6 +151,10 @@ ad_code
 
 
 == Changelog ==
+
+= 1.1.3 =
+* Fixed bug for {search_query}: When the tag is empty {smart_tag} is used in all cases
+* Few changes in the settings page
 
 = 1.1.2 =
 * Fixed error with multisite/network installations
@@ -134,6 +186,9 @@ ad_code
 
 
 == Upgrade Notice ==
+
+= 1.1.3 =
+Fixed bug for search query tag
 
 = 1.1.2 =
 Fixed error with multisite/network installations
