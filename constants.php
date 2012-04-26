@@ -6,7 +6,7 @@ if (!defined( 'AD_INSERTER_TITLE'))
   define ('AD_INSERTER_TITLE', 'Ad Inserter');
 
 if (!defined( 'AD_INSERTER_VERSION'))
-  define ('AD_INSERTER_VERSION', '1.1.13');
+  define ('AD_INSERTER_VERSION', '1.1.14');
 
 if (!defined ('AD_INSERTER_PLUGIN_DIR'))
   define ('AD_INSERTER_PLUGIN_DIR', plugin_dir_path (__FILE__));
@@ -102,11 +102,5 @@ define('AD_ALIGNMENT_FLOAT_RIGHT','Float Right');
 define('AD_CATEGORY_BLACK_LIST','Black List');
 define('AD_CATEGORY_WHITE_LIST','White List');
 
-// Check for location modifications in wp-config
-//if ( !defined('WP_CONTENT_URL') ) {
-//  define('AD_PLUGPATH',get_option('siteurl').'/wp-content/plugins/'.plugin_basename(dirname(__FILE__)).'/');
-//} else {
-//  define('AD_PLUGPATH',WP_CONTENT_URL.'/plugins/'.plugin_basename(dirname(__FILE__)).'/');
-//}
-
-?>
+//Category List Type
+define('AD_WIDGET_SETTINGS_CHECKED', '1');

@@ -27,11 +27,13 @@ An elegant solution to put any ad into Wordpress. **Perfect for AdSense or conte
 *   Manual - Insert {adinserter AD_NAME} into post to display ad with AD_NAME name at this position
 
 
-2. Display ad only for posts published after N days.
+2. Do not display ad if the number of paragraphs is below limit.
 
-3. Do not display ads to users from certain domain e.g technorati.com, facebook.com
+3. Display ad only for posts published after N days.
 
-4. Do not display ads in certain caregories e.g sport, news, science,... (black list) or display ads only in certain categories (white list). **Leave category list empty and set to Black list to show ads in all categories.**
+4. Do not display ads to users from certain domain e.g technorati.com, facebook.com
+
+5. Do not display ads in certain caregories e.g sport, news, science,... (black list) or display ads only in certain categories (white list). **Leave category list empty and set to Black list to show ads in all categories.**
 
 Ad Inserter is perfect to display AdSense or Amazon ads. It can also be used to display various versions of <a href="https://www.google.com/adsense/support/bin/answer.py?answer=32614">AdSense ads using channels</a> to test which format or color combination performs best.
 
@@ -152,6 +154,10 @@ ad_code
 
 == Changelog ==
 
+= 1.1.4 =
+* Added support for minimum nuber of paragraphs
+* Added support for widget display options
+
 = 1.1.3 =
 * Fixed bug for {search_query}: When the tag is empty {smart_tag} is used in all cases
 * Few changes in the settings page
@@ -186,6 +192,10 @@ ad_code
 
 
 == Upgrade Notice ==
+
+= 1.1.4 =
+Added support for minimum nuber of paragraphs
+Added support for widget display options
 
 = 1.1.3 =
 Fixed bug for search query tag

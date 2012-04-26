@@ -2,16 +2,11 @@
 
 /*
 Plugin Name: Ad Inserter
-Version: 1.1.3
+Version: 1.1.4
 Description: An elegant solution to put any ad into Wordpress. Simply enter any HTML code and select where and how you want to display it (including Widgets). You can also use {category}, {short_category}, {title}, {short_title}, {tag}, {smart_tag} or {search_query} for actual post data. To rotate different ad versions separate them with ||. Manual insertion is also possible with {adinserter AD_NAME} tag.
 Author: Igor Funa
 Author URI: http://igorfuna.com/
 Plugin URI: http://igorfuna.com/software/web/ad-inserter-wordpress-plugin
-*/
-
-/*
-Inspired by the Adsense Daemon plugin by Yong Mook Kim
-http://www.mkyong.com/blog/adsense-daemon-wordpress-plugin
 */
 
 /*
@@ -21,6 +16,10 @@ TO DO
 
 /*
 Change Log
+
+Ad Inserter 1.1.4 - 26/04/2012
+- Added support for minimum nuber of paragraphs
+- Added support for widget display options
 
 Ad Inserter 1.1.3 - 07/04/2012
 - Fixed bug for {search_query}: When the tag is empty {smart_tag} is used in all cases
@@ -563,7 +562,7 @@ function ai_generateBeforeParagraph($content, $obj){
    } else $para --;
 
 
-   if(sizeof($poses)>$para)
+   if(sizeof($poses)>$para && sizeof ($poses) >= $obj->get_paragraph_number_minimum())
    {
 
       $pickme = $poses[$para];
@@ -764,6 +763,25 @@ function ai_widget_draw ($obj, $publish_date, $http_referer, $args) {
         return;
      }
 
+     if(is_home()){
+        if (!$obj->get_widget_settings_home()) return;
+     }
+     elseif(is_page()){
+        if (!$obj->get_widget_settings_page()) return;
+     }
+     elseif(is_single()){
+        if (!$obj->get_widget_settings_post()) return;
+     }
+     elseif(is_category()){
+        if (!$obj->get_widget_settings_category()) return;
+     }
+     elseif(is_search()){
+        if (!$obj->get_widget_settings_search()) return;
+     }
+     elseif(is_archive()){
+        if (!$obj->get_widget_settings_archive()) return;
+     }
+
      if(ai_isDisplayAllowed($obj, $content)==false){
         return;
      }
@@ -786,5 +804,3 @@ function ai_widget_draw ($obj, $publish_date, $http_referer, $args) {
 
      }
 }
-
-?>
