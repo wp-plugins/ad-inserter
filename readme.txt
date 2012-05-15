@@ -3,8 +3,9 @@ Contributors: spacetime
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LHGZEMRTR7WB4
 Tags: adsense, amazon, ad, ads, html, code, widget, sidebar, rotating, banners
 Requires at least: 3.0
-Tested up to: 3.3.1
+Tested up to: 3.3.2
 Stable tag: 1.1.3
+License: GPLv3
 
 Integrate any HTML code into Wordpress. Just paste the code and select the location and display mode. Perfect for AdSense or contextual Amazon ads.
 
@@ -12,28 +13,42 @@ Integrate any HTML code into Wordpress. Just paste the code and select the locat
 
 An elegant solution to put any ad into Wordpress. **Perfect for AdSense or contextual Amazon ads.** Simply enter any HTML code and select where and how you want to display it (including widgets). You can also use {category}, {short_category}, {title}, {short_title}, {tag}, {smart_tag} or {search_query} for actual article data. To rotate different ad versions separate them with ||.
 
-1. Display Options:
+Display Options:
 
-*   Display ad Before Selected Paragraph (0 means random paragraph). Ad alignment:
-  *   None
-  *   Align Left
-  *   Align Right
-  *   Center
-  *   Float Left
-  *   Float Right
-*   Display ad Before Content
-*   Display ad After Content
-*   Ad as Widget
+*   Display ad Before Content (before post text)
+*   Display ad Before Selected Paragraph (0 means random paragraph):
+*   Display ad After Content (after post text)
+*   Display ad Before Title
+*   Ad as a Widget
 *   Manual - Insert {adinserter AD_NAME} into post to display ad with AD_NAME name at this position
 
+Alignment:
 
-2. Display ad only for posts published after N days.
+*   None
+*   Align Left
+*   Align Right
+*   Center
+*   Float Left
+*   Float Right
 
-3. Do not display ads to users from certain domain e.g technorati.com, facebook.com
+Do not display ad if the number of paragraphs is below limit (used only for position Before Selected Paragraph).
 
-4. Do not display ads in certain caregories e.g sport, news, science,... (black list) or display ads only in certain categories (white list). **Leave category list empty and set to Black list to show ads in all categories.**
+Display ad only for posts published after N days.
 
-Ad Inserter is perfect to display AdSense or Amazon ads. It can also be used to display various versions of <a href="https://www.google.com/adsense/support/bin/answer.py?answer=32614">AdSense ads using channels</a> to test which format or color combination performs best.
+Do not display ads to users from certain domain e.g technorati.com, facebook.com
+
+Do not display ads in certain caregories e.g sport, news, science,... (black list) or display ads only in certain categories (white list). **Leave category list empty and set to Black list to show ads in all categories.**
+
+Display positions Before Selected Paragraph, Before Content, After Content and Manual are used only in posts. For display positions Before Title and Widget you can select on which pages the ad will be displayed:
+
+*   Home
+*   Page
+*   Post
+*   Category
+*   Search
+*   Archive
+
+Ad Inserter is perfect for displaying AdSense or Amazon ads. It can also be used to display various versions of <a href="https://www.google.com/adsense/support/bin/answer.py?answer=32614">AdSense ads using channels</a> to test which format or color combination performs best.
 
 == Installation ==
 
@@ -152,6 +167,13 @@ ad_code
 
 == Changelog ==
 
+= 1.2.0 =
+* Fixed bug: manual tags in posts lists were not removed
+* Added position Before title
+* Added support for minimum nuber of paragraphs
+* Added support for page display options for Widget and Before title positions
+* Alignment now works for all display positions
+
 = 1.1.3 =
 * Fixed bug for {search_query}: When the tag is empty {smart_tag} is used in all cases
 * Few changes in the settings page
@@ -186,6 +208,13 @@ ad_code
 
 
 == Upgrade Notice ==
+
+= 1.2.0 =
+Fixed bug: manual tags in posts lists were not removed,
+Added position Before title,
+Added support for minimum nuber of paragraphs,
+Added support for page display options for Widget and Before title positions,
+Alignment now works for all display positions,
 
 = 1.1.3 =
 Fixed bug for search query tag

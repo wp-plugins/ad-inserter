@@ -2,7 +2,7 @@
 
 /*
 Plugin Name: Ad Inserter
-Version: 1.1.3
+Version: 1.2.0
 Description: An elegant solution to put any ad into Wordpress. Simply enter any HTML code and select where and how you want to display it (including Widgets). You can also use {category}, {short_category}, {title}, {short_title}, {tag}, {smart_tag} or {search_query} for actual post data. To rotate different ad versions separate them with ||. Manual insertion is also possible with {adinserter AD_NAME} tag.
 Author: Igor Funa
 Author URI: http://igorfuna.com/
@@ -10,17 +10,19 @@ Plugin URI: http://igorfuna.com/software/web/ad-inserter-wordpress-plugin
 */
 
 /*
-Inspired by the Adsense Daemon plugin by Yong Mook Kim
-http://www.mkyong.com/blog/adsense-daemon-wordpress-plugin
-*/
-
-/*
 TO DO
-- Above and below title
+- Below title
 */
 
 /*
 Change Log
+
+Ad Inserter 1.2.0 - 15/05/2012
+- Fixed bug: manual tags in posts lists were not removed
+- Added position Before title
+- Added support for minimum nuber of paragraphs
+- Added support for page display options for Widget and Before title positions
+- Alignment now works for all display positions
 
 Ad Inserter 1.1.3 - 07/04/2012
 - Fixed bug for {search_query}: When the tag is empty {smart_tag} is used in all cases
@@ -77,6 +79,7 @@ require_once 'settings_form.php';
 //hook
 add_action('admin_menu', 'ai_admin_menu');
 add_filter('the_content', 'ai_content_hook', 99999);
+add_action('loop_start', 'ai_loop_start_hook');
 add_action('init', 'AdInserter_Init');
 
 function AdInserter_Init() {
@@ -102,12 +105,9 @@ function AdInserter_Init() {
 
   $ad_all_data = array($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8);
 
-  $ad_counter = 0;
-  foreach($ad_all_data as $obj){
-     $ad_counter ++;
-
+  foreach($ad_all_data as $key => $obj){
      if($obj->get_append_type() == AD_SELECT_WIDGET){
-
+       $ad_counter = $key + 1;
        // register widget
        $widget_options = array ('classname' => 'ai_widget', 'description' => "Put any ad or HTML code into the Sidebar." );
        wp_register_sidebar_widget ('ai_widget'.$ad_counter, $obj->get_ad_name(), 'ai_widget'.$ad_counter, $widget_options);
@@ -300,8 +300,10 @@ function ai_menu(){
 
 function ai_content_hook($content = ''){
 
-   if(!is_single())
+   if(!is_single()) {
+     $content = preg_replace ("/{adinserter (.*)}/", "", $content);
      return $content;
+   }
 
    $ad1 = new Ad1();
    $ad2 = new Ad2();
@@ -338,6 +340,90 @@ function ai_content_hook($content = ''){
    return $content;
 }
 
+function ai_loop_start_hook($query){
+
+  if (!$query->is_main_query()) return;
+
+  $ad1 = new Ad1();
+  $ad2 = new Ad2();
+  $ad3 = new Ad3();
+  $ad4 = new Ad4();
+  $ad5 = new Ad5();
+  $ad6 = new Ad6();
+  $ad7 = new Ad7();
+  $ad8 = new Ad8();
+
+  //load options from db
+  $ad1->wp_options = ai_get_option(AD_AD1_OPTIONS);
+  $ad2->wp_options = ai_get_option(AD_AD2_OPTIONS);
+  $ad3->wp_options = ai_get_option(AD_AD3_OPTIONS);
+  $ad4->wp_options = ai_get_option(AD_AD4_OPTIONS);
+  $ad5->wp_options = ai_get_option(AD_AD5_OPTIONS);
+  $ad6->wp_options = ai_get_option(AD_AD6_OPTIONS);
+  $ad7->wp_options = ai_get_option(AD_AD7_OPTIONS);
+  $ad8->wp_options = ai_get_option(AD_AD8_OPTIONS);
+
+  $ad_all_data = array($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8);
+
+  //get post published date
+  $publish_date = the_date('U','','',false);
+
+  $http_referer = '';
+  //get referer
+  if(isset($_SERVER['HTTP_REFERER'])) {
+     $http_referer = $_SERVER['HTTP_REFERER'];
+  }
+
+  foreach($ad_all_data as $obj){
+
+    if(is_home()){
+      if (!$obj->get_widget_settings_home()) continue;
+    }
+    elseif(is_page()){
+      if (!$obj->get_widget_settings_page()) continue;
+    }
+    elseif(is_single()){
+      if (!$obj->get_widget_settings_post()) continue;
+    }
+    elseif(is_category()){
+      if (!$obj->get_widget_settings_category()) continue;
+    }
+    elseif(is_search()){
+      if (!$obj->get_widget_settings_search()) continue;
+    }
+    elseif(is_archive()){
+      if (!$obj->get_widget_settings_archive()) continue;
+    }
+
+    //if empty data, continue next
+    if($obj->get_ad_data()==AD_EMPTY_DATA){
+      continue;
+    }
+
+    if(ai_isDisplayAllowed($obj, $content)==false){
+      continue;
+    }
+
+    if(ai_isCategoryAllowed($obj->get_ad_block_cat(), $obj->get_ad_block_cat_type())==false){
+      continue;
+    }
+
+    if(ai_isDisplayDateAllowed($obj, $publish_date)==false){
+      continue;
+    }
+
+    if(ai_isRefererAllowed($obj, $http_referer)==false){
+      continue;
+    }
+
+    if($obj->get_append_type() == AD_SELECT_BEFORE_TITLE){
+
+       $ad_code = "<div style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
+    }
+  }
+
+  echo $ad_code;
+}
 function ai_isCategoryAllowed($categories, $cat_type){
 
   $categories = trim(strtolower($categories));
@@ -516,28 +602,6 @@ function ai_getAdCode ($obj){
 
 function ai_generateBeforeParagraph($content, $obj){
 
-   if ($obj->get_float_type() == AD_ALIGNMENT_LEFT)
-   {
-      $style = "text-align:left;padding:8px 0px;";
-   }
-   elseif ($obj->get_float_type() == AD_ALIGNMENT_RIGHT)
-   {
-      $style = "text-align:right;padding:8px 0px;";
-   }
-   elseif ($obj->get_float_type() == AD_ALIGNMENT_CENTER)
-   {
-      $style = "text-align:center;margin-left:auto;margin-right:auto;padding:8px 0px;";
-   }
-   elseif ($obj->get_float_type() == AD_ALIGNMENT_FLOAT_LEFT)
-   {
-      $style = "float:left;padding:8px 8px 8px 0px;";
-   }
-   elseif ($obj->get_float_type() == AD_ALIGNMENT_FLOAT_RIGHT)
-   {
-      $style = "float:right;padding:8px 0px 8px 8px;";
-   }
-   else $style = "padding:8px 0px;";
-
    $poses = array();
     $poseslast = array();
    $lastpos = -1;
@@ -563,12 +627,12 @@ function ai_generateBeforeParagraph($content, $obj){
    } else $para --;
 
 
-   if(sizeof($poses)>$para)
+   if(sizeof($poses)>$para && sizeof ($poses) >= $obj->get_paragraph_number_minimum())
    {
 
       $pickme = $poses[$para];
 
-      $content = substr_replace($content, "<div style='" . $style . "'>" . ai_getAdCode ($obj) . "</div>", $pickme, 0);
+      $content = substr_replace($content, "<div style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>", $pickme, 0);
 
       //reset it
       $lastpos = -1;
@@ -580,13 +644,13 @@ function ai_generateBeforeParagraph($content, $obj){
 
 function ai_generateDivBefore($content, $obj){
 
-   return "<div style='padding-top:8px; padding-bottom:8px'>" . ai_getAdCode ($obj) . "</div>" . $content;
+   return "<div style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>" . $content;
 
 }
 
 function ai_generateDivAfter($content, $obj){
 
-   return $content . "<div style='padding-top:8px; padding-bottom:8px'>" . ai_getAdCode ($obj) . "</div>";
+   return $content . "<div style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
 
 }
 
@@ -597,7 +661,7 @@ function ai_generateDivManual($content, $obj){
         $ad_tag = strtolower (trim ($tag));
         $ad_name = strtolower (trim ($obj->get_ad_name()));
         if ($ad_tag == $ad_name) {
-          $content = preg_replace ("/{adinserter " . $tag . "}/", ai_getAdCode ($obj), $content);
+          $content = preg_replace ("/{adinserter " . $tag . "}/", "<div style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>", $content);
         }
      }
    }
@@ -764,6 +828,25 @@ function ai_widget_draw ($obj, $publish_date, $http_referer, $args) {
         return;
      }
 
+     if(is_home()){
+        if (!$obj->get_widget_settings_home()) return;
+     }
+     elseif(is_page()){
+        if (!$obj->get_widget_settings_page()) return;
+     }
+     elseif(is_single()){
+        if (!$obj->get_widget_settings_post()) return;
+     }
+     elseif(is_category()){
+        if (!$obj->get_widget_settings_category()) return;
+     }
+     elseif(is_search()){
+        if (!$obj->get_widget_settings_search()) return;
+     }
+     elseif(is_archive()){
+        if (!$obj->get_widget_settings_archive()) return;
+     }
+
      if(ai_isDisplayAllowed($obj, $content)==false){
         return;
      }
@@ -782,9 +865,6 @@ function ai_widget_draw ($obj, $publish_date, $http_referer, $args) {
 
      if($obj->get_append_type() == AD_SELECT_WIDGET){
 
-       echo $args['before_widget'] . ai_getAdCode ($obj) . $args['after_widget'];
-
+       echo $args['before_widget'] . "<div style='" . $obj->get_alignmet_style(false) . "'>" . ai_getAdCode ($obj) . "</div>" . $args['after_widget'];
      }
 }
-
-?>
