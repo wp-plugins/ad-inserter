@@ -85,6 +85,40 @@ abstract class BaseAdInserter {
       return $this->wp_options[$this->option_float_type];
     }
 
+   public function get_alignmet_style($margin = true){
+    if ($this->get_float_type() == AD_ALIGNMENT_LEFT) {
+      if ($margin)
+        $style = "text-align:left;margin:8px 0px;"; else
+          $style = "text-align:left;";
+    }
+    elseif ($this->get_float_type() == AD_ALIGNMENT_RIGHT) {
+      if ($margin)
+        $style = "text-align:right;margin:8px 0px;"; else
+          $style = "text-align:right;";
+    }
+    elseif ($this->get_float_type() == AD_ALIGNMENT_CENTER) {
+      if ($margin)
+        $style = "text-align:center;margin-left:auto;margin-right:auto;margin-top:8px;margin-bottom:8px;"; else
+          $style = "text-align:center;margin-left:auto;margin-right:auto;";
+    }
+    elseif ($this->get_float_type() == AD_ALIGNMENT_FLOAT_LEFT) {
+      if ($margin)
+        $style = "float:left;margin:8px 8px 8px 0px;"; else
+          $style = "float:left;";
+    }
+    elseif ($this->get_float_type() == AD_ALIGNMENT_FLOAT_RIGHT) {
+      if ($margin)
+        $style = "float:right;margin:8px 0px 8px 8px;"; else
+          $style = "float:right;";
+    }
+    else {
+      if ($margin)
+        $style = "margin:8px 0px;";
+          $style = "margin:0;";
+    }
+
+    return $style;
+   }
    public function get_ad_data(){
 
       return $this->wp_options[$this->option_ad_data];

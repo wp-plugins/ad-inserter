@@ -80,6 +80,7 @@ define('AD_SELECT_SELECTED','selected');
 //Position options
 define('AD_SELECT_SELECTED','selected');
 define('AD_SELECT_NONE','None');
+define('AD_SELECT_BEFORE_TITLE','Before Title');
 define('AD_SELECT_BEFORE_PARAGRAPH','Before Paragraph');
 define('AD_SELECT_BEFORE_CONTENT','Before Content');
 define('AD_SELECT_AFTER_CONTENT','After Content');
