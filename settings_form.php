@@ -7,6 +7,7 @@ function print_settings_form($ad_array){
 ?>
 
 <div style="padding:8px;">
+<a style="float: right; position: absolute; left: 560px;" href="http://hostgator.si/" target="_blank"><img src="<?php echo AD_INSERTER_PLUGIN_IMAGES_URL; ?>hostgator.gif" alt="HostGator" /></a>
 <h2><?php echo AD_INSERTER_TITLE . ' (version ' . AD_INSERTER_VERSION . ')' ?></h2>
 by Igor Funa - <a href="http://igorfuna.com/contact/contact-igor-funa" target="_blank">Contact Me</a> |
 <a href="http://igorfuna.com/contact/contact-igor-funa" target="_blank">Bug Report &amp; Feature Request</a> |
@@ -22,12 +23,6 @@ by Igor Funa - <a href="http://igorfuna.com/contact/contact-igor-funa" target="_
   <br />
   <a href="http://tinymonitor.com/amazon-monitor" target="_blank"><img src="<?php echo AD_INSERTER_PLUGIN_IMAGES_URL; ?>amazon-header.png" alt="Amazon Associates" /></a>
   <br />
-</div>
-
-
-<div style="width: 770px; padding: 0 8px 8px 8px; margin: 12px 0 12px 0; border: 1px solid rgb(221, 221, 221); border-radius: 5px;">
-  <h3>Reliable WordPress Hosting - <a href="http://hostgator.si/" target="_blank">Unlimited EVERYTHING</a>: Domains, Disk Space, Traffic, etc.</h3>
-  <a href="http://hostgator.si/" target="_blank"><img src="<?php echo AD_INSERTER_PLUGIN_IMAGES_URL; ?>hostgator.gif" alt="HostGator" /></a>
 </div>
 
 <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" id="ad_form" name="ad_form">
