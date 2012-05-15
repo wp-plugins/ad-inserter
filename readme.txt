@@ -3,7 +3,7 @@ Contributors: spacetime
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LHGZEMRTR7WB4
 Tags: adsense, amazon, ad, ads, html, code, widget, sidebar, rotating, banners
 Requires at least: 3.0
-Tested up to: 3.3.1
+Tested up to: 3.3.2
 Stable tag: 1.1.3
 
 Integrate any HTML code into Wordpress. Just paste the code and select the location and display mode. Perfect for AdSense or contextual Amazon ads.
@@ -155,6 +155,7 @@ ad_code
 == Changelog ==
 
 = 1.1.4 =
+* Fixed bug: manual tags in posts lists were not removed
 * Added support for minimum nuber of paragraphs
 * Added support for widget display options
 

@@ -18,6 +18,7 @@ TO DO
 Change Log
 
 Ad Inserter 1.1.4 - 26/04/2012
+- Fixed bug with manual tags in posts not cleaned in blog view
 - Added support for minimum nuber of paragraphs
 - Added support for widget display options
 
@@ -101,12 +102,9 @@ function AdInserter_Init() {
 
   $ad_all_data = array($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8);
 
-  $ad_counter = 0;
-  foreach($ad_all_data as $obj){
-     $ad_counter ++;
-
+  foreach($ad_all_data as $key => $obj){
      if($obj->get_append_type() == AD_SELECT_WIDGET){
-
+       $ad_counter = $key + 1;
        // register widget
        $widget_options = array ('classname' => 'ai_widget', 'description' => "Put any ad or HTML code into the Sidebar." );
        wp_register_sidebar_widget ('ai_widget'.$ad_counter, $obj->get_ad_name(), 'ai_widget'.$ad_counter, $widget_options);
@@ -299,8 +297,10 @@ function ai_menu(){
 
 function ai_content_hook($content = ''){
 
-   if(!is_single())
+   if(!is_single()) {
+     $content = preg_replace ("/{adinserter (.*)}/", "", $content);
      return $content;
+   }
 
    $ad1 = new Ad1();
    $ad2 = new Ad2();
