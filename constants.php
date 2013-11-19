@@ -6,7 +6,7 @@ if (!defined( 'AD_INSERTER_TITLE'))
   define ('AD_INSERTER_TITLE', 'Ad Inserter');
 
 if (!defined( 'AD_INSERTER_VERSION'))
-  define ('AD_INSERTER_VERSION', '1.2.0');
+  define ('AD_INSERTER_VERSION', '1.2.1');
 
 if (!defined ('AD_INSERTER_PLUGIN_DIR'))
   define ('AD_INSERTER_PLUGIN_DIR', plugin_dir_path (__FILE__));
@@ -73,6 +73,7 @@ define('AD_FORM_SAVE','ad_save');
 define('AD_FORM_CLEAR','ad_clear');
 
 define('AD_AUTHOR_SITE', '<!-- Powered by Ad Inserter Wordpress Plugin, Author: Igor Funa -->');
+define('AD_SEPARATOR', '|rotate|');
 
 //form select options
 define('AD_SELECT_SELECTED','selected');
