@@ -2,8 +2,8 @@
 
 /*
 Plugin Name: Ad Inserter
-Version: 1.2.0
-Description: An elegant solution to put any ad into Wordpress. Simply enter any HTML code and select where and how you want to display it (including Widgets). You can also use {category}, {short_category}, {title}, {short_title}, {tag}, {smart_tag} or {search_query} for actual post data. To rotate different ad versions separate them with ||. Manual insertion is also possible with {adinserter AD_NAME} tag.
+Version: 1.2.1
+Description: An elegant solution to put any ad into Wordpress. Simply enter any HTML code and select where and how you want to display it (including Widgets). You can also use {category}, {short_category}, {title}, {short_title}, {tag}, {smart_tag} or {search_query} tags to get actual post data. To rotate different ad versions separate them with |rotate|. Manual insertion is also possible with {adinserter AD_NAME} tag.
 Author: Igor Funa
 Author URI: http://igorfuna.com/
 Plugin URI: http://igorfuna.com/software/web/ad-inserter-wordpress-plugin
@@ -16,6 +16,9 @@ TO DO
 
 /*
 Change Log
+
+Ad Inserter 1.2.1 - 19 November 2013
+- Fixed problem: || in ad code (e.g. asynchronous code for AdSense) causes only part of the code to be inserted (|| to rotate ads is replaced with |rotate|)
 
 Ad Inserter 1.2.0 - 15/05/2012
 - Fixed bug: manual tags in posts lists were not removed
@@ -592,8 +595,8 @@ function generateAdInserterDiv($content, $ad_all_data, $publish_date, $http_refe
 
 function ai_getAdCode ($obj){
   $ad_code = $obj->get_ad_data_replaced();
-  if (strpos ($ad_code, "||") !== false) {
-    $ads = explode ("||", $ad_code);
+  if (strpos ($ad_code, AD_SEPARATOR) !== false) {
+    $ads = explode (AD_SEPARATOR, $ad_code);
     $ad_code = $ads [rand (0, sizeof ($ads) - 1)];
   }
   return $ad_code;

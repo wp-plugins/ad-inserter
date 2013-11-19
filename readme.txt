@@ -3,15 +3,15 @@ Contributors: spacetime
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LHGZEMRTR7WB4
 Tags: adsense, amazon, ad, ads, html, code, widget, sidebar, rotating, banners
 Requires at least: 3.0
-Tested up to: 3.3.2
-Stable tag: 1.2.0
+Tested up to: 3.7.1
+Stable tag: 1.2.1
 License: GPLv3
 
 Integrate any HTML code into Wordpress. Just paste the code and select the location and display mode. Perfect for AdSense or contextual Amazon ads.
 
 == Description ==
 
-An elegant solution to put any ad into Wordpress. **Perfect for AdSense or contextual Amazon ads.** Simply enter any HTML code and select where and how you want to display it (including widgets). You can also use {category}, {short_category}, {title}, {short_title}, {tag}, {smart_tag} or {search_query} for actual article data. To rotate different ad versions separate them with ||.
+An elegant solution to put any ad into Wordpress. **Perfect for AdSense or contextual Amazon ads.** Simply enter any HTML code and select where and how you want to display it (including widgets). You can also use {category}, {short_category}, {title}, {short_title}, {tag}, {smart_tag} or {search_query} tags to get actual post data. To rotate different ad versions separate them with |rotate|. Manual insertion is also possible with {adinserter AD_NAME} tag.
 
 Display Options:
 
@@ -92,13 +92,13 @@ Manual installation:
 
 = How can I rotate few versions of the same ad? =
 
-Enter them into the ad box and separate them with || (double vertical bar). Ad Inserter will display them randomly.
+Enter them into the ad box and separate them with |rotate| (vertical bars around text rotate). Ad Inserter will display them randomly.
 Example:
 
 `ad_code_1
-||
+|rotate|
 ad_code_2
-||
+|rotate|
 ad_code_3`
 
 
@@ -167,6 +167,9 @@ ad_code
 
 == Changelog ==
 
+= 1.2.1 =
+* Fixed problem: || in ad code (e.g. asynchronous code for AdSense) causes only part of the code to be inserted (|| to rotate ads is replaced with |rotate|)
+
 = 1.2.0 =
 * Fixed bug: manual tags in posts lists were not removed
 * Added position Before title
@@ -208,6 +211,9 @@ ad_code
 
 
 == Upgrade Notice ==
+
+= 1.2.1 =
+Fixed problem: || in ad code (e.g. asynchronous code for AdSense) causes only part of the code to be inserted (|| to rotate ads is replaced with |rotate|)
 
 = 1.2.0 =
 Fixed bug: manual tags in posts lists were not removed,
