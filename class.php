@@ -758,3 +758,419 @@ class Ad8 extends BaseAdInserter{
     }
 
 }
+
+class Ad9 extends BaseAdInserter{
+
+   const OPTION_AD_NAME = "ad9_name";
+   const OPTION_APPEND_TYPE = "ad9_displayType";
+   const OPTION_PARAGRAPH_NUMBER = "ad9_paragraphNumber";
+   const OPTION_PARAGRAPH_NUMBER_MINIMUM = "ad9_minimum_paragraphs";
+   const OPTION_DIRECTION_TYPE = "ad9_directionType";
+   const OPTION_FLOAT_TYPE = "ad9_floatType";
+   const OPTION_AD_DATA = "ad9_data";
+   const OPTION_AD_GENERAL_TAG = "ad9_general_tag";
+   const OPTION_AD_AFTER_DAY = "ad9_after_day";
+   const OPTION_AD_BLOCK_USER = "ad9_block_user";
+   const OPTION_AD_DISABLE = "ad9_disabled";
+   const OPTION_AD_BLOCK_CAT = "ad9_block_cat";
+   const OPTION_AD_BLOCK_CAT_TYPE = "ad9_block_cat_type";
+   const OPTION_WIDGET_SETTINGS_HOME     = "ad9_widget_settings_home";
+   const OPTION_WIDGET_SETTINGS_PAGE     = "ad9_widget_settings_page";
+   const OPTION_WIDGET_SETTINGS_POST     = "ad9_widget_settings_post";
+   const OPTION_WIDGET_SETTINGS_CATEGORY = "ad9_widget_settings_category";
+   const OPTION_WIDGET_SETTINGS_SEARCH   = "ad9_widget_settings_search";
+   const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad9_widget_settings_archive";
+
+  //constructor
+    public function Ad9() {
+
+      $this->option_ad_name = self::OPTION_AD_NAME;
+      $this->option_append_type = self::OPTION_APPEND_TYPE;
+      $this->option_paragraph_number = self::OPTION_PARAGRAPH_NUMBER;
+      $this->option_paragraph_number_minimum = self::OPTION_PARAGRAPH_NUMBER_MINIMUM;
+      $this->option_direction_type = self::OPTION_DIRECTION_TYPE;
+      $this->option_float_type = self::OPTION_FLOAT_TYPE;
+      $this->option_ad_data = self::OPTION_AD_DATA;
+      $this->option_ad_general_tag = self::OPTION_AD_GENERAL_TAG;
+      $this->option_ad_after_day = self::OPTION_AD_AFTER_DAY;
+      $this->option_ad_block_user = self::OPTION_AD_BLOCK_USER;
+      $this->option_ad_disabled = self::OPTION_AD_DISABLE;
+      $this->option_ad_block_cat = self::OPTION_AD_BLOCK_CAT;
+      $this->option_ad_block_cat_type = self::OPTION_AD_BLOCK_CAT_TYPE;
+      $this->option_widget_settings_home     = self::OPTION_WIDGET_SETTINGS_HOME;
+      $this->option_widget_settings_page     = self::OPTION_WIDGET_SETTINGS_PAGE;
+      $this->option_widget_settings_post     = self::OPTION_WIDGET_SETTINGS_POST;
+      $this->option_widget_settings_category = self::OPTION_WIDGET_SETTINGS_CATEGORY;
+      $this->option_widget_settings_search   = self::OPTION_WIDGET_SETTINGS_SEARCH ;
+      $this->option_widget_settings_archive  = self::OPTION_WIDGET_SETTINGS_ARCHIVE;
+
+      parent::BaseAdInserter();
+      $this->wp_options[$this->option_ad_name] = AD_NAME." 9";
+      $this->wp_options[$this->option_ad_disabled] = AD_DISABLED_9;
+    }
+
+}
+
+class Ad10 extends BaseAdInserter{
+
+   const OPTION_AD_NAME = "ad10_name";
+   const OPTION_APPEND_TYPE = "ad10_displayType";
+   const OPTION_PARAGRAPH_NUMBER = "ad10_paragraphNumber";
+   const OPTION_PARAGRAPH_NUMBER_MINIMUM = "ad10_minimum_paragraphs";
+   const OPTION_DIRECTION_TYPE = "ad10_directionType";
+   const OPTION_FLOAT_TYPE = "ad10_floatType";
+   const OPTION_AD_DATA = "ad10_data";
+   const OPTION_AD_GENERAL_TAG = "ad10_general_tag";
+   const OPTION_AD_AFTER_DAY = "ad10_after_day";
+   const OPTION_AD_BLOCK_USER = "ad10_block_user";
+   const OPTION_AD_DISABLE = "ad10_disabled";
+   const OPTION_AD_BLOCK_CAT = "ad10_block_cat";
+   const OPTION_AD_BLOCK_CAT_TYPE = "ad10_block_cat_type";
+   const OPTION_WIDGET_SETTINGS_HOME     = "ad10_widget_settings_home";
+   const OPTION_WIDGET_SETTINGS_PAGE     = "ad10_widget_settings_page";
+   const OPTION_WIDGET_SETTINGS_POST     = "ad10_widget_settings_post";
+   const OPTION_WIDGET_SETTINGS_CATEGORY = "ad10_widget_settings_category";
+   const OPTION_WIDGET_SETTINGS_SEARCH   = "ad10_widget_settings_search";
+   const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad10_widget_settings_archive";
+
+  //constructor
+    public function Ad10() {
+
+      $this->option_ad_name = self::OPTION_AD_NAME;
+      $this->option_append_type = self::OPTION_APPEND_TYPE;
+      $this->option_paragraph_number = self::OPTION_PARAGRAPH_NUMBER;
+      $this->option_paragraph_number_minimum = self::OPTION_PARAGRAPH_NUMBER_MINIMUM;
+      $this->option_direction_type = self::OPTION_DIRECTION_TYPE;
+      $this->option_float_type = self::OPTION_FLOAT_TYPE;
+      $this->option_ad_data = self::OPTION_AD_DATA;
+      $this->option_ad_general_tag = self::OPTION_AD_GENERAL_TAG;
+      $this->option_ad_after_day = self::OPTION_AD_AFTER_DAY;
+      $this->option_ad_block_user = self::OPTION_AD_BLOCK_USER;
+      $this->option_ad_disabled = self::OPTION_AD_DISABLE;
+      $this->option_ad_block_cat = self::OPTION_AD_BLOCK_CAT;
+      $this->option_ad_block_cat_type = self::OPTION_AD_BLOCK_CAT_TYPE;
+      $this->option_widget_settings_home     = self::OPTION_WIDGET_SETTINGS_HOME;
+      $this->option_widget_settings_page     = self::OPTION_WIDGET_SETTINGS_PAGE;
+      $this->option_widget_settings_post     = self::OPTION_WIDGET_SETTINGS_POST;
+      $this->option_widget_settings_category = self::OPTION_WIDGET_SETTINGS_CATEGORY;
+      $this->option_widget_settings_search   = self::OPTION_WIDGET_SETTINGS_SEARCH ;
+      $this->option_widget_settings_archive  = self::OPTION_WIDGET_SETTINGS_ARCHIVE;
+
+      parent::BaseAdInserter();
+      $this->wp_options[$this->option_ad_name] = AD_NAME." 10";
+      $this->wp_options[$this->option_ad_disabled] = AD_DISABLED_10;
+    }
+
+}
+
+class Ad11 extends BaseAdInserter{
+
+   const OPTION_AD_NAME = "ad11_name";
+   const OPTION_APPEND_TYPE = "ad11_displayType";
+   const OPTION_PARAGRAPH_NUMBER = "ad11_paragraphNumber";
+   const OPTION_PARAGRAPH_NUMBER_MINIMUM = "ad11_minimum_paragraphs";
+   const OPTION_DIRECTION_TYPE = "ad11_directionType";
+   const OPTION_FLOAT_TYPE = "ad11_floatType";
+   const OPTION_AD_DATA = "ad11_data";
+   const OPTION_AD_GENERAL_TAG = "ad11_general_tag";
+   const OPTION_AD_AFTER_DAY = "ad11_after_day";
+   const OPTION_AD_BLOCK_USER = "ad11_block_user";
+   const OPTION_AD_DISABLE = "ad11_disabled";
+   const OPTION_AD_BLOCK_CAT = "ad11_block_cat";
+   const OPTION_AD_BLOCK_CAT_TYPE = "ad11_block_cat_type";
+   const OPTION_WIDGET_SETTINGS_HOME     = "ad11_widget_settings_home";
+   const OPTION_WIDGET_SETTINGS_PAGE     = "ad11_widget_settings_page";
+   const OPTION_WIDGET_SETTINGS_POST     = "ad11_widget_settings_post";
+   const OPTION_WIDGET_SETTINGS_CATEGORY = "ad11_widget_settings_category";
+   const OPTION_WIDGET_SETTINGS_SEARCH   = "ad11_widget_settings_search";
+   const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad11_widget_settings_archive";
+
+  //constructor
+    public function Ad11() {
+
+      $this->option_ad_name = self::OPTION_AD_NAME;
+      $this->option_append_type = self::OPTION_APPEND_TYPE;
+      $this->option_paragraph_number = self::OPTION_PARAGRAPH_NUMBER;
+      $this->option_paragraph_number_minimum = self::OPTION_PARAGRAPH_NUMBER_MINIMUM;
+      $this->option_direction_type = self::OPTION_DIRECTION_TYPE;
+      $this->option_float_type = self::OPTION_FLOAT_TYPE;
+      $this->option_ad_data = self::OPTION_AD_DATA;
+      $this->option_ad_general_tag = self::OPTION_AD_GENERAL_TAG;
+      $this->option_ad_after_day = self::OPTION_AD_AFTER_DAY;
+      $this->option_ad_block_user = self::OPTION_AD_BLOCK_USER;
+      $this->option_ad_disabled = self::OPTION_AD_DISABLE;
+      $this->option_ad_block_cat = self::OPTION_AD_BLOCK_CAT;
+      $this->option_ad_block_cat_type = self::OPTION_AD_BLOCK_CAT_TYPE;
+      $this->option_widget_settings_home     = self::OPTION_WIDGET_SETTINGS_HOME;
+      $this->option_widget_settings_page     = self::OPTION_WIDGET_SETTINGS_PAGE;
+      $this->option_widget_settings_post     = self::OPTION_WIDGET_SETTINGS_POST;
+      $this->option_widget_settings_category = self::OPTION_WIDGET_SETTINGS_CATEGORY;
+      $this->option_widget_settings_search   = self::OPTION_WIDGET_SETTINGS_SEARCH ;
+      $this->option_widget_settings_archive  = self::OPTION_WIDGET_SETTINGS_ARCHIVE;
+
+      parent::BaseAdInserter();
+      $this->wp_options[$this->option_ad_name] = AD_NAME." 11";
+      $this->wp_options[$this->option_ad_disabled] = AD_DISABLED_11;
+    }
+
+}
+
+class Ad12 extends BaseAdInserter{
+
+   const OPTION_AD_NAME = "ad12_name";
+   const OPTION_APPEND_TYPE = "ad12_displayType";
+   const OPTION_PARAGRAPH_NUMBER = "ad12_paragraphNumber";
+   const OPTION_PARAGRAPH_NUMBER_MINIMUM = "ad12_minimum_paragraphs";
+   const OPTION_DIRECTION_TYPE = "ad12_directionType";
+   const OPTION_FLOAT_TYPE = "ad12_floatType";
+   const OPTION_AD_DATA = "ad12_data";
+   const OPTION_AD_GENERAL_TAG = "ad12_general_tag";
+   const OPTION_AD_AFTER_DAY = "ad12_after_day";
+   const OPTION_AD_BLOCK_USER = "ad12_block_user";
+   const OPTION_AD_DISABLE = "ad12_disabled";
+   const OPTION_AD_BLOCK_CAT = "ad12_block_cat";
+   const OPTION_AD_BLOCK_CAT_TYPE = "ad12_block_cat_type";
+   const OPTION_WIDGET_SETTINGS_HOME     = "ad12_widget_settings_home";
+   const OPTION_WIDGET_SETTINGS_PAGE     = "ad12_widget_settings_page";
+   const OPTION_WIDGET_SETTINGS_POST     = "ad12_widget_settings_post";
+   const OPTION_WIDGET_SETTINGS_CATEGORY = "ad12_widget_settings_category";
+   const OPTION_WIDGET_SETTINGS_SEARCH   = "ad12_widget_settings_search";
+   const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad12_widget_settings_archive";
+
+  //constructor
+    public function Ad12() {
+
+      $this->option_ad_name = self::OPTION_AD_NAME;
+      $this->option_append_type = self::OPTION_APPEND_TYPE;
+      $this->option_paragraph_number = self::OPTION_PARAGRAPH_NUMBER;
+      $this->option_paragraph_number_minimum = self::OPTION_PARAGRAPH_NUMBER_MINIMUM;
+      $this->option_direction_type = self::OPTION_DIRECTION_TYPE;
+      $this->option_float_type = self::OPTION_FLOAT_TYPE;
+      $this->option_ad_data = self::OPTION_AD_DATA;
+      $this->option_ad_general_tag = self::OPTION_AD_GENERAL_TAG;
+      $this->option_ad_after_day = self::OPTION_AD_AFTER_DAY;
+      $this->option_ad_block_user = self::OPTION_AD_BLOCK_USER;
+      $this->option_ad_disabled = self::OPTION_AD_DISABLE;
+      $this->option_ad_block_cat = self::OPTION_AD_BLOCK_CAT;
+      $this->option_ad_block_cat_type = self::OPTION_AD_BLOCK_CAT_TYPE;
+      $this->option_widget_settings_home     = self::OPTION_WIDGET_SETTINGS_HOME;
+      $this->option_widget_settings_page     = self::OPTION_WIDGET_SETTINGS_PAGE;
+      $this->option_widget_settings_post     = self::OPTION_WIDGET_SETTINGS_POST;
+      $this->option_widget_settings_category = self::OPTION_WIDGET_SETTINGS_CATEGORY;
+      $this->option_widget_settings_search   = self::OPTION_WIDGET_SETTINGS_SEARCH ;
+      $this->option_widget_settings_archive  = self::OPTION_WIDGET_SETTINGS_ARCHIVE;
+
+      parent::BaseAdInserter();
+      $this->wp_options[$this->option_ad_name] = AD_NAME." 12";
+      $this->wp_options[$this->option_ad_disabled] = AD_DISABLED_12;
+    }
+
+}
+
+class Ad13 extends BaseAdInserter{
+
+   const OPTION_AD_NAME = "ad13_name";
+   const OPTION_APPEND_TYPE = "ad13_displayType";
+   const OPTION_PARAGRAPH_NUMBER = "ad13_paragraphNumber";
+   const OPTION_PARAGRAPH_NUMBER_MINIMUM = "ad13_minimum_paragraphs";
+   const OPTION_DIRECTION_TYPE = "ad13_directionType";
+   const OPTION_FLOAT_TYPE = "ad13_floatType";
+   const OPTION_AD_DATA = "ad13_data";
+   const OPTION_AD_GENERAL_TAG = "ad13_general_tag";
+   const OPTION_AD_AFTER_DAY = "ad13_after_day";
+   const OPTION_AD_BLOCK_USER = "ad13_block_user";
+   const OPTION_AD_DISABLE = "ad13_disabled";
+   const OPTION_AD_BLOCK_CAT = "ad13_block_cat";
+   const OPTION_AD_BLOCK_CAT_TYPE = "ad13_block_cat_type";
+   const OPTION_WIDGET_SETTINGS_HOME     = "ad13_widget_settings_home";
+   const OPTION_WIDGET_SETTINGS_PAGE     = "ad13_widget_settings_page";
+   const OPTION_WIDGET_SETTINGS_POST     = "ad13_widget_settings_post";
+   const OPTION_WIDGET_SETTINGS_CATEGORY = "ad13_widget_settings_category";
+   const OPTION_WIDGET_SETTINGS_SEARCH   = "ad13_widget_settings_search";
+   const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad13_widget_settings_archive";
+
+  //constructor
+    public function Ad13() {
+
+      $this->option_ad_name = self::OPTION_AD_NAME;
+      $this->option_append_type = self::OPTION_APPEND_TYPE;
+      $this->option_paragraph_number = self::OPTION_PARAGRAPH_NUMBER;
+      $this->option_paragraph_number_minimum = self::OPTION_PARAGRAPH_NUMBER_MINIMUM;
+      $this->option_direction_type = self::OPTION_DIRECTION_TYPE;
+      $this->option_float_type = self::OPTION_FLOAT_TYPE;
+      $this->option_ad_data = self::OPTION_AD_DATA;
+      $this->option_ad_general_tag = self::OPTION_AD_GENERAL_TAG;
+      $this->option_ad_after_day = self::OPTION_AD_AFTER_DAY;
+      $this->option_ad_block_user = self::OPTION_AD_BLOCK_USER;
+      $this->option_ad_disabled = self::OPTION_AD_DISABLE;
+      $this->option_ad_block_cat = self::OPTION_AD_BLOCK_CAT;
+      $this->option_ad_block_cat_type = self::OPTION_AD_BLOCK_CAT_TYPE;
+      $this->option_widget_settings_home     = self::OPTION_WIDGET_SETTINGS_HOME;
+      $this->option_widget_settings_page     = self::OPTION_WIDGET_SETTINGS_PAGE;
+      $this->option_widget_settings_post     = self::OPTION_WIDGET_SETTINGS_POST;
+      $this->option_widget_settings_category = self::OPTION_WIDGET_SETTINGS_CATEGORY;
+      $this->option_widget_settings_search   = self::OPTION_WIDGET_SETTINGS_SEARCH ;
+      $this->option_widget_settings_archive  = self::OPTION_WIDGET_SETTINGS_ARCHIVE;
+
+      parent::BaseAdInserter();
+      $this->wp_options[$this->option_ad_name] = AD_NAME." 13";
+      $this->wp_options[$this->option_ad_disabled] = AD_DISABLED_13;
+    }
+
+}
+
+class Ad14 extends BaseAdInserter{
+
+   const OPTION_AD_NAME = "ad14_name";
+   const OPTION_APPEND_TYPE = "ad14_displayType";
+   const OPTION_PARAGRAPH_NUMBER = "ad14_paragraphNumber";
+   const OPTION_PARAGRAPH_NUMBER_MINIMUM = "ad14_minimum_paragraphs";
+   const OPTION_DIRECTION_TYPE = "ad14_directionType";
+   const OPTION_FLOAT_TYPE = "ad14_floatType";
+   const OPTION_AD_DATA = "ad14_data";
+   const OPTION_AD_GENERAL_TAG = "ad14_general_tag";
+   const OPTION_AD_AFTER_DAY = "ad14_after_day";
+   const OPTION_AD_BLOCK_USER = "ad14_block_user";
+   const OPTION_AD_DISABLE = "ad14_disabled";
+   const OPTION_AD_BLOCK_CAT = "ad14_block_cat";
+   const OPTION_AD_BLOCK_CAT_TYPE = "ad14_block_cat_type";
+   const OPTION_WIDGET_SETTINGS_HOME     = "ad14_widget_settings_home";
+   const OPTION_WIDGET_SETTINGS_PAGE     = "ad14_widget_settings_page";
+   const OPTION_WIDGET_SETTINGS_POST     = "ad14_widget_settings_post";
+   const OPTION_WIDGET_SETTINGS_CATEGORY = "ad14_widget_settings_category";
+   const OPTION_WIDGET_SETTINGS_SEARCH   = "ad14_widget_settings_search";
+   const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad14_widget_settings_archive";
+
+  //constructor
+    public function Ad14() {
+
+      $this->option_ad_name = self::OPTION_AD_NAME;
+      $this->option_append_type = self::OPTION_APPEND_TYPE;
+      $this->option_paragraph_number = self::OPTION_PARAGRAPH_NUMBER;
+      $this->option_paragraph_number_minimum = self::OPTION_PARAGRAPH_NUMBER_MINIMUM;
+      $this->option_direction_type = self::OPTION_DIRECTION_TYPE;
+      $this->option_float_type = self::OPTION_FLOAT_TYPE;
+      $this->option_ad_data = self::OPTION_AD_DATA;
+      $this->option_ad_general_tag = self::OPTION_AD_GENERAL_TAG;
+      $this->option_ad_after_day = self::OPTION_AD_AFTER_DAY;
+      $this->option_ad_block_user = self::OPTION_AD_BLOCK_USER;
+      $this->option_ad_disabled = self::OPTION_AD_DISABLE;
+      $this->option_ad_block_cat = self::OPTION_AD_BLOCK_CAT;
+      $this->option_ad_block_cat_type = self::OPTION_AD_BLOCK_CAT_TYPE;
+      $this->option_widget_settings_home     = self::OPTION_WIDGET_SETTINGS_HOME;
+      $this->option_widget_settings_page     = self::OPTION_WIDGET_SETTINGS_PAGE;
+      $this->option_widget_settings_post     = self::OPTION_WIDGET_SETTINGS_POST;
+      $this->option_widget_settings_category = self::OPTION_WIDGET_SETTINGS_CATEGORY;
+      $this->option_widget_settings_search   = self::OPTION_WIDGET_SETTINGS_SEARCH ;
+      $this->option_widget_settings_archive  = self::OPTION_WIDGET_SETTINGS_ARCHIVE;
+
+      parent::BaseAdInserter();
+      $this->wp_options[$this->option_ad_name] = AD_NAME." 14";
+      $this->wp_options[$this->option_ad_disabled] = AD_DISABLED_14;
+    }
+
+}
+
+class Ad15 extends BaseAdInserter{
+
+   const OPTION_AD_NAME = "ad15_name";
+   const OPTION_APPEND_TYPE = "ad15_displayType";
+   const OPTION_PARAGRAPH_NUMBER = "ad15_paragraphNumber";
+   const OPTION_PARAGRAPH_NUMBER_MINIMUM = "ad15_minimum_paragraphs";
+   const OPTION_DIRECTION_TYPE = "ad15_directionType";
+   const OPTION_FLOAT_TYPE = "ad15_floatType";
+   const OPTION_AD_DATA = "ad15_data";
+   const OPTION_AD_GENERAL_TAG = "ad15_general_tag";
+   const OPTION_AD_AFTER_DAY = "ad15_after_day";
+   const OPTION_AD_BLOCK_USER = "ad15_block_user";
+   const OPTION_AD_DISABLE = "ad15_disabled";
+   const OPTION_AD_BLOCK_CAT = "ad15_block_cat";
+   const OPTION_AD_BLOCK_CAT_TYPE = "ad15_block_cat_type";
+   const OPTION_WIDGET_SETTINGS_HOME     = "ad15_widget_settings_home";
+   const OPTION_WIDGET_SETTINGS_PAGE     = "ad15_widget_settings_page";
+   const OPTION_WIDGET_SETTINGS_POST     = "ad15_widget_settings_post";
+   const OPTION_WIDGET_SETTINGS_CATEGORY = "ad15_widget_settings_category";
+   const OPTION_WIDGET_SETTINGS_SEARCH   = "ad15_widget_settings_search";
+   const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad15_widget_settings_archive";
+
+  //constructor
+    public function Ad15() {
+
+      $this->option_ad_name = self::OPTION_AD_NAME;
+      $this->option_append_type = self::OPTION_APPEND_TYPE;
+      $this->option_paragraph_number = self::OPTION_PARAGRAPH_NUMBER;
+      $this->option_paragraph_number_minimum = self::OPTION_PARAGRAPH_NUMBER_MINIMUM;
+      $this->option_direction_type = self::OPTION_DIRECTION_TYPE;
+      $this->option_float_type = self::OPTION_FLOAT_TYPE;
+      $this->option_ad_data = self::OPTION_AD_DATA;
+      $this->option_ad_general_tag = self::OPTION_AD_GENERAL_TAG;
+      $this->option_ad_after_day = self::OPTION_AD_AFTER_DAY;
+      $this->option_ad_block_user = self::OPTION_AD_BLOCK_USER;
+      $this->option_ad_disabled = self::OPTION_AD_DISABLE;
+      $this->option_ad_block_cat = self::OPTION_AD_BLOCK_CAT;
+      $this->option_ad_block_cat_type = self::OPTION_AD_BLOCK_CAT_TYPE;
+      $this->option_widget_settings_home     = self::OPTION_WIDGET_SETTINGS_HOME;
+      $this->option_widget_settings_page     = self::OPTION_WIDGET_SETTINGS_PAGE;
+      $this->option_widget_settings_post     = self::OPTION_WIDGET_SETTINGS_POST;
+      $this->option_widget_settings_category = self::OPTION_WIDGET_SETTINGS_CATEGORY;
+      $this->option_widget_settings_search   = self::OPTION_WIDGET_SETTINGS_SEARCH ;
+      $this->option_widget_settings_archive  = self::OPTION_WIDGET_SETTINGS_ARCHIVE;
+
+      parent::BaseAdInserter();
+      $this->wp_options[$this->option_ad_name] = AD_NAME." 15";
+      $this->wp_options[$this->option_ad_disabled] = AD_DISABLED_15;
+    }
+
+}
+
+class Ad16 extends BaseAdInserter{
+
+   const OPTION_AD_NAME = "ad16_name";
+   const OPTION_APPEND_TYPE = "ad16_displayType";
+   const OPTION_PARAGRAPH_NUMBER = "ad16_paragraphNumber";
+   const OPTION_PARAGRAPH_NUMBER_MINIMUM = "ad16_minimum_paragraphs";
+   const OPTION_DIRECTION_TYPE = "ad16_directionType";
+   const OPTION_FLOAT_TYPE = "ad16_floatType";
+   const OPTION_AD_DATA = "ad16_data";
+   const OPTION_AD_GENERAL_TAG = "ad16_general_tag";
+   const OPTION_AD_AFTER_DAY = "ad16_after_day";
+   const OPTION_AD_BLOCK_USER = "ad16_block_user";
+   const OPTION_AD_DISABLE = "ad16_disabled";
+   const OPTION_AD_BLOCK_CAT = "ad16_block_cat";
+   const OPTION_AD_BLOCK_CAT_TYPE = "ad16_block_cat_type";
+   const OPTION_WIDGET_SETTINGS_HOME     = "ad16_widget_settings_home";
+   const OPTION_WIDGET_SETTINGS_PAGE     = "ad16_widget_settings_page";
+   const OPTION_WIDGET_SETTINGS_POST     = "ad16_widget_settings_post";
+   const OPTION_WIDGET_SETTINGS_CATEGORY = "ad16_widget_settings_category";
+   const OPTION_WIDGET_SETTINGS_SEARCH   = "ad16_widget_settings_search";
+   const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad16_widget_settings_archive";
+
+  //constructor
+    public function Ad16() {
+
+      $this->option_ad_name = self::OPTION_AD_NAME;
+      $this->option_append_type = self::OPTION_APPEND_TYPE;
+      $this->option_paragraph_number = self::OPTION_PARAGRAPH_NUMBER;
+      $this->option_paragraph_number_minimum = self::OPTION_PARAGRAPH_NUMBER_MINIMUM;
+      $this->option_direction_type = self::OPTION_DIRECTION_TYPE;
+      $this->option_float_type = self::OPTION_FLOAT_TYPE;
+      $this->option_ad_data = self::OPTION_AD_DATA;
+      $this->option_ad_general_tag = self::OPTION_AD_GENERAL_TAG;
+      $this->option_ad_after_day = self::OPTION_AD_AFTER_DAY;
+      $this->option_ad_block_user = self::OPTION_AD_BLOCK_USER;
+      $this->option_ad_disabled = self::OPTION_AD_DISABLE;
+      $this->option_ad_block_cat = self::OPTION_AD_BLOCK_CAT;
+      $this->option_ad_block_cat_type = self::OPTION_AD_BLOCK_CAT_TYPE;
+      $this->option_widget_settings_home     = self::OPTION_WIDGET_SETTINGS_HOME;
+      $this->option_widget_settings_page     = self::OPTION_WIDGET_SETTINGS_PAGE;
+      $this->option_widget_settings_post     = self::OPTION_WIDGET_SETTINGS_POST;
+      $this->option_widget_settings_category = self::OPTION_WIDGET_SETTINGS_CATEGORY;
+      $this->option_widget_settings_search   = self::OPTION_WIDGET_SETTINGS_SEARCH ;
+      $this->option_widget_settings_archive  = self::OPTION_WIDGET_SETTINGS_ARCHIVE;
+
+      parent::BaseAdInserter();
+      $this->wp_options[$this->option_ad_name] = AD_NAME." 16";
+      $this->wp_options[$this->option_ad_disabled] = AD_DISABLED_16;
+    }
+
+}

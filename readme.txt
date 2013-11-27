@@ -11,16 +11,16 @@ Integrate any HTML code into Wordpress. Just paste the code and select the locat
 
 == Description ==
 
-An elegant solution to put any ad into Wordpress. **Perfect for AdSense or contextual Amazon ads.** Simply enter any HTML code and select where and how you want to display it (including widgets). You can also use {category}, {short_category}, {title}, {short_title}, {tag}, {smart_tag} or {search_query} tags to get actual post data. To rotate different ad versions separate them with |rotate|. Manual insertion is also possible with {adinserter AD_NAME} tag.
+An elegant solution to put any ad into Wordpress. **Perfect for AdSense or contextual Amazon ads.** Simply enter any HTML code and select where and how you want to display it (including widgets). You can also use {category}, {short_category}, {title}, {short_title}, {tag}, {smart_tag} or {search_query} tags to get actual post data. To rotate different ad versions separate them with |rotate|. Manual insertion is also possible with {adinserter AD_NAME} or {adinserter AD_NUMBER} tag.
 
 Display Options:
 
 *   Display ad Before Content (before post text)
 *   Display ad Before Selected Paragraph (0 means random paragraph):
 *   Display ad After Content (after post text)
-*   Display ad Before Title
+*   Display ad Before Title (does not work with all themes)
 *   Ad as a Widget
-*   Manual - Insert {adinserter AD_NAME} into post to display ad with AD_NAME name at this position
+*   Manual - Insert {adinserter AD_NUMBER} or {adinserter AD_NAME} into post HTML code to display ad with AD_NAME name or ad number AD_NUMBER at this position
 
 Alignment:
 
@@ -35,7 +35,7 @@ Do not display ad if the number of paragraphs is below limit (used only for posi
 
 Display ad only for posts published after N days.
 
-Do not display ads to users from certain domain e.g technorati.com, facebook.com
+Do not display ads to users from certain domains e.g technorati.com, facebook.com
 
 Do not display ads in certain caregories e.g sport, news, science,... (black list) or display ads only in certain categories (white list). **Leave category list empty and set to Black list to show ads in all categories.**
 
@@ -47,6 +47,10 @@ Display positions Before Selected Paragraph, Before Content, After Content and M
 *   Category
 *   Search
 *   Archive
+
+You can also disable ads in certain posts. For example, to disable ad block 1 in post put the following HTML code within post code:
+
+`<!-- Ad Inserter Ad 1 Disabled -->`
 
 Ad Inserter is perfect for displaying AdSense or Amazon ads. It can also be used to display various versions of <a href="https://www.google.com/adsense/support/bin/answer.py?answer=32614">AdSense ads using channels</a> to test which format or color combination performs best.
 
@@ -65,14 +69,14 @@ Manual installation:
 = I have activated Ad Inserter. How can I use it? =
 
 1. After activation, click "Settings / Ad Inserter" to access the setup page.
-2. Put ad (or any HTML) code into the ad box.
+2. Put ad (or any other HTML) code into the ad box.
 3. Set the display options.
 4. Save settings.
 
 
-= How can I insert the post category into my ad code? =
+= How can I insert the post category name into my ad code? =
 
-1. Use {category} in the ad. This will be replaced with the post category.
+1. Use {category} in the ad. This will be replaced with the post category name.
 2. You can also use
 
 *   {title} - Title of the post
@@ -87,7 +91,7 @@ Manual installation:
   *   If the first and second tags are single words then both words are used
   *   First three words of the first tag
   *   General tag
-*   {search_query} - Search engine query that brought visitor to your website (supports Google, Yahoo, Bing and Ask search engines), {smart_tag} is used when there is no search query. You need to disable caching to use this tag.
+*   {search_query} - Search engine query that brought visitor to your website (supports Google, Yahoo, Bing and Ask search engines), {smart_tag} is used when there is no search query. You need to disable caching to use this tag. Please note that most search queries are now encrypted.
 
 
 = How can I rotate few versions of the same ad? =
@@ -162,10 +166,18 @@ ad_code
 
 == Screenshots ==
 
-1. This screen shot shows settings for one ad block. Up to 8 ad blocks can be configured.
+1. This screenshot shows settings for one ad block. Up to 16 ad blocks can be configured.
 
 
 == Changelog ==
+
+= 1.3.0 =
+* Number of ad slots increased to 16
+* New tabbed admin interface
+* Ads can be manually inserted also with {adinserter AD_NUMBER} tag
+* Fixed bug: only the last ad block set to Before Title was displayed
+* Few other minor bugs fixed
+* Few cosmetic changes
 
 = 1.2.1 =
 * Fixed problem: || in ad code (e.g. asynchronous code for AdSense) causes only part of the code to be inserted (|| to rotate ads is replaced with |rotate|)
@@ -211,6 +223,14 @@ ad_code
 
 
 == Upgrade Notice ==
+
+= 1.3.0 =
+Number of ad slots increased to 16,
+New tabbed admin interface,
+Ads can be manually inserted also with {adinserter AD_NUMBER} tag,
+Fixed bug: only the last ad block set to Before Title was displayed,
+Few other minor bugs fixed,
+Few cosmetic changes
 
 = 1.2.1 =
 Fixed problem: || in ad code (e.g. asynchronous code for AdSense) causes only part of the code to be inserted (|| to rotate ads is replaced with |rotate|)
