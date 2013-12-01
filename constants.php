@@ -59,7 +59,7 @@ define('AD_DISABLED_16', '<!-- Ad Inserter Ad 16 Disabled -->');
 define('AD_EMPTY_DATA', '');
 define('AD_ZERO_DATA', '0');
 define('AD_GENERAL_TAG', 'gadgets');
-define('AD_NAME', 'Ad Block');
+define('AD_NAME', 'Block');
 
 //options
 define('AD_OPTIONS',     'AdInserterOptions');   // general plugin options

@@ -9,15 +9,14 @@ function print_settings_form ($ad_array){
 <div style="margin-right: 16px; float: left; ">
 
   <div style="width: 735px; /*height: 90px; */padding: 8px 8px 8px 8px; margin: 8px 0 8px 0; border: 1px solid rgb(221, 221, 221); border-radius: 5px;">
+    <div style="float: right; margin: 17px 20px 0 0; text-decoration: none;">
+      <a style="text-decoration: none;" href="http://igorfuna.com/contact/contact-igor-funa" target="_blank">Contact Author</a> #
+      <a style="text-decoration: none;" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LHGZEMRTR7WB4" target="_blank">Donate</a> #
+      <a style="text-decoration: none;" href="http://tinymonitor.com/" target="_blank">AdSense and Amazon Monitor</a> #
+      <a style="text-decoration: none;" href="http://igorfuna.com/wordpress-hosting" target="_blank">Cool Wordpress Hosting</a>
+    </div>
     <h1><?php echo AD_INSERTER_TITLE . ' ' . AD_INSERTER_VERSION ?></h1>
-    by Igor Funa - <a href="http://igorfuna.com/contact/contact-igor-funa" target="_blank">Contact Me</a> |
-    <a href="http://igorfuna.com/contact/contact-igor-funa" target="_blank">Bug Report &amp; Feature Request</a> |
-    <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LHGZEMRTR7WB4" target="_blank">Donate</a> |
-    <a href="http://tinymonitor.com/" target="_blank">AdSense and Amazon Monitor</a> |
-    <a href="http://igorfuna.com/wordpress-hosting" target="_blank">Cool Wordpress Hosting</a>
-    <br />
   </div>
-
 
 <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" id="ad_form" name="ad_form" style="float: left;">
 
@@ -52,10 +51,10 @@ function print_settings_form ($ad_array){
   </div>
 
   <div style="padding:0px 8px 16px 16px;">
-     Ad Name:  <input type="text" name="<?php echo $obj->option_ad_name; ?>" value="<?php echo $obj->get_ad_name() ?>" size="50" maxlength="50"/> &nbsp;Here you can rename ad block.
+     Block Name:  <input type="text" name="<?php echo $obj->option_ad_name; ?>" value="<?php echo $obj->get_ad_name() ?>" size="50" maxlength="50"/> &nbsp;Here you can rename block.
   </div>
   <div style="padding-left:16px;">
-      Put ad or any HTML code here (separate rotating versions with |rotate|):
+      Put ad or any HTML / Javascript / PHP code here (separate rotating versions with |rotate|):
   </div>
   <div style="padding:8px;">
       <textarea name="<?php echo $obj->option_ad_data; ?>" rows="24" cols="98" style="background-color:#F9F9F9; font-family: Courier, 'Courier New', monospace;"><?php echo str_replace ("&", "&amp;", $obj->get_ad_data()); ?></textarea>
@@ -88,8 +87,8 @@ function print_settings_form ($ad_array){
       <input type="checkbox" name="<?php echo $obj->option_process_php; ?>" value="1" <?php if ($obj->get_process_php () == AD_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_process_php; ?>">Process PHP</label>
      </div>
   </div>
-  <div style="padding:8px 8px 8px 8px; margin-right: 5px; border: 1px solid #ddd; border-radius: 5px; width: 120px; float: right;">
-     Enabled on:
+  <div style="padding:8px 8px 8px 8px; margin-right: 5px; border: 1px solid #ddd; border-radius: 5px; width: 105px; float: right;">
+     Block enabled on:
      <br /><br />
      <input type="hidden" name="<?php echo $obj->option_widget_settings_post; ?>" value="0" />
      <input type="checkbox" name="<?php echo $obj->option_widget_settings_post; ?>" value="1" <?php if ($obj->get_widget_settings_post()==AD_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_widget_settings_post; ?>">Posts</label><br>
@@ -113,11 +112,13 @@ function print_settings_form ($ad_array){
      <input type="hidden" name="<?php echo $obj->option_widget_settings_archive; ?>" value="0" />
      <input type="checkbox" name="<?php echo $obj->option_widget_settings_archive; ?>" value="1" <?php if ($obj->get_widget_settings_archive()==AD_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_widget_settings_archive; ?>">Archive pages</label><br>
   </div>
-  <div style="padding:8px 8px 8px 8px; margin-left: 10px; border: 1px solid #ddd; border-radius: 5px; width: 550px;">
-       <strong>Before Paragraph</strong> display settings
-       <br /><br />
-       Minimum number of paragraphs to show this ad <input type="text" name="<?php echo $obj->option_paragraph_number_minimum; ?>" value="<?php echo $obj->get_paragraph_number_minimum() ?>" size="2" maxlength="3"/>
-       <br /><br />
+  <div style="padding:8px 8px 8px 8px; margin-left: 10px; border: 1px solid #ddd; border-radius: 5px; width: 565px;">
+       <div style="padding-top: 0px;">
+        <strong>Before Paragraph</strong> display settings
+        &nbsp;&nbsp;&nbsp;&nbsp;
+         Minimum number of paragraphs to show this block <input type="text" name="<?php echo $obj->option_paragraph_number_minimum; ?>" value="<?php echo $obj->get_paragraph_number_minimum() ?>" size="2" maxlength="3"/>
+       </div>
+       <br />
        Paragraph number <input type="text" name="<?php echo $obj->option_paragraph_number; ?>" value="<?php echo $obj->get_paragraph_number() ?>" size="2" maxlength="3"/> &nbsp;&nbsp;&nbsp;&nbsp;0 means random paragraph.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Counting
        <select name="<?php echo $obj->option_direction_type; ?>" style="width:120px">
           <option value="<?php echo AD_DIRECTION_FROM_TOP; ?>" <?php echo ($obj->get_direction_type()==AD_DIRECTION_FROM_TOP) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DIRECTION_FROM_TOP; ?></option>
@@ -126,7 +127,7 @@ function print_settings_form ($ad_array){
   </div>
   <br />
   <div style="padding:0px 8px 16px 16px;">
-    Display ads for post published after:  <input type="text" name="<?php echo $obj->option_ad_after_day; ?>" value="<?php echo $obj->get_ad_after_day() ?>" size="2" maxlength="3"/> day(s). &nbsp;&nbsp;&nbsp;&nbsp;0 means publish immediately.
+    Display for post published after:  <input type="text" name="<?php echo $obj->option_ad_after_day; ?>" value="<?php echo $obj->get_ad_after_day() ?>" size="2" maxlength="3"/> day(s). &nbsp;&nbsp;&nbsp;&nbsp;0 means publish immediately.
   </div>
 
   <div style="padding:0px 8px 16px 16px;">
@@ -134,7 +135,7 @@ function print_settings_form ($ad_array){
   </div>
 
   <div style="padding:0px 8px 16px 16px;">
-     Do not display ads to users from domains:  <input title="Comma separated domains, e.g. technorati.com, facebook.com" type="text" name="<?php echo $obj->option_ad_block_user; ?>" value="<?php echo $obj->get_ad_block_user() ?>" size="58" maxlength="500"/>
+     Do not display to users from domains:  <input title="Comma separated domains, e.g. technorati.com, facebook.com" type="text" name="<?php echo $obj->option_ad_block_user; ?>" value="<?php echo $obj->get_ad_block_user() ?>" size="58" maxlength="500"/>
   </div>
   <div style="padding:0px 8px 16px 16px;">
      Categories:  <input title="Comma separated category names" type="text" name="<?php echo $obj->option_ad_block_cat; ?>" value="<?php echo $obj->get_ad_block_cat() ?>" size="60" maxlength="500"/>&nbsp;&nbsp;&nbsp;
@@ -144,11 +145,11 @@ function print_settings_form ($ad_array){
 
   <hr />
   <div style="padding:5px; text-align: left;">
-    To disable this ad block in any post put HTML code
+    To disable this code block in any post put HTML code
     <pre style= "margin: 0; display: inline; color: blue;">&lt;!-- Ad Inserter Ad <?php echo $ad_number; ?> Disabled --&gt;</pre>
     at the end of post code.
     <br />
-    To manually insert this ad block in posts use code
+    To manually insert this code block in posts use code
     <pre style= "margin: 0; display: inline; color: blue;">{adinserter <?php echo $ad_number; ?>}</pre> or
     <pre style= "margin: 0; display: inline; color: blue;">{adinserter <?php echo $obj->get_ad_name(); ?>}</pre>.
   </div>
