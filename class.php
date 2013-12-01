@@ -26,10 +26,11 @@ abstract class BaseAdInserter {
     var $option_widget_settings_category;
     var $option_widget_settings_search;
     var $option_widget_settings_archive;
+    var $option_process_php;
 
     function BaseAdInserter() {
 
-    	$this->wp_options = array();
+      $this->wp_options = array ();
 
       $this->wp_options[$this->option_ad_name] = AD_NAME;
       $this->wp_options[$this->option_append_type] = AD_SELECT_NONE;
@@ -44,45 +45,52 @@ abstract class BaseAdInserter {
     	$this->wp_options[$this->option_ad_disabled] = AD_EMPTY_DATA;
     	$this->wp_options[$this->option_ad_block_cat] = AD_EMPTY_DATA;
       $this->wp_options[$this->option_ad_block_cat_type] = AD_CATEGORY_BLACK_LIST;
-      $this->wp_options[$this->option_widget_settings_home] = AD_WIDGET_SETTINGS_CHECKED;
-      $this->wp_options[$this->option_widget_settings_page] = AD_WIDGET_SETTINGS_CHECKED;
-      $this->wp_options[$this->option_widget_settings_post] = AD_WIDGET_SETTINGS_CHECKED;
-      $this->wp_options[$this->option_widget_settings_category] = AD_WIDGET_SETTINGS_CHECKED;
-      $this->wp_options[$this->option_widget_settings_search] = AD_WIDGET_SETTINGS_CHECKED;
-      $this->wp_options[$this->option_widget_settings_archive] = AD_WIDGET_SETTINGS_CHECKED;
+      $this->wp_options[$this->option_widget_settings_home] = AD_SETTINGS_CHECKED;
+      $this->wp_options[$this->option_widget_settings_page] = AD_SETTINGS_NOT_CHECKED;
+      $this->wp_options[$this->option_widget_settings_post] = AD_SETTINGS_CHECKED;
+      $this->wp_options[$this->option_widget_settings_category] = AD_SETTINGS_CHECKED;
+      $this->wp_options[$this->option_widget_settings_search] = AD_SETTINGS_CHECKED;
+      $this->wp_options[$this->option_widget_settings_archive] = AD_SETTINGS_CHECKED;
+      $this->wp_options[$this->option_process_php]   = AD_SETTINGS_NOT_CHECKED;
     }
 
    public function get_append_type(){
-      return $this->wp_options[$this->option_append_type];
+     $option = $this->wp_options [$this->option_append_type];
+     if ($option == '') $option = AD_SELECT_NONE;
+     return $option;
     }
 
    public function get_paragraph_number(){
-      return $this->wp_options[$this->option_paragraph_number];
+     $option = $this->wp_options [$this->option_paragraph_number];
+     if ($option == '') $option = AD_ZERO_DATA;
+     return $option;
     }
 
    public function get_paragraph_number_minimum(){
-      $min = $this->wp_options[$this->option_paragraph_number_minimum];
-      if ($min == '') $min = 0;
-      return $min;
+     $option = $this->wp_options [$this->option_paragraph_number_minimum];
+     if ($option == '') $option = AD_ZERO_DATA;
+     return $option;
     }
 
    public function get_direction_type(){
-      return $this->wp_options[$this->option_direction_type];
+     $option = $this->wp_options [$this->option_direction_type];
+     if ($option == '') $option = AD_DIRECTION_FROM_TOP;
+     return $option;
     }
 
    public function get_float_type(){
      // Update old field names
-     $alignment = $this->wp_options[$this->option_float_type];
+     $alignment = $this->wp_options [$this->option_float_type];
      if($alignment == 'Left'){
        $alignment = AD_ALIGNMENT_FLOAT_LEFT;
-       $this->wp_options[$this->option_float_type] = $alignment;
+       $this->wp_options [$this->option_float_type] = $alignment;
      } else
      if($alignment == 'Right'){
        $alignment = AD_ALIGNMENT_FLOAT_RIGHT;
-       $this->wp_options[$this->option_float_type] = $alignment;
+       $this->wp_options [$this->option_float_type] = $alignment;
      }
-
-      return $this->wp_options[$this->option_float_type];
+     if ($alignment == '') $option = AD_ALIGNMENT_NONE;
+     return $this->wp_options [$this->option_float_type];
     }
 
    public function get_alignmet_style($margin = true){
@@ -119,46 +127,54 @@ abstract class BaseAdInserter {
 
     return $style;
    }
-   public function get_ad_data(){
 
-      return $this->wp_options[$this->option_ad_data];
-    }
+   public function get_ad_data(){
+     $ad_data = $this->wp_options [$this->option_ad_data];
+     return $ad_data;
+   }
 
    public function get_widget_settings_home(){
-      $widget_settings = $this->wp_options[$this->option_widget_settings_home];
-      if ($widget_settings == '') $widget_settings = AD_WIDGET_SETTINGS_CHECKED;
-      return $widget_settings;
-    }
+     $widget_settings = $this->wp_options[$this->option_widget_settings_home];
+     if ($widget_settings == '') $widget_settings = AD_SETTINGS_CHECKED;
+     return $widget_settings;
+   }
 
    public function get_widget_settings_page(){
-      $widget_settings = $this->wp_options[$this->option_widget_settings_page];
-      if ($widget_settings == '') $widget_settings = AD_WIDGET_SETTINGS_CHECKED;
-      return $widget_settings;
-    }
+     $widget_settings = $this->wp_options[$this->option_widget_settings_page];
+     if ($widget_settings == '') $widget_settings = AD_SETTINGS_NOT_CHECKED;
+     return $widget_settings;
+   }
 
    public function get_widget_settings_post(){
-      $widget_settings = $this->wp_options[$this->option_widget_settings_post];
-      if ($widget_settings == '') $widget_settings = AD_WIDGET_SETTINGS_CHECKED;
-      return $widget_settings;
-    }
+     $widget_settings = $this->wp_options[$this->option_widget_settings_post];
+     if ($widget_settings == '') $widget_settings = AD_SETTINGS_CHECKED;
+     return $widget_settings;
+   }
 
    public function get_widget_settings_category(){
-      $widget_settings = $this->wp_options[$this->option_widget_settings_category];
-      if ($widget_settings == '') $widget_settings = AD_WIDGET_SETTINGS_CHECKED;
-      return $widget_settings;
-    }
+     $widget_settings = $this->wp_options[$this->option_widget_settings_category];
+     if ($widget_settings == '') $widget_settings = AD_SETTINGS_CHECKED;
+     return $widget_settings;
+   }
 
    public function get_widget_settings_search(){
-      $widget_settings = $this->wp_options[$this->option_widget_settings_search];
-      if ($widget_settings == '') $widget_settings = AD_WIDGET_SETTINGS_CHECKED;
-      return $widget_settings;
-    }
+     $widget_settings = $this->wp_options[$this->option_widget_settings_search];
+     if ($widget_settings == '') $widget_settings = AD_SETTINGS_CHECKED;
+     return $widget_settings;
+   }
 
    public function get_widget_settings_archive(){
-      $widget_settings = $this->wp_options[$this->option_widget_settings_archive];
-      if ($widget_settings == '') $widget_settings = AD_WIDGET_SETTINGS_CHECKED;
-      return $widget_settings;
-    }
+     $widget_settings = $this->wp_options[$this->option_widget_settings_archive];
+     if ($widget_settings == '') $widget_settings = AD_SETTINGS_CHECKED;
+     return $widget_settings;
+   }
+
+   public function get_process_php (){
+     $process_php = $this->wp_options [$this->option_process_php];
+     if ($process_php == '') $process_php = AD_SETTINGS_NOT_CHECKED;
+     return $process_php;
+   }
+
    public function get_ad_data_replaced(){
 
      $general_tag = $this->wp_options[$this->option_ad_general_tag];
@@ -310,19 +326,27 @@ abstract class BaseAdInserter {
    }
 
    public function get_ad_general_tag(){
-      return $this->wp_options[$this->option_ad_general_tag];
+     $option = $this->wp_options [$this->option_ad_general_tag];
+     if ($option == '') $option = AD_GENERAL_TAG;
+     return $option;
    }
 
 	public function get_ad_after_day(){
-    	return $this->wp_options[$this->option_ad_after_day];
+     $option = $this->wp_options [$this->option_ad_after_day];
+     if ($option == '') $option = AD_ZERO_DATA;
+     return $option;
    }
 
 	public function get_ad_block_user(){
-    	return $this->wp_options[$this->option_ad_block_user];
+      return $this->wp_options [$this->option_ad_block_user];
    }
 
 	public function get_ad_name(){
-      return $this->wp_options[$this->option_ad_name];
+     $name_part = explode ("_", $this->option_ad_name);
+     $number = str_replace ("ad", "", $name_part [0]);
+     $option = $this->wp_options [$this->option_ad_name];
+     if ($option == '') $option = AD_NAME. " " . $number;
+     return $option;
    }
 
 	public function get_ad_disable(){
@@ -335,11 +359,13 @@ abstract class BaseAdInserter {
 
   public function get_ad_block_cat_type(){
      // Update old data
-     if($this->wp_options[$this->option_ad_block_cat_type] == ''){
-       $this->wp_options[$this->option_ad_block_cat_type] = AD_CATEGORY_BLACK_LIST;
+     if($this->wp_options [$this->option_ad_block_cat_type] == ''){
+       $this->wp_options [$this->option_ad_block_cat_type] = AD_CATEGORY_BLACK_LIST;
      }
 
-     return $this->wp_options[$this->option_ad_block_cat_type];
+     $option = $this->wp_options [$this->option_ad_block_cat_type];
+     if ($option == '') $option = AD_CATEGORY_BLACK_LIST;
+     return $option;
    }
 }
 
@@ -364,6 +390,7 @@ class Ad1 extends BaseAdInserter{
    const OPTION_WIDGET_SETTINGS_CATEGORY = "ad1_widget_settings_category";
    const OPTION_WIDGET_SETTINGS_SEARCH   = "ad1_widget_settings_search";
    const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad1_widget_settings_archive";
+   const OPTION_PROCESS_PHP              = "ad1_process_php";
 
 	//constructor
     public function Ad1() {
@@ -387,6 +414,7 @@ class Ad1 extends BaseAdInserter{
       $this->option_widget_settings_category = self::OPTION_WIDGET_SETTINGS_CATEGORY;
       $this->option_widget_settings_search   = self::OPTION_WIDGET_SETTINGS_SEARCH ;
       $this->option_widget_settings_archive  = self::OPTION_WIDGET_SETTINGS_ARCHIVE;
+      $this->option_process_php              = self::OPTION_PROCESS_PHP;
 
       parent::BaseAdInserter();
       $this->wp_options[$this->option_ad_name] = AD_NAME." 1";
@@ -416,6 +444,7 @@ class Ad2 extends BaseAdInserter{
    const OPTION_WIDGET_SETTINGS_CATEGORY = "ad2_widget_settings_category";
    const OPTION_WIDGET_SETTINGS_SEARCH   = "ad2_widget_settings_search";
    const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad2_widget_settings_archive";
+   const OPTION_PROCESS_PHP              = "ad2_process_php";
 
 	//constructor
     public function Ad2() {
@@ -439,6 +468,7 @@ class Ad2 extends BaseAdInserter{
       $this->option_widget_settings_category = self::OPTION_WIDGET_SETTINGS_CATEGORY;
       $this->option_widget_settings_search   = self::OPTION_WIDGET_SETTINGS_SEARCH ;
       $this->option_widget_settings_archive  = self::OPTION_WIDGET_SETTINGS_ARCHIVE;
+      $this->option_process_php              = self::OPTION_PROCESS_PHP;
 
       parent::BaseAdInserter();
       $this->wp_options[$this->option_ad_name] = AD_NAME." 2";
@@ -468,6 +498,7 @@ class Ad3 extends BaseAdInserter{
    const OPTION_WIDGET_SETTINGS_CATEGORY = "ad3_widget_settings_category";
    const OPTION_WIDGET_SETTINGS_SEARCH   = "ad3_widget_settings_search";
    const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad3_widget_settings_archive";
+   const OPTION_PROCESS_PHP              = "ad3_process_php";
 
 	//constructor
     public function Ad3() {
@@ -491,6 +522,7 @@ class Ad3 extends BaseAdInserter{
       $this->option_widget_settings_category = self::OPTION_WIDGET_SETTINGS_CATEGORY;
       $this->option_widget_settings_search   = self::OPTION_WIDGET_SETTINGS_SEARCH ;
       $this->option_widget_settings_archive  = self::OPTION_WIDGET_SETTINGS_ARCHIVE;
+      $this->option_process_php              = self::OPTION_PROCESS_PHP;
 
       parent::BaseAdInserter();
       $this->wp_options[$this->option_ad_name] = AD_NAME." 3";
@@ -520,6 +552,7 @@ class Ad4 extends BaseAdInserter{
    const OPTION_WIDGET_SETTINGS_CATEGORY = "ad4_widget_settings_category";
    const OPTION_WIDGET_SETTINGS_SEARCH   = "ad4_widget_settings_search";
    const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad4_widget_settings_archive";
+   const OPTION_PROCESS_PHP              = "ad4_process_php";
 
 	//constructor
     public function Ad4() {
@@ -543,6 +576,7 @@ class Ad4 extends BaseAdInserter{
       $this->option_widget_settings_category = self::OPTION_WIDGET_SETTINGS_CATEGORY;
       $this->option_widget_settings_search   = self::OPTION_WIDGET_SETTINGS_SEARCH ;
       $this->option_widget_settings_archive  = self::OPTION_WIDGET_SETTINGS_ARCHIVE;
+      $this->option_process_php              = self::OPTION_PROCESS_PHP;
 
       parent::BaseAdInserter();
       $this->wp_options[$this->option_ad_name] = AD_NAME." 4";
@@ -572,6 +606,7 @@ class Ad5 extends BaseAdInserter{
    const OPTION_WIDGET_SETTINGS_CATEGORY = "ad5_widget_settings_category";
    const OPTION_WIDGET_SETTINGS_SEARCH   = "ad5_widget_settings_search";
    const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad5_widget_settings_archive";
+   const OPTION_PROCESS_PHP              = "ad5_process_php";
 
   //constructor
     public function Ad5() {
@@ -595,6 +630,7 @@ class Ad5 extends BaseAdInserter{
       $this->option_widget_settings_category = self::OPTION_WIDGET_SETTINGS_CATEGORY;
       $this->option_widget_settings_search   = self::OPTION_WIDGET_SETTINGS_SEARCH ;
       $this->option_widget_settings_archive  = self::OPTION_WIDGET_SETTINGS_ARCHIVE;
+      $this->option_process_php              = self::OPTION_PROCESS_PHP;
 
       parent::BaseAdInserter();
       $this->wp_options[$this->option_ad_name] = AD_NAME." 5";
@@ -624,6 +660,7 @@ class Ad6 extends BaseAdInserter{
    const OPTION_WIDGET_SETTINGS_CATEGORY = "ad6_widget_settings_category";
    const OPTION_WIDGET_SETTINGS_SEARCH   = "ad6_widget_settings_search";
    const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad6_widget_settings_archive";
+   const OPTION_PROCESS_PHP              = "ad6_process_php";
 
   //constructor
     public function Ad6() {
@@ -647,6 +684,7 @@ class Ad6 extends BaseAdInserter{
       $this->option_widget_settings_category = self::OPTION_WIDGET_SETTINGS_CATEGORY;
       $this->option_widget_settings_search   = self::OPTION_WIDGET_SETTINGS_SEARCH ;
       $this->option_widget_settings_archive  = self::OPTION_WIDGET_SETTINGS_ARCHIVE;
+      $this->option_process_php              = self::OPTION_PROCESS_PHP;
 
       parent::BaseAdInserter();
       $this->wp_options[$this->option_ad_name] = AD_NAME." 6";
@@ -676,6 +714,7 @@ class Ad7 extends BaseAdInserter{
    const OPTION_WIDGET_SETTINGS_CATEGORY = "ad7_widget_settings_category";
    const OPTION_WIDGET_SETTINGS_SEARCH   = "ad7_widget_settings_search";
    const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad7_widget_settings_archive";
+   const OPTION_PROCESS_PHP              = "ad7_process_php";
 
   //constructor
     public function Ad7() {
@@ -699,6 +738,7 @@ class Ad7 extends BaseAdInserter{
       $this->option_widget_settings_category = self::OPTION_WIDGET_SETTINGS_CATEGORY;
       $this->option_widget_settings_search   = self::OPTION_WIDGET_SETTINGS_SEARCH ;
       $this->option_widget_settings_archive  = self::OPTION_WIDGET_SETTINGS_ARCHIVE;
+      $this->option_process_php              = self::OPTION_PROCESS_PHP;
 
       parent::BaseAdInserter();
       $this->wp_options[$this->option_ad_name] = AD_NAME." 7";
@@ -728,6 +768,7 @@ class Ad8 extends BaseAdInserter{
    const OPTION_WIDGET_SETTINGS_CATEGORY = "ad8_widget_settings_category";
    const OPTION_WIDGET_SETTINGS_SEARCH   = "ad8_widget_settings_search";
    const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad8_widget_settings_archive";
+   const OPTION_PROCESS_PHP              = "ad8_process_php";
 
   //constructor
     public function Ad8() {
@@ -751,6 +792,7 @@ class Ad8 extends BaseAdInserter{
       $this->option_widget_settings_category = self::OPTION_WIDGET_SETTINGS_CATEGORY;
       $this->option_widget_settings_search   = self::OPTION_WIDGET_SETTINGS_SEARCH ;
       $this->option_widget_settings_archive  = self::OPTION_WIDGET_SETTINGS_ARCHIVE;
+      $this->option_process_php              = self::OPTION_PROCESS_PHP;
 
       parent::BaseAdInserter();
       $this->wp_options[$this->option_ad_name] = AD_NAME." 8";
@@ -780,6 +822,7 @@ class Ad9 extends BaseAdInserter{
    const OPTION_WIDGET_SETTINGS_CATEGORY = "ad9_widget_settings_category";
    const OPTION_WIDGET_SETTINGS_SEARCH   = "ad9_widget_settings_search";
    const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad9_widget_settings_archive";
+   const OPTION_PROCESS_PHP              = "ad9_process_php";
 
   //constructor
     public function Ad9() {
@@ -803,6 +846,7 @@ class Ad9 extends BaseAdInserter{
       $this->option_widget_settings_category = self::OPTION_WIDGET_SETTINGS_CATEGORY;
       $this->option_widget_settings_search   = self::OPTION_WIDGET_SETTINGS_SEARCH ;
       $this->option_widget_settings_archive  = self::OPTION_WIDGET_SETTINGS_ARCHIVE;
+      $this->option_process_php              = self::OPTION_PROCESS_PHP;
 
       parent::BaseAdInserter();
       $this->wp_options[$this->option_ad_name] = AD_NAME." 9";
@@ -832,6 +876,7 @@ class Ad10 extends BaseAdInserter{
    const OPTION_WIDGET_SETTINGS_CATEGORY = "ad10_widget_settings_category";
    const OPTION_WIDGET_SETTINGS_SEARCH   = "ad10_widget_settings_search";
    const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad10_widget_settings_archive";
+   const OPTION_PROCESS_PHP              = "ad10_process_php";
 
   //constructor
     public function Ad10() {
@@ -855,6 +900,7 @@ class Ad10 extends BaseAdInserter{
       $this->option_widget_settings_category = self::OPTION_WIDGET_SETTINGS_CATEGORY;
       $this->option_widget_settings_search   = self::OPTION_WIDGET_SETTINGS_SEARCH ;
       $this->option_widget_settings_archive  = self::OPTION_WIDGET_SETTINGS_ARCHIVE;
+      $this->option_process_php              = self::OPTION_PROCESS_PHP;
 
       parent::BaseAdInserter();
       $this->wp_options[$this->option_ad_name] = AD_NAME." 10";
@@ -884,6 +930,7 @@ class Ad11 extends BaseAdInserter{
    const OPTION_WIDGET_SETTINGS_CATEGORY = "ad11_widget_settings_category";
    const OPTION_WIDGET_SETTINGS_SEARCH   = "ad11_widget_settings_search";
    const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad11_widget_settings_archive";
+   const OPTION_PROCESS_PHP              = "ad11_process_php";
 
   //constructor
     public function Ad11() {
@@ -907,6 +954,7 @@ class Ad11 extends BaseAdInserter{
       $this->option_widget_settings_category = self::OPTION_WIDGET_SETTINGS_CATEGORY;
       $this->option_widget_settings_search   = self::OPTION_WIDGET_SETTINGS_SEARCH ;
       $this->option_widget_settings_archive  = self::OPTION_WIDGET_SETTINGS_ARCHIVE;
+      $this->option_process_php              = self::OPTION_PROCESS_PHP;
 
       parent::BaseAdInserter();
       $this->wp_options[$this->option_ad_name] = AD_NAME." 11";
@@ -936,6 +984,7 @@ class Ad12 extends BaseAdInserter{
    const OPTION_WIDGET_SETTINGS_CATEGORY = "ad12_widget_settings_category";
    const OPTION_WIDGET_SETTINGS_SEARCH   = "ad12_widget_settings_search";
    const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad12_widget_settings_archive";
+   const OPTION_PROCESS_PHP              = "ad12_process_php";
 
   //constructor
     public function Ad12() {
@@ -959,6 +1008,7 @@ class Ad12 extends BaseAdInserter{
       $this->option_widget_settings_category = self::OPTION_WIDGET_SETTINGS_CATEGORY;
       $this->option_widget_settings_search   = self::OPTION_WIDGET_SETTINGS_SEARCH ;
       $this->option_widget_settings_archive  = self::OPTION_WIDGET_SETTINGS_ARCHIVE;
+      $this->option_process_php              = self::OPTION_PROCESS_PHP;
 
       parent::BaseAdInserter();
       $this->wp_options[$this->option_ad_name] = AD_NAME." 12";
@@ -988,6 +1038,7 @@ class Ad13 extends BaseAdInserter{
    const OPTION_WIDGET_SETTINGS_CATEGORY = "ad13_widget_settings_category";
    const OPTION_WIDGET_SETTINGS_SEARCH   = "ad13_widget_settings_search";
    const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad13_widget_settings_archive";
+   const OPTION_PROCESS_PHP              = "ad13_process_php";
 
   //constructor
     public function Ad13() {
@@ -1011,6 +1062,7 @@ class Ad13 extends BaseAdInserter{
       $this->option_widget_settings_category = self::OPTION_WIDGET_SETTINGS_CATEGORY;
       $this->option_widget_settings_search   = self::OPTION_WIDGET_SETTINGS_SEARCH ;
       $this->option_widget_settings_archive  = self::OPTION_WIDGET_SETTINGS_ARCHIVE;
+      $this->option_process_php              = self::OPTION_PROCESS_PHP;
 
       parent::BaseAdInserter();
       $this->wp_options[$this->option_ad_name] = AD_NAME." 13";
@@ -1040,6 +1092,7 @@ class Ad14 extends BaseAdInserter{
    const OPTION_WIDGET_SETTINGS_CATEGORY = "ad14_widget_settings_category";
    const OPTION_WIDGET_SETTINGS_SEARCH   = "ad14_widget_settings_search";
    const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad14_widget_settings_archive";
+   const OPTION_PROCESS_PHP              = "ad14_process_php";
 
   //constructor
     public function Ad14() {
@@ -1063,6 +1116,7 @@ class Ad14 extends BaseAdInserter{
       $this->option_widget_settings_category = self::OPTION_WIDGET_SETTINGS_CATEGORY;
       $this->option_widget_settings_search   = self::OPTION_WIDGET_SETTINGS_SEARCH ;
       $this->option_widget_settings_archive  = self::OPTION_WIDGET_SETTINGS_ARCHIVE;
+      $this->option_process_php              = self::OPTION_PROCESS_PHP;
 
       parent::BaseAdInserter();
       $this->wp_options[$this->option_ad_name] = AD_NAME." 14";
@@ -1092,6 +1146,7 @@ class Ad15 extends BaseAdInserter{
    const OPTION_WIDGET_SETTINGS_CATEGORY = "ad15_widget_settings_category";
    const OPTION_WIDGET_SETTINGS_SEARCH   = "ad15_widget_settings_search";
    const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad15_widget_settings_archive";
+   const OPTION_PROCESS_PHP              = "ad15_process_php";
 
   //constructor
     public function Ad15() {
@@ -1115,6 +1170,7 @@ class Ad15 extends BaseAdInserter{
       $this->option_widget_settings_category = self::OPTION_WIDGET_SETTINGS_CATEGORY;
       $this->option_widget_settings_search   = self::OPTION_WIDGET_SETTINGS_SEARCH ;
       $this->option_widget_settings_archive  = self::OPTION_WIDGET_SETTINGS_ARCHIVE;
+      $this->option_process_php              = self::OPTION_PROCESS_PHP;
 
       parent::BaseAdInserter();
       $this->wp_options[$this->option_ad_name] = AD_NAME." 15";
@@ -1144,6 +1200,7 @@ class Ad16 extends BaseAdInserter{
    const OPTION_WIDGET_SETTINGS_CATEGORY = "ad16_widget_settings_category";
    const OPTION_WIDGET_SETTINGS_SEARCH   = "ad16_widget_settings_search";
    const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad16_widget_settings_archive";
+   const OPTION_PROCESS_PHP              = "ad16_process_php";
 
   //constructor
     public function Ad16() {
@@ -1167,6 +1224,7 @@ class Ad16 extends BaseAdInserter{
       $this->option_widget_settings_category = self::OPTION_WIDGET_SETTINGS_CATEGORY;
       $this->option_widget_settings_search   = self::OPTION_WIDGET_SETTINGS_SEARCH ;
       $this->option_widget_settings_archive  = self::OPTION_WIDGET_SETTINGS_ARCHIVE;
+      $this->option_process_php              = self::OPTION_PROCESS_PHP;
 
       parent::BaseAdInserter();
       $this->wp_options[$this->option_ad_name] = AD_NAME." 16";

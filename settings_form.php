@@ -2,11 +2,11 @@
 
 require_once 'constants.php';
 
-function print_settings_form($ad_array){
+function print_settings_form ($ad_array){
 
 ?>
 
-<div style="padding-right:8px; float: left; ">
+<div style="margin-right: 16px; float: left; ">
 
   <div style="width: 735px; /*height: 90px; */padding: 8px 8px 8px 8px; margin: 8px 0 8px 0; border: 1px solid rgb(221, 221, 221); border-radius: 5px;">
     <h1><?php echo AD_INSERTER_TITLE . ' ' . AD_INSERTER_VERSION ?></h1>
@@ -51,14 +51,14 @@ function print_settings_form($ad_array){
     <h3><?php echo $ad_number, ".  ", $obj->get_ad_name(); ?></h3>
   </div>
 
-   <div style="padding:0px 8px 16px 16px;">
-      Ad Name:  <input type="text" name="<?php echo $obj->option_ad_name; ?>" value="<?php echo $obj->get_ad_name() ?>" size="50" maxlength="50"/> &nbsp;Here you can rename ad block.
-   </div>
+  <div style="padding:0px 8px 16px 16px;">
+     Ad Name:  <input type="text" name="<?php echo $obj->option_ad_name; ?>" value="<?php echo $obj->get_ad_name() ?>" size="50" maxlength="50"/> &nbsp;Here you can rename ad block.
+  </div>
   <div style="padding-left:16px;">
       Put ad or any HTML code here (separate rotating versions with |rotate|):
   </div>
   <div style="padding:8px;">
-      <textarea name="<?php echo $obj->option_ad_data; ?>" rows="24" cols="98" style="background-color:#F9F9F9; font-family: Courier, 'Courier New', monospace;"><?php echo $obj->get_ad_data(); ?></textarea>
+      <textarea name="<?php echo $obj->option_ad_data; ?>" rows="24" cols="98" style="background-color:#F9F9F9; font-family: Courier, 'Courier New', monospace;"><?php echo str_replace ("&", "&amp;", $obj->get_ad_data()); ?></textarea>
   </div>
 
   <div style="padding:8px 8px 16px 16px;">
@@ -72,7 +72,8 @@ function print_settings_form($ad_array){
         <option value="<?php echo AD_SELECT_WIDGET; ?>" <?php echo ($obj->get_append_type()==AD_SELECT_WIDGET) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_WIDGET; ?></option>
         <option value="<?php echo AD_SELECT_MANUAL; ?>" <?php echo ($obj->get_append_type()==AD_SELECT_MANUAL) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_MANUAL; ?></option>
      </select>
-     &nbsp;&nbsp;&nbsp; Alignment:
+
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Alignment:
      <select name="<?php echo $obj->option_float_type; ?>" style="width:100px">
         <option value="<?php echo AD_ALIGNMENT_NONE; ?>" <?php echo ($obj->get_float_type()==AD_ALIGNMENT_NONE) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ALIGNMENT_NONE; ?></option>
         <option value="<?php echo AD_ALIGNMENT_LEFT; ?>" <?php echo ($obj->get_float_type()==AD_ALIGNMENT_LEFT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ALIGNMENT_LEFT; ?></option>
@@ -81,28 +82,36 @@ function print_settings_form($ad_array){
         <option value="<?php echo AD_ALIGNMENT_FLOAT_LEFT; ?>" <?php echo ($obj->get_float_type()==AD_ALIGNMENT_FLOAT_LEFT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ALIGNMENT_FLOAT_LEFT; ?></option>
         <option value="<?php echo AD_ALIGNMENT_FLOAT_RIGHT; ?>" <?php echo ($obj->get_float_type()==AD_ALIGNMENT_FLOAT_RIGHT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ALIGNMENT_FLOAT_RIGHT; ?></option>
      </select>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     <div style="display: inline-block; vertical-align: middle;">
+      <input type="hidden"   name="<?php echo $obj->option_process_php; ?>" value="0" />
+      <input type="checkbox" name="<?php echo $obj->option_process_php; ?>" value="1" <?php if ($obj->get_process_php () == AD_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_process_php; ?>">Process PHP</label>
+     </div>
   </div>
   <div style="padding:8px 8px 8px 8px; margin-right: 5px; border: 1px solid #ddd; border-radius: 5px; width: 120px; float: right;">
-     <strong>Before Title</strong> and
-     <strong>Widget</strong> enabled on
+     Enabled on:
      <br /><br />
-     <input type="hidden" name="<?php echo $obj->option_widget_settings_home; ?>" value="0" />
-     <input type="checkbox" name="<?php echo $obj->option_widget_settings_home; ?>" value="1" <?php if ($obj->get_widget_settings_home()==AD_WIDGET_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_widget_settings_home; ?>">Home</label><br>
+     <input type="hidden" name="<?php echo $obj->option_widget_settings_post; ?>" value="0" />
+     <input type="checkbox" name="<?php echo $obj->option_widget_settings_post; ?>" value="1" <?php if ($obj->get_widget_settings_post()==AD_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_widget_settings_post; ?>">Posts</label><br>
 
      <input type="hidden" name="<?php echo $obj->option_widget_settings_page; ?>" value="0" />
-     <input type="checkbox" name="<?php echo $obj->option_widget_settings_page; ?>" value="1" <?php if ($obj->get_widget_settings_page()==AD_WIDGET_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_widget_settings_page; ?>">Page</label><br>
+     <input type="checkbox" name="<?php echo $obj->option_widget_settings_page; ?>" value="1" <?php if ($obj->get_widget_settings_page()==AD_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_widget_settings_page; ?>">Pages</label><br>
+     <br />
 
-     <input type="hidden" name="<?php echo $obj->option_widget_settings_post; ?>" value="0" />
-     <input type="checkbox" name="<?php echo $obj->option_widget_settings_post; ?>" value="1" <?php if ($obj->get_widget_settings_post()==AD_WIDGET_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_widget_settings_post; ?>">Post</label><br>
+     <strong>Before Title</strong> and
+     <strong>Widget</strong> enabled also on:
+     <br /><br />
+     <input type="hidden" name="<?php echo $obj->option_widget_settings_home; ?>" value="0" />
+     <input type="checkbox" name="<?php echo $obj->option_widget_settings_home; ?>" value="1" <?php if ($obj->get_widget_settings_home()==AD_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_widget_settings_home; ?>">Homepage</label><br>
 
      <input type="hidden" name="<?php echo $obj->option_widget_settings_category; ?>" value="0" />
-     <input type="checkbox" name="<?php echo $obj->option_widget_settings_category; ?>" value="1" <?php if ($obj->get_widget_settings_category()==AD_WIDGET_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_widget_settings_category; ?>">Category</label><br>
+     <input type="checkbox" name="<?php echo $obj->option_widget_settings_category; ?>" value="1" <?php if ($obj->get_widget_settings_category()==AD_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_widget_settings_category; ?>">Category pages</label><br>
 
      <input type="hidden" name="<?php echo $obj->option_widget_settings_search; ?>" value="0" />
-     <input type="checkbox" name="<?php echo $obj->option_widget_settings_search; ?>" value="1" <?php if ($obj->get_widget_settings_search()==AD_WIDGET_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_widget_settings_search; ?>">Search</label><br>
+     <input type="checkbox" name="<?php echo $obj->option_widget_settings_search; ?>" value="1" <?php if ($obj->get_widget_settings_search()==AD_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_widget_settings_search; ?>">Search pages</label><br>
 
      <input type="hidden" name="<?php echo $obj->option_widget_settings_archive; ?>" value="0" />
-     <input type="checkbox" name="<?php echo $obj->option_widget_settings_archive; ?>" value="1" <?php if ($obj->get_widget_settings_archive()==AD_WIDGET_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_widget_settings_archive; ?>">Archive</label><br>
+     <input type="checkbox" name="<?php echo $obj->option_widget_settings_archive; ?>" value="1" <?php if ($obj->get_widget_settings_archive()==AD_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_widget_settings_archive; ?>">Archive pages</label><br>
   </div>
   <div style="padding:8px 8px 8px 8px; margin-left: 10px; border: 1px solid #ddd; border-radius: 5px; width: 550px;">
        <strong>Before Paragraph</strong> display settings
@@ -125,10 +134,10 @@ function print_settings_form($ad_array){
   </div>
 
   <div style="padding:0px 8px 16px 16px;">
-     Do not display ads to users from domains:  <input title="Comma separated domains, e.g. technorati.com, facebook.com" type="text" name="<?php echo $obj->option_ad_block_user; ?>" value="<?php echo $obj->get_ad_block_user() ?>" size="58" maxlength="200"/>
+     Do not display ads to users from domains:  <input title="Comma separated domains, e.g. technorati.com, facebook.com" type="text" name="<?php echo $obj->option_ad_block_user; ?>" value="<?php echo $obj->get_ad_block_user() ?>" size="58" maxlength="500"/>
   </div>
   <div style="padding:0px 8px 16px 16px;">
-     Categories:  <input title="Comma separated category names" type="text" name="<?php echo $obj->option_ad_block_cat; ?>" value="<?php echo $obj->get_ad_block_cat() ?>" size="60" maxlength="200"/>&nbsp;&nbsp;&nbsp;
+     Categories:  <input title="Comma separated category names" type="text" name="<?php echo $obj->option_ad_block_cat; ?>" value="<?php echo $obj->get_ad_block_cat() ?>" size="60" maxlength="500"/>&nbsp;&nbsp;&nbsp;
      <input type="radio" name="<?php echo $obj->option_ad_block_cat_type; ?>" value="<?php echo AD_CATEGORY_BLACK_LIST; ?>" <?php if ($obj->get_ad_block_cat_type() == AD_CATEGORY_BLACK_LIST) echo 'checked '; ?>/> <?php echo AD_CATEGORY_BLACK_LIST; ?>&nbsp;&nbsp;
      <input type="radio" name="<?php echo $obj->option_ad_block_cat_type; ?>" value="<?php echo AD_CATEGORY_WHITE_LIST; ?>" <?php if ($obj->get_ad_block_cat_type() == AD_CATEGORY_WHITE_LIST) echo 'checked '; ?>/> <?php echo AD_CATEGORY_WHITE_LIST; ?>
   </div>
@@ -152,11 +161,11 @@ function print_settings_form($ad_array){
 
 </div>
 
-<div style="width: 735px; height: 40px; margin: 8px 0 0 0; padding: 8px 8px; border: 1px solid rgb(221, 221, 221); border-radius: 5px;">
-  <div style="float: left; padding: 6px 6px; color: red;">
+<div style="width: 735px; height: 30px; margin: 8px 0 0 0; padding: 3px 3px;">
+  <div style="float: left; padding: 1px 1px; color: red;">
         <input onclick="if (confirm('Are you sure you want to reset all settings?')) return true; return false" name="<?php echo AD_FORM_CLEAR; ?>" value="Reset All Settings" type="submit" style="width:120px; font-weight: bold; color: #e44;"/>
   </div>
-  <div style="float: right; padding: 6px 6px;">
+  <div style="float: right; padding: 1px 1px;">
         <input name="<?php echo AD_FORM_SAVE; ?>" value="Save All Settings" type="submit" style="width:120px; font-weight: bold;" />
   </div>
 </div>

@@ -62,6 +62,7 @@ define('AD_GENERAL_TAG', 'gadgets');
 define('AD_NAME', 'Ad Block');
 
 //options
+define('AD_OPTIONS',     'AdInserterOptions');   // general plugin options
 define('AD_AD1_OPTIONS', 'AdInserter1Options');
 define('AD_AD2_OPTIONS', 'AdInserter2Options');
 define('AD_AD3_OPTIONS', 'AdInserter3Options');
@@ -81,8 +82,7 @@ define('AD_AD16_OPTIONS','AdInserter16Options');
 
 //misc
 define('AD_EMPTY_VALUE','');
-define('AD_FUNC_TYPE_RESET','reset');
-define('AD_FUNC_TYPE_INITIAL','initial');
+//define('AD_FUNC_TYPE_RESET','reset');
 
 //define constant variable form
 define('AD_FORM_SAVE','ad_save');
@@ -119,5 +119,6 @@ define('AD_ALIGNMENT_FLOAT_RIGHT','Float Right');
 define('AD_CATEGORY_BLACK_LIST','Black List');
 define('AD_CATEGORY_WHITE_LIST','White List');
 
-//Category List Type
-define('AD_WIDGET_SETTINGS_CHECKED', '1');
+//Settings
+define('AD_SETTINGS_CHECKED', '1');
+define('AD_SETTINGS_NOT_CHECKED', '0');

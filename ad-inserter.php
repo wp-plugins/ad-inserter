@@ -2,8 +2,8 @@
 
 /*
 Plugin Name: Ad Inserter
-Version: 1.3.0
-Description: An elegant solution to put any ad into Wordpress. Simply enter any HTML code and select where and how you want to display it (including Widgets). You can also use {category}, {short_category}, {title}, {short_title}, {tag}, {smart_tag} or {search_query} tags to get actual post data. To rotate different ad versions separate them with |rotate|. Manual insertion is also possible with {adinserter AD_NAME} or {adinserter AD_NUMBER} tag.
+Version: 1.3.1
+Description: An elegant solution to put any ad into Wordpress. Simply enter any HTML, Javascript or PHP code and select where and how you want to display it (including Widgets). You can also use {category}, {short_category}, {title}, {short_title}, {tag}, {smart_tag} or {search_query} tags to get actual post data. To rotate different ad versions separate them with |rotate|. Manual insertion is also possible with {adinserter AD_NAME} or {adinserter AD_NUMBER} tag.
 Author: Igor Funa
 Author URI: http://igorfuna.com/
 Plugin URI: http://igorfuna.com/software/web/ad-inserter-wordpress-plugin
@@ -16,6 +16,11 @@ TO DO
 
 /*
 Change Log
+
+Ad Inserter 1.3.1 - 1 December 2013
+- Added option to insert ads also on pages
+- Added option to process PHP code
+- Few bugs fixed
 
 Ad Inserter 1.3.0 - 27 November 2013
 - Number of ad slots increased to 16
@@ -88,10 +93,13 @@ require_once 'constants.php';
 require_once 'settings_form.php';
 
 //hook
-add_action('admin_menu', 'ai_admin_menu');
-add_filter('the_content', 'ai_content_hook', 99999);
-add_action('loop_start', 'ai_loop_start_hook');
-add_action('init', 'AdInserter_Init');
+add_action ('admin_menu', 'ai_admin_menu');
+add_filter ('the_content', 'ai_content_hook', 99999);
+add_filter ('the_excerpt', 'ai_excerpt_hook', 99999);
+add_filter ('get_the_excerpt', 'ai_excerpt_hook', 99999);
+add_action ('loop_start', 'ai_loop_start_hook');
+add_action ('init', 'AdInserter_Init');
+add_action ('admin_notices', 'ai_admin_notice');
 
 function AdInserter_Init() {
 
@@ -113,22 +121,22 @@ function AdInserter_Init() {
   $ad16 = new Ad16();
 
   //load options from db
-  $ad1->wp_options  = ai_get_option(AD_AD1_OPTIONS);
-  $ad2->wp_options  = ai_get_option(AD_AD2_OPTIONS);
-  $ad3->wp_options  = ai_get_option(AD_AD3_OPTIONS);
-  $ad4->wp_options  = ai_get_option(AD_AD4_OPTIONS);
-  $ad5->wp_options  = ai_get_option(AD_AD5_OPTIONS);
-  $ad6->wp_options  = ai_get_option(AD_AD6_OPTIONS);
-  $ad7->wp_options  = ai_get_option(AD_AD7_OPTIONS);
-  $ad8->wp_options  = ai_get_option(AD_AD8_OPTIONS);
-  $ad9->wp_options  = ai_get_option(AD_AD9_OPTIONS);
-  $ad10->wp_options = ai_get_option(AD_AD10_OPTIONS);
-  $ad11->wp_options = ai_get_option(AD_AD11_OPTIONS);
-  $ad12->wp_options = ai_get_option(AD_AD12_OPTIONS);
-  $ad13->wp_options = ai_get_option(AD_AD13_OPTIONS);
-  $ad14->wp_options = ai_get_option(AD_AD14_OPTIONS);
-  $ad15->wp_options = ai_get_option(AD_AD15_OPTIONS);
-  $ad16->wp_options = ai_get_option(AD_AD16_OPTIONS);
+  $ad1->wp_options  = ai_get_option (AD_AD1_OPTIONS);
+  $ad2->wp_options  = ai_get_option (AD_AD2_OPTIONS);
+  $ad3->wp_options  = ai_get_option (AD_AD3_OPTIONS);
+  $ad4->wp_options  = ai_get_option (AD_AD4_OPTIONS);
+  $ad5->wp_options  = ai_get_option (AD_AD5_OPTIONS);
+  $ad6->wp_options  = ai_get_option (AD_AD6_OPTIONS);
+  $ad7->wp_options  = ai_get_option (AD_AD7_OPTIONS);
+  $ad8->wp_options  = ai_get_option (AD_AD8_OPTIONS);
+  $ad9->wp_options  = ai_get_option (AD_AD9_OPTIONS);
+  $ad10->wp_options = ai_get_option (AD_AD10_OPTIONS);
+  $ad11->wp_options = ai_get_option (AD_AD11_OPTIONS);
+  $ad12->wp_options = ai_get_option (AD_AD12_OPTIONS);
+  $ad13->wp_options = ai_get_option (AD_AD13_OPTIONS);
+  $ad14->wp_options = ai_get_option (AD_AD14_OPTIONS);
+  $ad15->wp_options = ai_get_option (AD_AD15_OPTIONS);
+  $ad16->wp_options = ai_get_option (AD_AD16_OPTIONS);
 
   $ad_all_data = array($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8,$ad9,$ad10,$ad11,$ad12,$ad13,$ad14,$ad15,$ad16);
 
@@ -141,85 +149,6 @@ function AdInserter_Init() {
 
      }
   }
-}
-
-function ai_DataInitializer($type=AD_FUNC_TYPE_RESET){
-
-   $ad1  = new Ad1();
-   $ad2  = new Ad2();
-   $ad3  = new Ad3();
-   $ad4  = new Ad4();
-   $ad5  = new Ad5();
-   $ad6  = new Ad6();
-   $ad7  = new Ad7();
-   $ad8  = new Ad8();
-   $ad9  = new Ad9();
-   $ad10 = new Ad10();
-   $ad11 = new Ad11();
-   $ad12 = new Ad12();
-   $ad13 = new Ad13();
-   $ad14 = new Ad14();
-   $ad15 = new Ad15();
-   $ad16 = new Ad16();
-
-   if(get_option(AD_AD1_OPTIONS)==AD_EMPTY_VALUE || $type==AD_FUNC_TYPE_RESET)
-      update_option(AD_AD1_OPTIONS, $ad1->wp_options);
-
-   if(get_option(AD_AD2_OPTIONS)==AD_EMPTY_VALUE || $type==AD_FUNC_TYPE_RESET)
-      update_option(AD_AD2_OPTIONS, $ad2->wp_options);
-
-   if(get_option(AD_AD3_OPTIONS)==AD_EMPTY_VALUE || $type==AD_FUNC_TYPE_RESET)
-      update_option(AD_AD3_OPTIONS, $ad3->wp_options);
-
-   if(get_option(AD_AD4_OPTIONS)==AD_EMPTY_VALUE || $type==AD_FUNC_TYPE_RESET)
-      update_option(AD_AD4_OPTIONS, $ad4->wp_options);
-
-   if(get_option(AD_AD5_OPTIONS)==AD_EMPTY_VALUE || $type==AD_FUNC_TYPE_RESET)
-      update_option(AD_AD5_OPTIONS, $ad5->wp_options);
-
-   if(get_option(AD_AD6_OPTIONS)==AD_EMPTY_VALUE || $type==AD_FUNC_TYPE_RESET)
-      update_option(AD_AD6_OPTIONS, $ad6->wp_options);
-
-   if(get_option(AD_AD7_OPTIONS)==AD_EMPTY_VALUE || $type==AD_FUNC_TYPE_RESET)
-      update_option(AD_AD7_OPTIONS, $ad7->wp_options);
-
-   if(get_option(AD_AD8_OPTIONS)==AD_EMPTY_VALUE || $type==AD_FUNC_TYPE_RESET)
-      update_option(AD_AD8_OPTIONS, $ad8->wp_options);
-
-   if(get_option(AD_AD9_OPTIONS)==AD_EMPTY_VALUE || $type==AD_FUNC_TYPE_RESET)
-      update_option(AD_AD9_OPTIONS, $ad9->wp_options);
-
-   if(get_option(AD_AD10_OPTIONS)==AD_EMPTY_VALUE || $type==AD_FUNC_TYPE_RESET)
-      update_option(AD_AD10_OPTIONS, $ad10->wp_options);
-
-   if(get_option(AD_AD11_OPTIONS)==AD_EMPTY_VALUE || $type==AD_FUNC_TYPE_RESET)
-      update_option(AD_AD11_OPTIONS, $ad11->wp_options);
-
-   if(get_option(AD_AD12_OPTIONS)==AD_EMPTY_VALUE || $type==AD_FUNC_TYPE_RESET)
-      update_option(AD_AD12_OPTIONS, $ad12->wp_options);
-
-   if(get_option(AD_AD13_OPTIONS)==AD_EMPTY_VALUE || $type==AD_FUNC_TYPE_RESET)
-      update_option(AD_AD13_OPTIONS, $ad13->wp_options);
-
-   if(get_option(AD_AD14_OPTIONS)==AD_EMPTY_VALUE || $type==AD_FUNC_TYPE_RESET)
-      update_option(AD_AD14_OPTIONS, $ad14->wp_options);
-
-   if(get_option(AD_AD15_OPTIONS)==AD_EMPTY_VALUE || $type==AD_FUNC_TYPE_RESET)
-      update_option(AD_AD15_OPTIONS, $ad15->wp_options);
-
-   if(get_option(AD_AD16_OPTIONS)==AD_EMPTY_VALUE || $type==AD_FUNC_TYPE_RESET)
-      update_option(AD_AD16_OPTIONS, $ad16->wp_options);
-
-}
-
-//reset all the value
-function ai_resetIt() {
-   ai_DataInitializer (AD_FUNC_TYPE_RESET);
-}
-
-//initial the unset value
-function ai_initializeIt() {
-   ai_DataInitializer (AD_FUNC_TYPE_INITIAL);
 }
 
 function ai_admin_menu () {
@@ -240,10 +169,38 @@ function ai_admin_enqueue_scripts ($hook_suffix) {
   }
 }
 
-function filter_characters($str){
+function ai_admin_notice () {
+  global $current_screen;
 
-  $str = str_replace("\\\"", "\"", $str);
+  $plugin_options = ai_plugin_options ();
+  $plugin_db_options = get_option (AD_OPTIONS);
+
+  if (!isset ($plugin_db_options ['VERSION']) && ($current_screen->id != "settings_page_ad-inserter" || (!isset ($_POST [AD_FORM_SAVE]) && !isset ($_POST [AD_FORM_CLEAR])))) {
+    echo "<div id='message' class='updated below-h2' style='margin: 5px 15px 2px 0px; padding: 10px;'><strong>
+      Notice: ".AD_INSERTER_TITLE." plugin was updated. New version can insert ads also on static pages.
+      Please <a href=\"/wp-admin/options-general.php?page=ad-inserter.php\">check</a> if page display options for all ad slots are set properly.
+      Make required changes and save ".AD_INSERTER_TITLE." settings to remove this notice.</strong></div>";
+  }
+}
+
+function filter_characters ($str){
+
+  $str = str_replace (array ("\\\""), array ("\""), $str);
   return $str;
+}
+
+function ai_plugin_options (){
+  $plugin_options = array ();
+
+  $version_array = explode (".", AD_INSERTER_VERSION);
+  $version_string = "";
+  foreach ($version_array as $number) {
+    $version_string .= sprintf ("%02d", $number);
+  }
+
+  $plugin_options ['VERSION'] = $version_string;
+
+  return ($plugin_options);
 }
 
 function ai_get_option ($option_name) {
@@ -258,9 +215,7 @@ function ai_get_option ($option_name) {
   return ($options);
 }
 
-function ai_menu(){
-
-  ai_initializeIt();
+function ai_menu () {
 
   $ad1  = new Ad1();
   $ad2  = new Ad2();
@@ -279,160 +234,244 @@ function ai_menu(){
   $ad15 = new Ad15();
   $ad16 = new Ad16();
 
-  if (isset($_POST[AD_FORM_SAVE])) {
+  if (isset ($_POST [AD_FORM_SAVE])) {
 
      foreach(array_keys($ad1->wp_options) as $key){
         if(isset($_POST[$key])){
-            $ad1->wp_options[$key] = filter_characters($_POST[$key]);
+            $ad1->wp_options[$key] = filter_characters ($_POST[$key]);
         }
       }
 
       foreach(array_keys($ad2->wp_options) as $key){
         if(isset($_POST[$key])){
-              $ad2->wp_options[$key] = filter_characters($_POST[$key]);
+              $ad2->wp_options[$key] = filter_characters ($_POST[$key]);
         }
       }
 
       foreach(array_keys($ad3->wp_options) as $key){
         if(isset($_POST[$key])){
-              $ad3->wp_options[$key] = filter_characters($_POST[$key]);
+              $ad3->wp_options[$key] = filter_characters ($_POST[$key]);
         }
       }
 
       foreach(array_keys($ad4->wp_options) as $key){
         if(isset($_POST[$key])){
-              $ad4->wp_options[$key] = filter_characters($_POST[$key]);
+              $ad4->wp_options[$key] = filter_characters ($_POST[$key]);
         }
       }
 
      foreach(array_keys($ad5->wp_options) as $key){
         if(isset($_POST[$key])){
-            $ad5->wp_options[$key] = filter_characters($_POST[$key]);
+            $ad5->wp_options[$key] = filter_characters ($_POST[$key]);
         }
       }
 
       foreach(array_keys($ad6->wp_options) as $key){
         if(isset($_POST[$key])){
-              $ad6->wp_options[$key] = filter_characters($_POST[$key]);
+              $ad6->wp_options[$key] = filter_characters ($_POST[$key]);
         }
       }
 
       foreach(array_keys($ad7->wp_options) as $key){
         if(isset($_POST[$key])){
-              $ad7->wp_options[$key] = filter_characters($_POST[$key]);
+              $ad7->wp_options[$key] = filter_characters ($_POST[$key]);
         }
       }
 
       foreach(array_keys($ad8->wp_options) as $key){
         if(isset($_POST[$key])){
-              $ad8->wp_options[$key] = filter_characters($_POST[$key]);
+              $ad8->wp_options[$key] = filter_characters ($_POST[$key]);
         }
       }
 
      foreach(array_keys($ad9->wp_options) as $key){
         if(isset($_POST[$key])){
-            $ad9->wp_options[$key] = filter_characters($_POST[$key]);
+            $ad9->wp_options[$key] = filter_characters ($_POST[$key]);
         }
       }
 
       foreach(array_keys($ad10->wp_options) as $key){
         if(isset($_POST[$key])){
-              $ad10->wp_options[$key] = filter_characters($_POST[$key]);
+              $ad10->wp_options[$key] = filter_characters ($_POST[$key]);
         }
       }
 
       foreach(array_keys($ad11->wp_options) as $key){
         if(isset($_POST[$key])){
-              $ad11->wp_options[$key] = filter_characters($_POST[$key]);
+              $ad11->wp_options[$key] = filter_characters ($_POST[$key]);
         }
       }
 
       foreach(array_keys($ad12->wp_options) as $key){
         if(isset($_POST[$key])){
-              $ad12->wp_options[$key] = filter_characters($_POST[$key]);
+              $ad12->wp_options[$key] = filter_characters ($_POST[$key]);
         }
       }
 
      foreach(array_keys($ad13->wp_options) as $key){
         if(isset($_POST[$key])){
-            $ad13->wp_options[$key] = filter_characters($_POST[$key]);
+            $ad13->wp_options[$key] = filter_characters ($_POST[$key]);
         }
       }
 
       foreach(array_keys($ad14->wp_options) as $key){
         if(isset($_POST[$key])){
-              $ad14->wp_options[$key] = filter_characters($_POST[$key]);
+              $ad14->wp_options[$key] = filter_characters ($_POST[$key]);
         }
       }
 
       foreach(array_keys($ad15->wp_options) as $key){
         if(isset($_POST[$key])){
-              $ad15->wp_options[$key] = filter_characters($_POST[$key]);
+              $ad15->wp_options[$key] = filter_characters ($_POST[$key]);
         }
       }
 
       foreach(array_keys($ad16->wp_options) as $key){
         if(isset($_POST[$key])){
-              $ad16->wp_options[$key] = filter_characters($_POST[$key]);
+              $ad16->wp_options[$key] = filter_characters ($_POST[$key]);
         }
       }
 
-      update_option(AD_AD1_OPTIONS,  $ad1->wp_options);
-      update_option(AD_AD2_OPTIONS,  $ad2->wp_options);
-      update_option(AD_AD3_OPTIONS,  $ad3->wp_options);
-      update_option(AD_AD4_OPTIONS,  $ad4->wp_options);
-      update_option(AD_AD5_OPTIONS,  $ad5->wp_options);
-      update_option(AD_AD6_OPTIONS,  $ad6->wp_options);
-      update_option(AD_AD7_OPTIONS,  $ad7->wp_options);
-      update_option(AD_AD8_OPTIONS,  $ad8->wp_options);
-      update_option(AD_AD9_OPTIONS,  $ad9->wp_options);
-      update_option(AD_AD10_OPTIONS, $ad10->wp_options);
-      update_option(AD_AD11_OPTIONS, $ad11->wp_options);
-      update_option(AD_AD12_OPTIONS, $ad12->wp_options);
-      update_option(AD_AD13_OPTIONS, $ad13->wp_options);
-      update_option(AD_AD14_OPTIONS, $ad14->wp_options);
-      update_option(AD_AD15_OPTIONS, $ad15->wp_options);
-      update_option(AD_AD16_OPTIONS, $ad16->wp_options);
+      update_option (AD_OPTIONS, ai_plugin_options ());
 
-    echo "<div id='message' class='updated fade'><strong><p>Updated Successful.</p></strong></div>";
+      update_option (AD_AD1_OPTIONS,  $ad1->wp_options);
+      update_option (AD_AD2_OPTIONS,  $ad2->wp_options);
+      update_option (AD_AD3_OPTIONS,  $ad3->wp_options);
+      update_option (AD_AD4_OPTIONS,  $ad4->wp_options);
+      update_option (AD_AD5_OPTIONS,  $ad5->wp_options);
+      update_option (AD_AD6_OPTIONS,  $ad6->wp_options);
+      update_option (AD_AD7_OPTIONS,  $ad7->wp_options);
+      update_option (AD_AD8_OPTIONS,  $ad8->wp_options);
+      update_option (AD_AD9_OPTIONS,  $ad9->wp_options);
+      update_option (AD_AD10_OPTIONS, $ad10->wp_options);
+      update_option (AD_AD11_OPTIONS, $ad11->wp_options);
+      update_option (AD_AD12_OPTIONS, $ad12->wp_options);
+      update_option (AD_AD13_OPTIONS, $ad13->wp_options);
+      update_option (AD_AD14_OPTIONS, $ad14->wp_options);
+      update_option (AD_AD15_OPTIONS, $ad15->wp_options);
+      update_option (AD_AD16_OPTIONS, $ad16->wp_options);
+
+    echo "<div id='message' class='updated' style='margin: 5px 15px 2px 0px; padding: 10px;'><strong>Settings saved.</strong></div>";
 
 
-    } else if(isset($_POST[AD_FORM_CLEAR])){
-        ai_resetIt();
-        echo "<div id='message' class='error fade'><p>Settings Cleared.</p></div>";
-    }
+  } elseif (isset ($_POST [AD_FORM_CLEAR])) {
+      $ad1  = new Ad1();
+      $ad2  = new Ad2();
+      $ad3  = new Ad3();
+      $ad4  = new Ad4();
+      $ad5  = new Ad5();
+      $ad6  = new Ad6();
+      $ad7  = new Ad7();
+      $ad8  = new Ad8();
+      $ad9  = new Ad9();
+      $ad10 = new Ad10();
+      $ad11 = new Ad11();
+      $ad12 = new Ad12();
+      $ad13 = new Ad13();
+      $ad14 = new Ad14();
+      $ad15 = new Ad15();
+      $ad16 = new Ad16();
 
-    //load options from db
-   $ad1->wp_options  = ai_get_option(AD_AD1_OPTIONS);
-   $ad2->wp_options  = ai_get_option(AD_AD2_OPTIONS);
-   $ad3->wp_options  = ai_get_option(AD_AD3_OPTIONS);
-   $ad4->wp_options  = ai_get_option(AD_AD4_OPTIONS);
-   $ad5->wp_options  = ai_get_option(AD_AD5_OPTIONS);
-   $ad6->wp_options  = ai_get_option(AD_AD6_OPTIONS);
-   $ad7->wp_options  = ai_get_option(AD_AD7_OPTIONS);
-   $ad8->wp_options  = ai_get_option(AD_AD8_OPTIONS);
-   $ad9->wp_options  = ai_get_option(AD_AD9_OPTIONS);
-   $ad10->wp_options = ai_get_option(AD_AD10_OPTIONS);
-   $ad11->wp_options = ai_get_option(AD_AD11_OPTIONS);
-   $ad12->wp_options = ai_get_option(AD_AD12_OPTIONS);
-   $ad13->wp_options = ai_get_option(AD_AD13_OPTIONS);
-   $ad14->wp_options = ai_get_option(AD_AD14_OPTIONS);
-   $ad15->wp_options = ai_get_option(AD_AD15_OPTIONS);
-   $ad16->wp_options = ai_get_option(AD_AD16_OPTIONS);
+      update_option (AD_OPTIONS, ai_plugin_options ());
+      update_option (AD_AD1_OPTIONS, $ad1->wp_options);
+      update_option (AD_AD2_OPTIONS, $ad2->wp_options);
+      update_option (AD_AD3_OPTIONS, $ad3->wp_options);
+      update_option (AD_AD4_OPTIONS, $ad4->wp_options);
+      update_option (AD_AD5_OPTIONS, $ad5->wp_options);
+      update_option (AD_AD6_OPTIONS, $ad6->wp_options);
+      update_option (AD_AD7_OPTIONS, $ad7->wp_options);
+      update_option (AD_AD8_OPTIONS, $ad8->wp_options);
+      update_option (AD_AD9_OPTIONS, $ad9->wp_options);
+      update_option (AD_AD10_OPTIONS, $ad10->wp_options);
+      update_option (AD_AD11_OPTIONS, $ad11->wp_options);
+      update_option (AD_AD12_OPTIONS, $ad12->wp_options);
+      update_option (AD_AD13_OPTIONS, $ad13->wp_options);
+      update_option (AD_AD14_OPTIONS, $ad14->wp_options);
+      update_option (AD_AD15_OPTIONS, $ad15->wp_options);
+      update_option (AD_AD16_OPTIONS, $ad16->wp_options);
 
-   $ad_array = array($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8,$ad9,$ad10,$ad11,$ad12,$ad13,$ad14,$ad15,$ad16);
+      echo "<div id='message' class='error' style='margin: 5px 15px 2px 0px; padding: 10px;'>Settings cleared.</div>";
+  }
 
-   print_settings_form($ad_array);
+  // Load options from db
+  $ad1->wp_options  = ai_get_option (AD_AD1_OPTIONS);
+  $ad2->wp_options  = ai_get_option (AD_AD2_OPTIONS);
+  $ad3->wp_options  = ai_get_option (AD_AD3_OPTIONS);
+  $ad4->wp_options  = ai_get_option (AD_AD4_OPTIONS);
+  $ad5->wp_options  = ai_get_option (AD_AD5_OPTIONS);
+  $ad6->wp_options  = ai_get_option (AD_AD6_OPTIONS);
+  $ad7->wp_options  = ai_get_option (AD_AD7_OPTIONS);
+  $ad8->wp_options  = ai_get_option (AD_AD8_OPTIONS);
+  $ad9->wp_options  = ai_get_option (AD_AD9_OPTIONS);
+  $ad10->wp_options = ai_get_option (AD_AD10_OPTIONS);
+  $ad11->wp_options = ai_get_option (AD_AD11_OPTIONS);
+  $ad12->wp_options = ai_get_option (AD_AD12_OPTIONS);
+  $ad13->wp_options = ai_get_option (AD_AD13_OPTIONS);
+  $ad14->wp_options = ai_get_option (AD_AD14_OPTIONS);
+  $ad15->wp_options = ai_get_option (AD_AD15_OPTIONS);
+  $ad16->wp_options = ai_get_option (AD_AD16_OPTIONS);
 
+  $ad_array = array($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8,$ad9,$ad10,$ad11,$ad12,$ad13,$ad14,$ad15,$ad16);
+
+  print_settings_form ($ad_array);
 }
 
 
-function ai_content_hook($content = ''){
+function ai_content_hook ($content = ''){
 
-  if(!is_single()) {
-    $content = preg_replace ("/{adinserter (.*)}/", "", $content);
-    return $content;
+  $ad1  = new Ad1();
+  $ad2  = new Ad2();
+  $ad3  = new Ad3();
+  $ad4  = new Ad4();
+  $ad5  = new Ad5();
+  $ad6  = new Ad6();
+  $ad7  = new Ad7();
+  $ad8  = new Ad8();
+  $ad9  = new Ad9();
+  $ad10 = new Ad10();
+  $ad11 = new Ad11();
+  $ad12 = new Ad12();
+  $ad13 = new Ad13();
+  $ad14 = new Ad14();
+  $ad15 = new Ad15();
+  $ad16 = new Ad16();
+
+
+   //load options from db
+  $ad1->wp_options  = ai_get_option (AD_AD1_OPTIONS);
+  $ad2->wp_options  = ai_get_option (AD_AD2_OPTIONS);
+  $ad3->wp_options  = ai_get_option (AD_AD3_OPTIONS);
+  $ad4->wp_options  = ai_get_option (AD_AD4_OPTIONS);
+  $ad5->wp_options  = ai_get_option (AD_AD5_OPTIONS);
+  $ad6->wp_options  = ai_get_option (AD_AD6_OPTIONS);
+  $ad7->wp_options  = ai_get_option (AD_AD7_OPTIONS);
+  $ad8->wp_options  = ai_get_option (AD_AD8_OPTIONS);
+  $ad9->wp_options  = ai_get_option (AD_AD9_OPTIONS);
+  $ad10->wp_options = ai_get_option (AD_AD10_OPTIONS);
+  $ad11->wp_options = ai_get_option (AD_AD11_OPTIONS);
+  $ad12->wp_options = ai_get_option (AD_AD12_OPTIONS);
+  $ad13->wp_options = ai_get_option (AD_AD13_OPTIONS);
+  $ad14->wp_options = ai_get_option (AD_AD14_OPTIONS);
+  $ad15->wp_options = ai_get_option (AD_AD15_OPTIONS);
+  $ad16->wp_options = ai_get_option (AD_AD16_OPTIONS);
+
+  $ad_all_data = array ($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8,$ad9,$ad10,$ad11,$ad12,$ad13,$ad14,$ad15,$ad16);
+
+  //get post published date
+  $publish_date = the_date ('U','','',false);
+
+  $http_referer = '';
+  //get referer
+  if(isset($_SERVER['HTTP_REFERER'])) {
+      $http_referer = $_SERVER['HTTP_REFERER'];
   }
+
+  $content = generateAdInserterCode ($content, $ad_all_data, $publish_date, $http_referer);
+
+  return $content;
+}
+
+function ai_excerpt_hook ($content = ''){
 
   $ad1  = new Ad1();
   $ad2  = new Ad2();
@@ -470,10 +509,10 @@ function ai_content_hook($content = ''){
   $ad15->wp_options = ai_get_option(AD_AD15_OPTIONS);
   $ad16->wp_options = ai_get_option(AD_AD16_OPTIONS);
 
-  $ad_all_data = array($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8,$ad9,$ad10,$ad11,$ad12,$ad13,$ad14,$ad15,$ad16);
+  $ad_all_data = array ($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8,$ad9,$ad10,$ad11,$ad12,$ad13,$ad14,$ad15,$ad16);
 
   //get post published date
-  $publish_date = the_date('U','','',false);
+  $publish_date = the_date ('U','','',false);
 
   $http_referer = '';
   //get referer
@@ -481,12 +520,13 @@ function ai_content_hook($content = ''){
       $http_referer = $_SERVER['HTTP_REFERER'];
   }
 
-   $content = generateAdInserterDiv($content, $ad_all_data, $publish_date, $http_referer);
+//  $content = generateAdInserterCode ($content, $ad_all_data, $publish_date, $http_referer);
 
-   return $content;
+  return "#DELA#".$content."##";
 }
 
-function ai_loop_start_hook($query){
+// Process before title postion
+function ai_loop_start_hook ($query){
 
   if (!$query->is_main_query()) return;
 
@@ -526,70 +566,72 @@ function ai_loop_start_hook($query){
   $ad16->wp_options = ai_get_option(AD_AD16_OPTIONS);
 
 
-  $ad_all_data = array($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8,$ad9,$ad10,$ad11,$ad12,$ad13,$ad14,$ad15,$ad16);
+  $ad_all_data = array ($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8,$ad9,$ad10,$ad11,$ad12,$ad13,$ad14,$ad15,$ad16);
 
   //get post published date
-  $publish_date = the_date('U','','',false);
+  $publish_date = the_date ('U','','',false);
 
-  $http_referer = '';
   //get referer
+  $http_referer = '';
   if(isset($_SERVER['HTTP_REFERER'])) {
      $http_referer = $_SERVER['HTTP_REFERER'];
   }
 
   $ad_code = "";
 
-  foreach($ad_all_data as $obj){
+  foreach ($ad_all_data as $obj){
 
-    if(is_home()){
+    if ($obj->get_append_type () != AD_SELECT_BEFORE_TITLE) continue;
+
+    if (is_home()){
       if (!$obj->get_widget_settings_home()) continue;
     }
-    elseif(is_page()){
+    elseif (is_page()){
       if (!$obj->get_widget_settings_page()) continue;
     }
-    elseif(is_single()){
+    elseif (is_single()){
       if (!$obj->get_widget_settings_post()) continue;
     }
-    elseif(is_category()){
+    elseif (is_category()){
       if (!$obj->get_widget_settings_category()) continue;
     }
-    elseif(is_search()){
+    elseif (is_search()){
       if (!$obj->get_widget_settings_search()) continue;
     }
-    elseif(is_archive()){
+    elseif (is_archive()){
       if (!$obj->get_widget_settings_archive()) continue;
     }
 
     //if empty data, continue with next
-    if($obj->get_ad_data()==AD_EMPTY_DATA){
+    if ($obj->get_ad_data() == AD_EMPTY_DATA){
       continue;
     }
 
-    if(ai_isDisplayAllowed($obj, $content)==false){
+    if (ai_isDisplayAllowed ($obj, $content)==false){
       continue;
     }
 
-    if(ai_isCategoryAllowed($obj->get_ad_block_cat(), $obj->get_ad_block_cat_type())==false){
+    if (ai_isCategoryAllowed ($obj->get_ad_block_cat(), $obj->get_ad_block_cat_type())==false){
       continue;
     }
 
-    if(ai_isDisplayDateAllowed($obj, $publish_date)==false){
+    if (ai_isDisplayDateAllowed ($obj, $publish_date)==false){
       continue;
     }
 
-    if(ai_isRefererAllowed($obj, $http_referer)==false){
+    if (ai_isRefererAllowed ($obj, $http_referer)==false){
       continue;
     }
 
-    if($obj->get_append_type() == AD_SELECT_BEFORE_TITLE){
-
-       $ad_code .= "<div style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
-    }
+//    if ($obj->get_append_type () == AD_SELECT_BEFORE_TITLE){
+      $ad_code .= "<div style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
+//    }
   }
 
   echo $ad_code;
 }
-function ai_isCategoryAllowed($categories, $cat_type){
+
+function ai_isCategoryAllowed ($categories, $cat_type){
 
   $categories = trim(strtolower($categories));
 
@@ -653,7 +695,7 @@ function ai_isCategoryAllowed($categories, $cat_type){
     }
 }
 
-function ai_isDisplayAllowed($obj, $content){
+function ai_isDisplayAllowed ($obj, $content){
 
   if (preg_match("/" . $obj->get_ad_disable() . "/i", $content)) {
       return false;
@@ -663,7 +705,7 @@ function ai_isDisplayAllowed($obj, $content){
 
 }
 
-function ai_isDisplayDateAllowed($obj, $publish_date){
+function ai_isDisplayDateAllowed ($obj, $publish_date){
 
   $after_days = trim ($obj->get_ad_after_day());
 
@@ -676,7 +718,7 @@ function ai_isDisplayDateAllowed($obj, $publish_date){
 }
 
 
-function ai_isRefererAllowed($obj, $http_referer){
+function ai_isRefererAllowed ($obj, $http_referer){
 
   $websites = explode(",",$obj->get_ad_block_user());
 
@@ -699,50 +741,47 @@ function ai_isRefererAllowed($obj, $http_referer){
   }
 
   return $referer_allow;
-
 }
 
-function generateAdInserterDiv($content, $ad_all_data, $publish_date, $http_referer){
+function generateAdInserterCode ($content, $ad_all_data, $publish_date, $http_referer){
 
-  foreach($ad_all_data as $index => $obj){
+  foreach($ad_all_data as $index => $obj) {
 
     //if empty data, continue next
-    if($obj->get_ad_data()==AD_EMPTY_DATA){
+    if ($obj->get_ad_data() == AD_EMPTY_DATA) {
       continue;
     }
 
-      if(ai_isDisplayAllowed($obj, $content)==false){
+    if (is_single ()) {
+      if (!$obj->get_widget_settings_post ()) continue;
+    } elseif (is_page ()) {
+      if (!$obj->get_widget_settings_page ()) continue;
+    } else continue;
+
+    if (ai_isDisplayAllowed ($obj, $content) == false) {
       continue;
     }
 
-      if(ai_isCategoryAllowed($obj->get_ad_block_cat(), $obj->get_ad_block_cat_type())==false){
+    if (ai_isCategoryAllowed ($obj->get_ad_block_cat(), $obj->get_ad_block_cat_type()) == false) {
       continue;
     }
 
-      if(ai_isDisplayDateAllowed($obj, $publish_date)==false){
+    if (ai_isDisplayDateAllowed ($obj, $publish_date) == false) {
       continue;
     }
 
-      if(ai_isRefererAllowed($obj, $http_referer)==false){
+    if (ai_isRefererAllowed ($obj, $http_referer) == false) {
       continue;
     }
 
-    if($obj->get_append_type() == AD_SELECT_BEFORE_PARAGRAPH){
-
-       $content = ai_generateBeforeParagraph($content, $obj);
-
-    }elseif($obj->get_append_type() == AD_SELECT_BEFORE_CONTENT){
-
-       $content = ai_generateDivBefore($content, $obj);
-
-    }elseif($obj->get_append_type() == AD_SELECT_AFTER_CONTENT){
-
-       $content = ai_generateDivAfter($content, $obj);
-
-    }elseif($obj->get_append_type() == AD_SELECT_MANUAL){
-
-       $content = ai_generateDivManual($content, $obj, $index + 1);
-
+    if ($obj->get_append_type() == AD_SELECT_BEFORE_PARAGRAPH) {
+      $content = ai_generateBeforeParagraph ($content, $obj);
+    } elseif ($obj->get_append_type () == AD_SELECT_BEFORE_CONTENT) {
+      $content = ai_generateDivBefore ($content, $obj);
+    } elseif ($obj->get_append_type() == AD_SELECT_AFTER_CONTENT) {
+      $content = ai_generateDivAfter ($content, $obj);
+    } elseif ($obj->get_append_type() == AD_SELECT_MANUAL) {
+      $content = ai_generateDivManual ($content, $obj, $index + 1);
     }
   }
 
@@ -757,6 +796,13 @@ function generateAdInserterDiv($content, $ad_all_data, $publish_date, $http_refe
 
 function ai_getAdCode ($obj){
   $ad_code = $obj->get_ad_data_replaced();
+
+  if ($obj->get_process_php ()) {
+    ob_start ();
+    eval ("?>". $ad_code . "<?php ");
+    $ad_code = ob_get_clean ();
+  }
+
   if (strpos ($ad_code, AD_SEPARATOR) !== false) {
     $ads = explode (AD_SEPARATOR, $ad_code);
     $ad_code = $ads [rand (0, sizeof ($ads) - 1)];
@@ -765,55 +811,50 @@ function ai_getAdCode ($obj){
 }
 
 
-function ai_generateBeforeParagraph($content, $obj){
+function ai_generateBeforeParagraph ($content, $obj){
 
-   $poses = array();
-    $poseslast = array();
-   $lastpos = -1;
+  $paragraph_positions = array ();
+  $poseslast = array ();
+  $last_position = - 1;
 
-   $findchar = "<p>";
-   if(strpos($content, "<p") === false)
-     $repchar = "<br";
+  $paragraph_start = "<p";
 
-   while(strpos($content, $findchar, $lastpos+1) !== false){
-     $lastpos = strpos($content, $findchar, $lastpos+1);
-     $poses[] = $lastpos;
-   }
+  while (strpos ($content, $paragraph_start, $last_position + 1) !== false){
+    $last_position = strpos ($content, $paragraph_start, $last_position + 1);
+    if ($content [$last_position + 2] == ">" || $content [$last_position + 2] == " ")
+      $paragraph_positions [] = $last_position;
+  }
 
-   $para = $obj->get_paragraph_number();
-   if ($para <= 0) {
-     $para = rand (0, sizeof ($poses) - 1);
-   } elseif ($obj->get_direction_type() == AD_DIRECTION_FROM_BOTTOM) {
-     $poses = array_reverse ($poses);
-     $para = $para - 1;
-   } else $para --;
+  $para = $obj->get_paragraph_number();
+  if ($para <= 0) {
+    $para = rand (0, sizeof ($paragraph_positions) - 1);
+  } elseif ($obj->get_direction_type() == AD_DIRECTION_FROM_BOTTOM) {
+    $paragraph_positions = array_reverse ($paragraph_positions);
+    $para = $para - 1;
+  } else $para --;
 
 
-   if(sizeof($poses) > $para && sizeof ($poses) >= $obj->get_paragraph_number_minimum()) {
-      $pickme = $poses [$para];
+  if(sizeof($paragraph_positions) > $para && sizeof ($paragraph_positions) >= $obj->get_paragraph_number_minimum()) {
+     $pickme = $paragraph_positions [$para];
 
-      $content = substr_replace ($content, "<div style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>", $pickme, 0);
+     $content = substr_replace ($content, "<div style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>", $pickme, 0);
 
-      //reset it
-      $lastpos = -1;
-   }
+     //reset it
+     $last_position = -1;
+  }
 
-   return $content;
+  return $content;
 }
 
-function ai_generateDivBefore($content, $obj){
-
-   return "<div style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>" . $content;
-
+function ai_generateDivBefore ($content, $obj){
+  return "<div style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>" . $content;
 }
 
-function ai_generateDivAfter($content, $obj){
-
-   return $content . "<div style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
-
+function ai_generateDivAfter ($content, $obj){
+  return $content . "<div style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
 }
 
-function ai_generateDivManual($content, $obj, $ad_number){
+function ai_generateDivManual ($content, $obj, $ad_number){
 
    if (preg_match_all("/{adinserter (.+?)}/", $content, $tags)){
      foreach ($tags [1] as $tag) {
