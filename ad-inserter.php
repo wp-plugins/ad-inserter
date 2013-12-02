@@ -522,7 +522,7 @@ function ai_excerpt_hook ($content = ''){
 
 //  $content = generateAdInserterCode ($content, $ad_all_data, $publish_date, $http_referer);
 
-  return "#DELA#".$content."##";
+  return $content;
 }
 
 // Process before title postion
