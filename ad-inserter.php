@@ -17,7 +17,7 @@ TO DO
 /*
 Change Log
 
-Ad Inserter 1.3.1 - 1 December 2013
+Ad Inserter 1.3.1 - 3 December 2013
 - Added option to insert ads also on pages
 - Added option to process PHP code
 - Few bugs fixed

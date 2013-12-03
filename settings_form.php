@@ -54,7 +54,7 @@ function print_settings_form ($ad_array){
      Block Name:  <input type="text" name="<?php echo $obj->option_ad_name; ?>" value="<?php echo $obj->get_ad_name() ?>" size="50" maxlength="50"/> &nbsp;Here you can rename block.
   </div>
   <div style="padding-left:16px;">
-      Put ad or any HTML / Javascript / PHP code here (separate rotating versions with |rotate|):
+      Put ad or any HTML / Javascript / PHP code here (separate rotating versions with |rotate| ):
   </div>
   <div style="padding:8px;">
       <textarea name="<?php echo $obj->option_ad_data; ?>" rows="24" cols="98" style="background-color:#F9F9F9; font-family: Courier, 'Courier New', monospace;"><?php echo str_replace ("&", "&amp;", $obj->get_ad_data()); ?></textarea>
