@@ -6,7 +6,7 @@ if (!defined( 'AD_INSERTER_TITLE'))
   define ('AD_INSERTER_TITLE', 'Ad Inserter');
 
 if (!defined( 'AD_INSERTER_VERSION'))
-  define ('AD_INSERTER_VERSION', '1.3.0');
+  define ('AD_INSERTER_VERSION', '1.3.1');
 
 if (!defined ('AD_INSERTER_PLUGIN_DIR'))
   define ('AD_INSERTER_PLUGIN_DIR', plugin_dir_path (__FILE__));
@@ -82,7 +82,6 @@ define('AD_AD16_OPTIONS','AdInserter16Options');
 
 //misc
 define('AD_EMPTY_VALUE','');
-//define('AD_FUNC_TYPE_RESET','reset');
 
 //define constant variable form
 define('AD_FORM_SAVE','ad_save');
