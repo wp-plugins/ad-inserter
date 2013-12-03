@@ -1,17 +1,17 @@
 === Ad Inserter ===
 Contributors: spacetime
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LHGZEMRTR7WB4
-Tags: adsense, amazon, ad, ads, html, code, widget, sidebar, rotating, banners
+Tags: adsense, amazon, ad, ads, html, javascript, php, code, widget, sidebar, rotating, banner, contextual
 Requires at least: 3.0
 Tested up to: 3.7.1
-Stable tag: 1.2.1
+Stable tag: 1.3.1
 License: GPLv3
 
-Integrate any HTML code into Wordpress. Just paste the code and select the location and display mode. Perfect for AdSense or contextual Amazon ads.
+Integrate any HTML/Javascript/PHP code into Wordpress. Perfect for AdSense or contextual Amazon ads.
 
 == Description ==
 
-An elegant solution to put any ad into Wordpress. **Perfect for AdSense or contextual Amazon ads.** Simply enter any HTML code and select where and how you want to display it (including widgets). You can also use {category}, {short_category}, {title}, {short_title}, {tag}, {smart_tag} or {search_query} tags to get actual post data. To rotate different ad versions separate them with |rotate|. Manual insertion is also possible with {adinserter AD_NAME} or {adinserter AD_NUMBER} tag.
+An elegant solution to put any ad into Wordpress. **Perfect for AdSense or contextual Amazon ads.** Simply enter any HTML/Javascript/PHP code and select where and how you want to display it (including widgets). You can also use {category}, {short_category}, {title}, {short_title}, {tag}, {smart_tag} or {search_query} tags to get actual post data. To rotate different ad versions separate them with |rotate|. Manual insertion is also possible with {adinserter AD_NAME} or {adinserter AD_NUMBER} tag.
 
 Display Options:
 
@@ -31,6 +31,8 @@ Alignment:
 *   Float Left
 *   Float Right
 
+PHP processing: Enabled or Disabled
+
 Do not display ad if the number of paragraphs is below limit (used only for position Before Selected Paragraph).
 
 Display ad only for posts published after N days.
@@ -39,14 +41,17 @@ Do not display ads to users from certain domains e.g technorati.com, facebook.co
 
 Do not display ads in certain caregories e.g sport, news, science,... (black list) or display ads only in certain categories (white list). **Leave category list empty and set to Black list to show ads in all categories.**
 
-Display positions Before Selected Paragraph, Before Content, After Content and Manual are used only in posts. For display positions Before Title and Widget you can select on which pages the ad will be displayed:
+For all display positions you can also define Wordpress page types where the ads can be displayed:
 
-*   Home
-*   Page
-*   Post
-*   Category
-*   Search
-*   Archive
+*   Posts
+*   Pages
+
+For display positions Before Title and Widget you can select additional pages where the ads can be displayed:
+
+*   Homepage
+*   Category pages
+*   Search Pages
+*   Archive pages
 
 You can also disable ads in certain posts. For example, to disable ad block 1 in post put the following HTML code within post code:
 
@@ -104,6 +109,17 @@ Example:
 ad_code_2
 |rotate|
 ad_code_3`
+
+
+= How can I use PHP code? =
+
+Enter PHP code surrounded by PHP tags.
+Example:
+
+`<div style="width: 100%;">
+Some HTML/Javascript code
+</div>
+<?php echo "PHP code by Ad Inserter"; ?>`
 
 
 = How can I create contextual Amazon ad (to show items related to the post)? =
@@ -171,6 +187,11 @@ ad_code
 
 == Changelog ==
 
+= 1.3.1 =
+* Added option to insert ads also on pages
+* Added option to process PHP code
+* Few bugs fixed
+
 = 1.3.0 =
 * Number of ad slots increased to 16
 * New tabbed admin interface
@@ -223,6 +244,11 @@ ad_code
 
 
 == Upgrade Notice ==
+
+= 1.3.1 =
+Added option to insert ads also on pages,
+Added option to process PHP code,
+Few bugs fixed
 
 = 1.3.0 =
 Number of ad slots increased to 16,
