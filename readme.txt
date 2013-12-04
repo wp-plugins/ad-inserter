@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: adsense, amazon, ad, ads, html, javascript, php, code, widget, sidebar, rotating, banner, contextual
 Requires at least: 3.0
 Tested up to: 3.7.1
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 License: GPLv3
 
 Integrate any HTML/Javascript/PHP code into Wordpress. Perfect for AdSense or contextual Amazon ads.
@@ -187,6 +187,9 @@ ad_code
 
 == Changelog ==
 
+= 1.3.2 =
+* Fixed blank settings page caused by incompatibility with some themes or plugins
+
 = 1.3.1 =
 * Added option to insert ads also on pages
 * Added option to process PHP code
@@ -244,6 +247,9 @@ ad_code
 
 
 == Upgrade Notice ==
+
+= 1.3.2 =
+Fixed blank settings page caused by incompatibility with some themes or plugins
 
 = 1.3.1 =
 Added option to insert ads also on pages,
