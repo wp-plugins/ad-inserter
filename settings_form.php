@@ -6,7 +6,7 @@ function print_settings_form ($ad_array){
 
 ?>
 
-<div style="margin-right: 16px; float: left; ">
+<div id="ai-settings" style="margin-right: 16px; float: left; ">
 
   <div style="width: 735px; /*height: 90px; */padding: 8px 8px 8px 8px; margin: 8px 0 8px 0; border: 1px solid rgb(221, 221, 221); border-radius: 5px;">
     <div style="float: right; margin: 17px 20px 0 0; text-decoration: none;">
