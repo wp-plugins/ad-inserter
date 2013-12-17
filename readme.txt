@@ -3,7 +3,7 @@ Contributors: spacetime
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LHGZEMRTR7WB4
 Tags: adsense, amazon, ad, ads, html, javascript, php, code, widget, sidebar, rotating, banner, contextual
 Requires at least: 3.0
-Tested up to: 3.7.1
+Tested up to: 3.8
 Stable tag: 1.3.2
 License: GPLv3
 
