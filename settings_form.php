@@ -8,14 +8,17 @@ function print_settings_form ($ad_array){
 
 <div id="ai-settings" style="margin-right: 16px; float: left; ">
 
-  <div style="width: 735px; /*height: 90px; */padding: 8px 8px 8px 8px; margin: 8px 0 8px 0; border: 1px solid rgb(221, 221, 221); border-radius: 5px;">
-    <div style="float: right; margin: 17px 20px 0 0; text-decoration: none;">
+  <div style="width: 735px; padding: 2px 8px 2px 8px; margin: 8px 0 8px 0; border: 1px solid rgb(221, 221, 221); border-radius: 5px;">
+    <div style="float: right; margin: 7px 20px 0 0; text-decoration: none;">
       <a style="text-decoration: none;" href="http://igorfuna.com/contact/contact-igor-funa" target="_blank">Contact Author</a> #
       <a style="text-decoration: none;" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LHGZEMRTR7WB4" target="_blank">Donate</a> #
       <a style="text-decoration: none;" href="http://tinymonitor.com/" target="_blank">AdSense and Amazon Monitor</a> #
       <a style="text-decoration: none;" href="http://igorfuna.com/wordpress-hosting" target="_blank">Cool Wordpress Hosting</a>
     </div>
-    <h1><?php echo AD_INSERTER_TITLE . ' ' . AD_INSERTER_VERSION ?></h1>
+    <div style="float: right; text-align: right; margin: 2px 18px 2px 0;">
+        If you find the <strong><?php echo AD_INSERTER_TITLE; ?></strong> plugin useful, <strong style="color: #0a0;">please rate it</strong> on the <a style="text-decoration: none;" href="http://wordpress.org/plugins/ad-inserter/" target="_blank">plugin directory page</a>.
+    </div>
+    <h2><?php echo AD_INSERTER_TITLE . ' ' . AD_INSERTER_VERSION ?></h2>
   </div>
 
 <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" id="ad_form" name="ad_form" style="float: left;">
@@ -41,13 +44,14 @@ function print_settings_form ($ad_array){
 ?>
 
 <div id="tab-<?php echo $ad_number; ?>" style="padding: 0;">
-
-    <br />
-    <br />
-    <br />
+  <br />
 
   <div style="padding-left:4px;">
     <h3><?php echo $ad_number, ".  ", $obj->get_ad_name(); ?></h3>
+  </div>
+
+  <div style="float: right; padding: 1px 5px;">
+        <input name="<?php echo AD_FORM_SAVE; ?>" value="Save All Settings" type="submit" style="width:120px; font-weight: bold;" />
   </div>
 
   <div style="padding:0px 8px 16px 16px;">
@@ -57,7 +61,7 @@ function print_settings_form ($ad_array){
       Put ad or any HTML / Javascript / PHP code here (separate rotating versions with |rotate| ):
   </div>
   <div style="padding:8px;">
-      <textarea name="<?php echo $obj->option_ad_data; ?>" rows="24" cols="98" style="background-color:#F9F9F9; font-family: Courier, 'Courier New', monospace;"><?php echo str_replace ("&", "&amp;", $obj->get_ad_data()); ?></textarea>
+      <textarea name="<?php echo $obj->option_ad_data; ?>" rows="24" cols="98" style="background-color:#F9F9F9; font-family: Courier, 'Courier New', monospace; width: 723px;"><?php echo str_replace ("&", "&amp;", $obj->get_ad_data()); ?></textarea>
   </div>
 
   <div style="padding:8px 8px 16px 16px;">
@@ -68,6 +72,8 @@ function print_settings_form ($ad_array){
         <option value="<?php echo AD_SELECT_BEFORE_CONTENT; ?>" <?php echo ($obj->get_append_type()==AD_SELECT_BEFORE_CONTENT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_BEFORE_CONTENT; ?></option>
         <option value="<?php echo AD_SELECT_BEFORE_PARAGRAPH; ?>" <?php echo ($obj->get_append_type()==AD_SELECT_BEFORE_PARAGRAPH) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_BEFORE_PARAGRAPH; ?></option>
         <option value="<?php echo AD_SELECT_AFTER_CONTENT; ?>" <?php echo ($obj->get_append_type()==AD_SELECT_AFTER_CONTENT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_AFTER_CONTENT; ?></option>
+        <option value="<?php echo AD_SELECT_BEFORE_EXCERPT; ?>" <?php echo ($obj->get_append_type()==AD_SELECT_BEFORE_EXCERPT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_BEFORE_EXCERPT; ?></option>
+        <option value="<?php echo AD_SELECT_AFTER_EXCERPT; ?>" <?php echo ($obj->get_append_type()==AD_SELECT_AFTER_EXCERPT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_AFTER_EXCERPT; ?></option>
         <option value="<?php echo AD_SELECT_WIDGET; ?>" <?php echo ($obj->get_append_type()==AD_SELECT_WIDGET) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_WIDGET; ?></option>
         <option value="<?php echo AD_SELECT_MANUAL; ?>" <?php echo ($obj->get_append_type()==AD_SELECT_MANUAL) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_MANUAL; ?></option>
      </select>
@@ -97,8 +103,7 @@ function print_settings_form ($ad_array){
      <input type="checkbox" name="<?php echo $obj->option_widget_settings_page; ?>" value="1" <?php if ($obj->get_widget_settings_page()==AD_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_widget_settings_page; ?>">Pages</label><br>
      <br />
 
-     <strong>Before Title</strong> and
-     <strong>Widget</strong> enabled also on:
+     <span style="font-size: 90%;">Excerpt, Before Title and Widget enabled also on:</span>
      <br /><br />
      <input type="hidden" name="<?php echo $obj->option_widget_settings_home; ?>" value="0" />
      <input type="checkbox" name="<?php echo $obj->option_widget_settings_home; ?>" value="1" <?php if ($obj->get_widget_settings_home()==AD_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_widget_settings_home; ?>">Homepage</label><br>
@@ -125,9 +130,14 @@ function print_settings_form ($ad_array){
           <option value="<?php echo AD_DIRECTION_FROM_BOTTOM; ?>" <?php echo ($obj->get_direction_type()==AD_DIRECTION_FROM_BOTTOM) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DIRECTION_FROM_BOTTOM; ?></option>
        </select>
   </div>
+  <div style="padding:4px 8px 4px 8px; margin-top: 10px; margin-right: 15px; border: 1px solid #ddd; border-radius: 5px; width: 280px; float: right;">
+    <strong>Before Excerpt</strong> / <strong>After Excerpt</strong> display settings
+    <br />
+    Excerpt number <input type="text" name="<?php echo $obj->option_excerpt_number; ?>" value="<?php echo $obj->get_excerpt_number() ?>" size="2" maxlength="2"/> &nbsp;&nbsp;0 means all excerpts.
+  </div>
   <br />
   <div style="padding:0px 8px 16px 16px;">
-    Display for post published after:  <input type="text" name="<?php echo $obj->option_ad_after_day; ?>" value="<?php echo $obj->get_ad_after_day() ?>" size="2" maxlength="3"/> day(s). &nbsp;&nbsp;&nbsp;&nbsp;0 means publish immediately.
+    Display for post published after:  <input type="text" name="<?php echo $obj->option_ad_after_day; ?>" value="<?php echo $obj->get_ad_after_day() ?>" size="2" maxlength="3"/> day(s).<br />0 means publish immediately.
   </div>
 
   <div style="padding:0px 8px 16px 16px;">
@@ -176,7 +186,7 @@ function print_settings_form ($ad_array){
 </div>
 
   <div style="float: left;">
-    <div style="width: 735px; padding: 2px 8px 6px 8px; margin: 8px 0 8px 0; border: 1px solid rgb(221, 221, 221); border-radius: 5px;">
+    <div style="width: 735px; padding: 2px 8px 6px 8px; margin: 8px 0 8px 0; border: 1px solid rgb(221, 221, 221); border-radius: 5px; background: #fff;">
       <h2>Monitor Google AdSense and Amazon Associates earnings with <a href="http://tinymonitor.com/" target="_blank">Tiny Monitor</a></h2>
       <a href="http://tinymonitor.com/" target="_blank"><img src="<?php echo AD_INSERTER_PLUGIN_IMAGES_URL; ?>tinymonitor-logo.png" alt="Tiny Monitor" /></a>
       <a href="http://tinymonitor.com/" target="_blank"><img src="<?php echo AD_INSERTER_PLUGIN_IMAGES_URL; ?>tiny-monitor.png" alt="Amazon Associates" /></a>
@@ -185,4 +195,3 @@ function print_settings_form ($ad_array){
 
 <?php
   }
-?>

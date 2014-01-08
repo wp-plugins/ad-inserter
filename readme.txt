@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: adsense, amazon, ad, ads, html, javascript, php, code, widget, sidebar, rotating, banner, contextual
 Requires at least: 3.0
 Tested up to: 3.8
-Stable tag: 1.3.2
+Stable tag: 1.3.3
 License: GPLv3
 
 Integrate any HTML/Javascript/PHP code into Wordpress. Perfect for AdSense or contextual Amazon ads.
@@ -19,6 +19,8 @@ Display Options:
 *   Display ad Before Selected Paragraph (0 means random paragraph):
 *   Display ad After Content (after post text)
 *   Display ad Before Title (does not work with all themes)
+*   Display ad Before Excerpt
+*   Display ad After Excerpt
 *   Ad as a Widget
 *   Manual - Insert {adinserter AD_NUMBER} or {adinserter AD_NAME} into post HTML code to display ad with AD_NAME name or ad number AD_NUMBER at this position
 
@@ -46,7 +48,7 @@ For all display positions you can also define Wordpress page types where the ads
 *   Posts
 *   Pages
 
-For display positions Before Title and Widget you can select additional pages where the ads can be displayed:
+For display positions Before Excerpt, After Excerpt, Before Title and Widget you can select additional pages where the ads can be displayed:
 
 *   Homepage
 *   Category pages
@@ -187,6 +189,12 @@ ad_code
 
 == Changelog ==
 
+= 1.3.3 =
+* Added option to insert ads also before or after the excerpt
+* Fixed bug: in some cases many errors reported after activating the plugin
+* Few minor bugs fixed
+* Few minor cosmetic changes
+
 = 1.3.2 =
 * Fixed blank settings page caused by incompatibility with some themes or plugins
 
@@ -247,6 +255,12 @@ ad_code
 
 
 == Upgrade Notice ==
+
+= 1.3.3 =
+Fixed bug: in some cases many errors reported after activating the plugin,
+Added option to insert ads also before or after the excerpt,
+Few minor bugs fixed,
+Few minor cosmetic changes
 
 = 1.3.2 =
 Fixed blank settings page caused by incompatibility with some themes or plugins

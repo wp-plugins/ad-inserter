@@ -6,7 +6,7 @@ if (!defined( 'AD_INSERTER_TITLE'))
   define ('AD_INSERTER_TITLE', 'Ad Inserter');
 
 if (!defined( 'AD_INSERTER_VERSION'))
-  define ('AD_INSERTER_VERSION', '1.3.2');
+  define ('AD_INSERTER_VERSION', '1.3.3');
 
 if (!defined ('AD_INSERTER_PLUGIN_DIR'))
   define ('AD_INSERTER_PLUGIN_DIR', plugin_dir_path (__FILE__));
@@ -87,7 +87,7 @@ define('AD_EMPTY_VALUE','');
 define('AD_FORM_SAVE','ad_save');
 define('AD_FORM_CLEAR','ad_clear');
 
-define('AD_AUTHOR_SITE', '<!-- Powered by Ad Inserter Wordpress Plugin, Author: Igor Funa -->');
+define('AD_AUTHOR_SITE', '<!-- Powered by Ad Inserter Plugin By Spacetime -->');
 define('AD_SEPARATOR', '|rotate|');
 
 //form select options
@@ -99,6 +99,8 @@ define('AD_SELECT_BEFORE_TITLE','Before Title');
 define('AD_SELECT_BEFORE_PARAGRAPH','Before Paragraph');
 define('AD_SELECT_BEFORE_CONTENT','Before Content');
 define('AD_SELECT_AFTER_CONTENT','After Content');
+define('AD_SELECT_BEFORE_EXCERPT','Before Excerpt');
+define('AD_SELECT_AFTER_EXCERPT','After Excerpt');
 define('AD_SELECT_WIDGET','Widget');
 define('AD_SELECT_MANUAL','Manual');
 

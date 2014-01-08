@@ -2,9 +2,9 @@
 
 /*
 Plugin Name: Ad Inserter
-Version: 1.3.2
+Version: 1.3.3
 Description: An elegant solution to put any ad into Wordpress. Simply enter any HTML, Javascript or PHP code and select where and how you want to display it (including Widgets). You can also use {category}, {short_category}, {title}, {short_title}, {tag}, {smart_tag} or {search_query} tags to get actual post data. To rotate different ad versions separate them with |rotate|. Manual insertion is also possible with {adinserter AD_NAME} or {adinserter AD_NUMBER} tag.
-Author: Igor Funa
+Author: Spacetime
 Author URI: http://igorfuna.com/
 Plugin URI: http://igorfuna.com/software/web/ad-inserter-wordpress-plugin
 */
@@ -16,6 +16,12 @@ TO DO
 
 /*
 Change Log
+
+Ad Inserter 1.3.3 - 8 January 2014
+- Added option to insert ads also before or after the excerpt
+- Fixed bug: in some cases many errors reported after activating the plugin
+- Few minor bugs fixed
+- Few minor cosmetic changes
 
 Ad Inserter 1.3.2 - 4 December 2013
 - Fixed blank settings page caused by incompatibility with some themes or plugins
@@ -79,7 +85,7 @@ Ad Inserter 1.0.0 - 14/11/2010
 
 
 //ini_set('display_errors',1);
-//error_reporting(E_ALL);
+//error_reporting (E_ALL);
 
 
 /* Version check */
@@ -96,13 +102,12 @@ require_once 'constants.php';
 require_once 'settings_form.php';
 
 //hook
-add_action ('admin_menu', 'ai_admin_menu');
-add_filter ('the_content', 'ai_content_hook', 99999);
-add_filter ('the_excerpt', 'ai_excerpt_hook', 99999);
-add_filter ('get_the_excerpt', 'ai_excerpt_hook', 99999);
-add_action ('loop_start', 'ai_loop_start_hook');
-add_action ('init', 'AdInserter_Init');
-add_action ('admin_notices', 'ai_admin_notice');
+add_action ('admin_menu',       'ai_admin_menu');
+add_filter ('the_content',      'ai_content_hook', 99999);
+add_filter ('the_excerpt',      'ai_excerpt_hook', 99999);
+add_action ('loop_start',       'ai_loop_start_hook');
+add_action ('init',             'AdInserter_Init');
+add_action ('admin_notices',    'ai_admin_notice');
 
 function AdInserter_Init() {
 
@@ -123,34 +128,21 @@ function AdInserter_Init() {
   $ad15 = new Ad15();
   $ad16 = new Ad16();
 
-  //load options from db
-  $ad1->wp_options  = ai_get_option (AD_AD1_OPTIONS);
-  $ad2->wp_options  = ai_get_option (AD_AD2_OPTIONS);
-  $ad3->wp_options  = ai_get_option (AD_AD3_OPTIONS);
-  $ad4->wp_options  = ai_get_option (AD_AD4_OPTIONS);
-  $ad5->wp_options  = ai_get_option (AD_AD5_OPTIONS);
-  $ad6->wp_options  = ai_get_option (AD_AD6_OPTIONS);
-  $ad7->wp_options  = ai_get_option (AD_AD7_OPTIONS);
-  $ad8->wp_options  = ai_get_option (AD_AD8_OPTIONS);
-  $ad9->wp_options  = ai_get_option (AD_AD9_OPTIONS);
-  $ad10->wp_options = ai_get_option (AD_AD10_OPTIONS);
-  $ad11->wp_options = ai_get_option (AD_AD11_OPTIONS);
-  $ad12->wp_options = ai_get_option (AD_AD12_OPTIONS);
-  $ad13->wp_options = ai_get_option (AD_AD13_OPTIONS);
-  $ad14->wp_options = ai_get_option (AD_AD14_OPTIONS);
-  $ad15->wp_options = ai_get_option (AD_AD15_OPTIONS);
-  $ad16->wp_options = ai_get_option (AD_AD16_OPTIONS);
+  $ad_all_data = array ($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8,$ad9,$ad10,$ad11,$ad12,$ad13,$ad14,$ad15,$ad16);
 
-  $ad_all_data = array($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8,$ad9,$ad10,$ad11,$ad12,$ad13,$ad14,$ad15,$ad16);
-
+  // Load options from db
   foreach($ad_all_data as $key => $obj){
-     if($obj->get_append_type() == AD_SELECT_WIDGET){
-       $ad_counter = $key + 1;
-       // register widget
-       $widget_options = array ('classname' => 'ai_widget', 'description' => "Put any ad or HTML code into the Sidebar." );
-       wp_register_sidebar_widget ('ai_widget'.$ad_counter, $obj->get_ad_name(), 'ai_widget'.$ad_counter, $widget_options);
+    $obj->load_options ("AdInserter".($key + 1)."Options");
+  }
 
-     }
+  foreach ($ad_all_data as $key => $obj){
+    if($obj->get_append_type() == AD_SELECT_WIDGET){
+      $ad_counter = $key + 1;
+      // register widget
+      $widget_options = array ('classname' => 'ai_widget', 'description' => "Put any ad or HTML/PHP/Javascript code into the Sidebar." );
+      wp_register_sidebar_widget ('ai_widget'.$ad_counter, $obj->get_ad_name(), 'ai_widget'.$ad_counter, $widget_options);
+
+    }
   }
 }
 
@@ -178,7 +170,9 @@ function ai_admin_notice () {
   $plugin_options = ai_plugin_options ();
   $plugin_db_options = get_option (AD_OPTIONS);
 
-  if (!isset ($plugin_db_options ['VERSION']) && ($current_screen->id != "settings_page_ad-inserter" || (!isset ($_POST [AD_FORM_SAVE]) && !isset ($_POST [AD_FORM_CLEAR])))) {
+  $ad_inserter_installed = get_option ('ad1_name') != '';
+
+  if ($ad_inserter_installed && !isset ($plugin_db_options ['VERSION']) && ($current_screen->id != "settings_page_ad-inserter" || (!isset ($_POST [AD_FORM_SAVE]) && !isset ($_POST [AD_FORM_CLEAR])))) {
     echo "<div id='message' class='updated below-h2' style='margin: 5px 15px 2px 0px; padding: 10px;'><strong>
       Notice: ".AD_INSERTER_TITLE." plugin was updated. New version can insert ads also on static pages.
       Please <a href=\"/wp-admin/options-general.php?page=ad-inserter.php\">check</a> if page display options for all ad slots are set properly.
@@ -396,27 +390,14 @@ function ai_menu () {
       echo "<div id='message' class='error' style='margin: 5px 15px 2px 0px; padding: 10px;'>Settings cleared.</div>";
   }
 
+  $ad_all_data = array($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8,$ad9,$ad10,$ad11,$ad12,$ad13,$ad14,$ad15,$ad16);
+
   // Load options from db
-  $ad1->wp_options  = ai_get_option (AD_AD1_OPTIONS);
-  $ad2->wp_options  = ai_get_option (AD_AD2_OPTIONS);
-  $ad3->wp_options  = ai_get_option (AD_AD3_OPTIONS);
-  $ad4->wp_options  = ai_get_option (AD_AD4_OPTIONS);
-  $ad5->wp_options  = ai_get_option (AD_AD5_OPTIONS);
-  $ad6->wp_options  = ai_get_option (AD_AD6_OPTIONS);
-  $ad7->wp_options  = ai_get_option (AD_AD7_OPTIONS);
-  $ad8->wp_options  = ai_get_option (AD_AD8_OPTIONS);
-  $ad9->wp_options  = ai_get_option (AD_AD9_OPTIONS);
-  $ad10->wp_options = ai_get_option (AD_AD10_OPTIONS);
-  $ad11->wp_options = ai_get_option (AD_AD11_OPTIONS);
-  $ad12->wp_options = ai_get_option (AD_AD12_OPTIONS);
-  $ad13->wp_options = ai_get_option (AD_AD13_OPTIONS);
-  $ad14->wp_options = ai_get_option (AD_AD14_OPTIONS);
-  $ad15->wp_options = ai_get_option (AD_AD15_OPTIONS);
-  $ad16->wp_options = ai_get_option (AD_AD16_OPTIONS);
+  foreach ($ad_all_data as $key => $obj){
+    $obj->load_options ("AdInserter".($key + 1)."Options");
+  }
 
-  $ad_array = array($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8,$ad9,$ad10,$ad11,$ad12,$ad13,$ad14,$ad15,$ad16);
-
-  print_settings_form ($ad_array);
+  print_settings_form ($ad_all_data);
 }
 
 
@@ -439,32 +420,18 @@ function ai_content_hook ($content = ''){
   $ad15 = new Ad15();
   $ad16 = new Ad16();
 
-
-   //load options from db
-  $ad1->wp_options  = ai_get_option (AD_AD1_OPTIONS);
-  $ad2->wp_options  = ai_get_option (AD_AD2_OPTIONS);
-  $ad3->wp_options  = ai_get_option (AD_AD3_OPTIONS);
-  $ad4->wp_options  = ai_get_option (AD_AD4_OPTIONS);
-  $ad5->wp_options  = ai_get_option (AD_AD5_OPTIONS);
-  $ad6->wp_options  = ai_get_option (AD_AD6_OPTIONS);
-  $ad7->wp_options  = ai_get_option (AD_AD7_OPTIONS);
-  $ad8->wp_options  = ai_get_option (AD_AD8_OPTIONS);
-  $ad9->wp_options  = ai_get_option (AD_AD9_OPTIONS);
-  $ad10->wp_options = ai_get_option (AD_AD10_OPTIONS);
-  $ad11->wp_options = ai_get_option (AD_AD11_OPTIONS);
-  $ad12->wp_options = ai_get_option (AD_AD12_OPTIONS);
-  $ad13->wp_options = ai_get_option (AD_AD13_OPTIONS);
-  $ad14->wp_options = ai_get_option (AD_AD14_OPTIONS);
-  $ad15->wp_options = ai_get_option (AD_AD15_OPTIONS);
-  $ad16->wp_options = ai_get_option (AD_AD16_OPTIONS);
-
   $ad_all_data = array ($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8,$ad9,$ad10,$ad11,$ad12,$ad13,$ad14,$ad15,$ad16);
+
+  // Load options from db
+  foreach ($ad_all_data as $key => $obj){
+    $obj->load_options ("AdInserter".($key + 1)."Options");
+  }
 
   //get post published date
   $publish_date = the_date ('U','','',false);
 
-  $http_referer = '';
   //get referer
+  $http_referer = '';
   if(isset($_SERVER['HTTP_REFERER'])) {
       $http_referer = $_SERVER['HTTP_REFERER'];
   }
@@ -474,6 +441,7 @@ function ai_content_hook ($content = ''){
   return $content;
 }
 
+// Process Before/After Excerpt postion
 function ai_excerpt_hook ($content = ''){
 
   $ad1  = new Ad1();
@@ -493,42 +461,113 @@ function ai_excerpt_hook ($content = ''){
   $ad15 = new Ad15();
   $ad16 = new Ad16();
 
-
-   //load options from db
-  $ad1->wp_options  = ai_get_option(AD_AD1_OPTIONS);
-  $ad2->wp_options  = ai_get_option(AD_AD2_OPTIONS);
-  $ad3->wp_options  = ai_get_option(AD_AD3_OPTIONS);
-  $ad4->wp_options  = ai_get_option(AD_AD4_OPTIONS);
-  $ad5->wp_options  = ai_get_option(AD_AD5_OPTIONS);
-  $ad6->wp_options  = ai_get_option(AD_AD6_OPTIONS);
-  $ad7->wp_options  = ai_get_option(AD_AD7_OPTIONS);
-  $ad8->wp_options  = ai_get_option(AD_AD8_OPTIONS);
-  $ad9->wp_options  = ai_get_option(AD_AD9_OPTIONS);
-  $ad10->wp_options = ai_get_option(AD_AD10_OPTIONS);
-  $ad11->wp_options = ai_get_option(AD_AD11_OPTIONS);
-  $ad12->wp_options = ai_get_option(AD_AD12_OPTIONS);
-  $ad13->wp_options = ai_get_option(AD_AD13_OPTIONS);
-  $ad14->wp_options = ai_get_option(AD_AD14_OPTIONS);
-  $ad15->wp_options = ai_get_option(AD_AD15_OPTIONS);
-  $ad16->wp_options = ai_get_option(AD_AD16_OPTIONS);
-
   $ad_all_data = array ($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8,$ad9,$ad10,$ad11,$ad12,$ad13,$ad14,$ad15,$ad16);
+
+  // Load options from db
+  foreach ($ad_all_data as $key => $obj){
+    $obj->load_options ("AdInserter".($key + 1)."Options");
+  }
 
   //get post published date
   $publish_date = the_date ('U','','',false);
 
-  $http_referer = '';
   //get referer
+  $http_referer = '';
   if(isset($_SERVER['HTTP_REFERER'])) {
       $http_referer = $_SERVER['HTTP_REFERER'];
   }
 
-//  $content = generateAdInserterCode ($content, $ad_all_data, $publish_date, $http_referer);
+
+  if (!defined ('AD_INSERTER_EXCERPT_1')) {
+    define ('AD_INSERTER_EXCERPT_1', true);
+  }
+  elseif (!defined ('AD_INSERTER_EXCERPT_2')) {
+    define ('AD_INSERTER_EXCERPT_2', true);
+  }
+  elseif (!defined ('AD_INSERTER_EXCERPT_3')) {
+    define ('AD_INSERTER_EXCERPT_3', true);
+  }
+  elseif (!defined ('AD_INSERTER_EXCERPT_4')) {
+    define ('AD_INSERTER_EXCERPT_4', true);
+  }
+  elseif (!defined ('AD_INSERTER_EXCERPT_5')) {
+    define ('AD_INSERTER_EXCERPT_5', true);
+  }
+  elseif (!defined ('AD_INSERTER_EXCERPT_6')) {
+    define ('AD_INSERTER_EXCERPT_6', true);
+  }
+  elseif (!defined ('AD_INSERTER_EXCERPT_7')) {
+    define ('AD_INSERTER_EXCERPT_7', true);
+  }
+  elseif (!defined ('AD_INSERTER_EXCERPT_8')) {
+    define ('AD_INSERTER_EXCERPT_8', true);
+  }
+  elseif (!defined ('AD_INSERTER_EXCERPT_9')) {
+    define ('AD_INSERTER_EXCERPT_9', true);
+  }
+
+  $excerpt_counter = 0;
+  if (defined ('AD_INSERTER_EXCERPT_1')) $excerpt_counter ++;
+  if (defined ('AD_INSERTER_EXCERPT_2')) $excerpt_counter ++;
+  if (defined ('AD_INSERTER_EXCERPT_3')) $excerpt_counter ++;
+  if (defined ('AD_INSERTER_EXCERPT_4')) $excerpt_counter ++;
+  if (defined ('AD_INSERTER_EXCERPT_5')) $excerpt_counter ++;
+  if (defined ('AD_INSERTER_EXCERPT_6')) $excerpt_counter ++;
+  if (defined ('AD_INSERTER_EXCERPT_7')) $excerpt_counter ++;
+  if (defined ('AD_INSERTER_EXCERPT_8')) $excerpt_counter ++;
+  if (defined ('AD_INSERTER_EXCERPT_9')) $excerpt_counter ++;
+
+  foreach ($ad_all_data as $block_index => $obj){
+
+    if ($obj->get_append_type () != AD_SELECT_BEFORE_EXCERPT && $obj->get_append_type () != AD_SELECT_AFTER_EXCERPT) continue;
+
+    if ($obj->get_excerpt_number() != 0 && $obj->get_excerpt_number() != $excerpt_counter) continue;
+
+    if (is_home()){
+      if (!$obj->get_widget_settings_home()) continue;
+    }
+    elseif (is_category()){
+      if (!$obj->get_widget_settings_category()) continue;
+    }
+    elseif (is_search()){
+      if (!$obj->get_widget_settings_search()) continue;
+    }
+    elseif (is_archive()){
+      if (!$obj->get_widget_settings_archive()) continue;
+    }
+
+    //if empty data, continue with next
+    if ($obj->get_ad_data() == AD_EMPTY_DATA){
+      continue;
+    }
+
+    if (ai_isDisplayAllowed ($obj, $content)==false){
+      continue;
+    }
+
+    if (ai_isCategoryAllowed ($obj->get_ad_block_cat(), $obj->get_ad_block_cat_type())==false){
+      continue;
+    }
+
+    if (ai_isDisplayDateAllowed ($obj, $publish_date)==false){
+      continue;
+    }
+
+    if (ai_isRefererAllowed ($obj, $http_referer)==false){
+      continue;
+    }
+
+    $ad_code .= "<div style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
+
+    if ($obj->get_append_type () == AD_SELECT_BEFORE_EXCERPT)
+        $content = $ad_code . $content; else
+          $content = $content . $ad_code;
+  }
 
   return $content;
 }
 
-// Process before title postion
+// Process Before Title postion
 function ai_loop_start_hook ($query){
 
   if (!$query->is_main_query()) return;
@@ -550,26 +589,12 @@ function ai_loop_start_hook ($query){
   $ad15 = new Ad15();
   $ad16 = new Ad16();
 
-  //load options from db
-  $ad1->wp_options  = ai_get_option(AD_AD1_OPTIONS);
-  $ad2->wp_options  = ai_get_option(AD_AD2_OPTIONS);
-  $ad3->wp_options  = ai_get_option(AD_AD3_OPTIONS);
-  $ad4->wp_options  = ai_get_option(AD_AD4_OPTIONS);
-  $ad5->wp_options  = ai_get_option(AD_AD5_OPTIONS);
-  $ad6->wp_options  = ai_get_option(AD_AD6_OPTIONS);
-  $ad7->wp_options  = ai_get_option(AD_AD7_OPTIONS);
-  $ad8->wp_options  = ai_get_option(AD_AD8_OPTIONS);
-  $ad9->wp_options  = ai_get_option(AD_AD9_OPTIONS);
-  $ad10->wp_options = ai_get_option(AD_AD10_OPTIONS);
-  $ad11->wp_options = ai_get_option(AD_AD11_OPTIONS);
-  $ad12->wp_options = ai_get_option(AD_AD12_OPTIONS);
-  $ad13->wp_options = ai_get_option(AD_AD13_OPTIONS);
-  $ad14->wp_options = ai_get_option(AD_AD14_OPTIONS);
-  $ad15->wp_options = ai_get_option(AD_AD15_OPTIONS);
-  $ad16->wp_options = ai_get_option(AD_AD16_OPTIONS);
-
-
   $ad_all_data = array ($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8,$ad9,$ad10,$ad11,$ad12,$ad13,$ad14,$ad15,$ad16);
+
+  // Load options from db
+  foreach($ad_all_data as $key => $obj){
+    $obj->load_options ("AdInserter".($key + 1)."Options");
+  }
 
   //get post published date
   $publish_date = the_date ('U','','',false);
@@ -626,9 +651,7 @@ function ai_loop_start_hook ($query){
       continue;
     }
 
-//    if ($obj->get_append_type () == AD_SELECT_BEFORE_TITLE){
-      $ad_code .= "<div style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
-//    }
+    $ad_code .= "<div style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
   }
 
   echo $ad_code;
@@ -700,7 +723,7 @@ function ai_isCategoryAllowed ($categories, $cat_type){
 
 function ai_isDisplayAllowed ($obj, $content){
 
-  if (preg_match("/" . $obj->get_ad_disable() . "/i", $content)) {
+  if (preg_match ("/" . $obj->get_ad_disable() . "/i", $content)) {
       return false;
   } else {
       return true;
@@ -712,7 +735,7 @@ function ai_isDisplayDateAllowed ($obj, $publish_date){
 
   $after_days = trim ($obj->get_ad_after_day());
 
-  //if 0, display immediately
+  // If 0 display immediately
   if($after_days == AD_ZERO_DATA || $after_days == AD_EMPTY_DATA){
     return true;
   }
@@ -732,11 +755,11 @@ function ai_isRefererAllowed ($obj, $http_referer){
     $referer = trim($referer);
 
     //avoid empty value
-    if($referer==AD_EMPTY_DATA){
+    if($referer == AD_EMPTY_DATA){
       continue;
     }
 
-    if (preg_match("/" . $referer . "/i", $http_referer)) {
+    if (preg_match ("/" . $referer . "/i", $http_referer)) {
         $referer_allow = false;
     }else{
     }
@@ -791,7 +814,7 @@ function generateAdInserterCode ($content, $ad_all_data, $publish_date, $http_re
    // Clean remaining tags
    $content = preg_replace ("/{adinserter (.*)}/", "", $content);
 
-   $content .= AD_AUTHOR_SITE;
+//   $content .= AD_AUTHOR_SITE;
 
   return $content;
 }
@@ -876,8 +899,8 @@ function ai_widget1($args) {
 
   $ad = new Ad1();
 
-  //load options from db
-  $ad->wp_options = ai_get_option (AD_AD1_OPTIONS);
+  // Load options from db
+  $ad->load_options (AD_AD1_OPTIONS);
 
   //get post published date
   $publish_date = the_date('U','','',false);
@@ -895,8 +918,8 @@ function ai_widget2($args) {
 
   $ad = new Ad2();
 
-  //load options from db
-  $ad->wp_options = ai_get_option (AD_AD2_OPTIONS);
+  // Load options from db
+  $ad->load_options (AD_AD2_OPTIONS);
 
   //get post published date
   $publish_date = the_date('U','','',false);
@@ -914,8 +937,8 @@ function ai_widget3($args) {
 
   $ad = new Ad3();
 
-  //load options from db
-  $ad->wp_options = ai_get_option (AD_AD3_OPTIONS);
+  // Load options from db
+  $ad->load_options (AD_AD3_OPTIONS);
 
   //get post published date
   $publish_date = the_date('U','','',false);
@@ -933,8 +956,8 @@ function ai_widget4($args) {
 
   $ad = new Ad4();
 
-  //load options from db
-  $ad->wp_options = ai_get_option (AD_AD4_OPTIONS);
+  // Load options from db
+  $ad->load_options (AD_AD4_OPTIONS);
 
   //get post published date
   $publish_date = the_date('U','','',false);
@@ -952,8 +975,8 @@ function ai_widget5($args) {
 
   $ad = new Ad5();
 
-  //load options from db
-  $ad->wp_options = ai_get_option (AD_AD5_OPTIONS);
+  // Load options from db
+  $ad->load_options (AD_AD5_OPTIONS);
 
   //get post published date
   $publish_date = the_date('U','','',false);
@@ -971,8 +994,8 @@ function ai_widget6($args) {
 
   $ad = new Ad6($args);
 
-  //load options from db
-  $ad->wp_options = ai_get_option (AD_AD6_OPTIONS);
+  // Load options from db
+  $ad->load_options (AD_AD6_OPTIONS);
 
   //get post published date
   $publish_date = the_date('U','','',false);
@@ -990,8 +1013,8 @@ function ai_widget7($args) {
 
   $ad = new Ad7();
 
-  //load options from db
-  $ad->wp_options = ai_get_option (AD_AD7_OPTIONS);
+  // Load options from db
+  $ad->load_options (AD_AD7_OPTIONS);
 
   //get post published date
   $publish_date = the_date('U','','',false);
@@ -1009,8 +1032,8 @@ function ai_widget8($args) {
 
   $ad = new Ad8();
 
-  //load options from db
-  $ad->wp_options = ai_get_option (AD_AD8_OPTIONS);
+  // Load options from db
+  $ad->load_options (AD_AD8_OPTIONS);
 
   //get post published date
   $publish_date = the_date('U','','',false);
@@ -1028,8 +1051,8 @@ function ai_widget9($args) {
 
   $ad = new Ad9();
 
-  //load options from db
-  $ad->wp_options = ai_get_option (AD_AD9_OPTIONS);
+  // Load options from db
+  $ad->load_options (AD_AD9_OPTIONS);
 
   //get post published date
   $publish_date = the_date('U','','',false);
@@ -1047,8 +1070,8 @@ function ai_widget10($args) {
 
   $ad = new Ad10();
 
-  //load options from db
-  $ad->wp_options = ai_get_option (AD_AD10_OPTIONS);
+  // Load options from db
+  $ad->load_options (AD_AD10_OPTIONS);
 
   //get post published date
   $publish_date = the_date('U','','',false);
@@ -1066,8 +1089,8 @@ function ai_widget11($args) {
 
   $ad = new Ad11();
 
-  //load options from db
-  $ad->wp_options = ai_get_option (AD_AD11_OPTIONS);
+  // Load options from db
+  $ad->load_options (AD_AD11_OPTIONS);
 
   //get post published date
   $publish_date = the_date('U','','',false);
@@ -1085,8 +1108,8 @@ function ai_widget12($args) {
 
   $ad = new Ad12();
 
-  //load options from db
-  $ad->wp_options = ai_get_option (AD_AD12_OPTIONS);
+  // Load options from db
+  $ad->load_options (AD_AD12_OPTIONS);
 
   //get post published date
   $publish_date = the_date('U','','',false);
@@ -1104,8 +1127,8 @@ function ai_widget13($args) {
 
   $ad = new Ad13();
 
-  //load options from db
-  $ad->wp_options = ai_get_option (AD_AD13_OPTIONS);
+  // Load options from db
+  $ad->load_options (AD_AD13_OPTIONS);
 
   //get post published date
   $publish_date = the_date('U','','',false);
@@ -1123,8 +1146,8 @@ function ai_widget14($args) {
 
   $ad = new Ad14();
 
-  //load options from db
-  $ad->wp_options = ai_get_option (AD_AD14_OPTIONS);
+  // Load options from db
+  $ad->load_options (AD_AD14_OPTIONS);
 
   //get post published date
   $publish_date = the_date('U','','',false);
@@ -1142,8 +1165,8 @@ function ai_widget15($args) {
 
   $ad = new Ad15();
 
-  //load options from db
-  $ad->wp_options = ai_get_option (AD_AD15_OPTIONS);
+  // Load options from db
+  $ad->load_options (AD_AD15_OPTIONS);
 
   //get post published date
   $publish_date = the_date('U','','',false);
@@ -1161,8 +1184,8 @@ function ai_widget16($args) {
 
   $ad = new Ad16();
 
-  //load options from db
-  $ad->wp_options = ai_get_option (AD_AD16_OPTIONS);
+  // Load options from db
+  $ad->load_options (AD_AD16_OPTIONS);
 
   //get post published date
   $publish_date = the_date('U','','',false);
@@ -1177,6 +1200,8 @@ function ai_widget16($args) {
 }
 
 function ai_widget_draw ($obj, $publish_date, $http_referer, $args) {
+
+     if ($obj->get_append_type () != AD_SELECT_WIDGET) return;
 
      //if empty data, continue next
      if($obj->get_ad_data()==AD_EMPTY_DATA){
@@ -1218,8 +1243,8 @@ function ai_widget_draw ($obj, $publish_date, $http_referer, $args) {
         return;
      }
 
-     if($obj->get_append_type() == AD_SELECT_WIDGET){
+//     if($obj->get_append_type() == AD_SELECT_WIDGET){
 
        echo $args['before_widget'] . "<div style='" . $obj->get_alignmet_style(false) . "'>" . ai_getAdCode ($obj) . "</div>" . $args['after_widget'];
-     }
+//     }
 }

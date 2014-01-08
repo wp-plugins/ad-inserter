@@ -10,6 +10,7 @@ abstract class BaseAdInserter {
     var $option_append_type;
     var $option_paragraph_number;
     var $option_paragraph_number_minimum;
+    var $option_excerpt_number;
     var $option_direction_type;
     var $option_float_type;
     var $option_ad_data;
@@ -36,14 +37,15 @@ abstract class BaseAdInserter {
       $this->wp_options[$this->option_append_type] = AD_SELECT_NONE;
       $this->wp_options[$this->option_paragraph_number] = AD_ZERO_DATA;
       $this->wp_options[$this->option_paragraph_number_minimum] = AD_ZERO_DATA;
+      $this->wp_options[$this->option_excerpt_number] = AD_ZERO_DATA;
       $this->wp_options[$this->option_direction_type] = AD_DIRECTION_FROM_TOP;
       $this->wp_options[$this->option_float_type] = AD_ALIGNMENT_NONE;
       $this->wp_options[$this->option_ad_data] = AD_EMPTY_DATA;
       $this->wp_options[$this->option_ad_general_tag] = AD_GENERAL_TAG;
-    	$this->wp_options[$this->option_ad_after_day] = AD_ZERO_DATA;
-    	$this->wp_options[$this->option_ad_block_user] = AD_EMPTY_DATA;
-    	$this->wp_options[$this->option_ad_disabled] = AD_EMPTY_DATA;
-    	$this->wp_options[$this->option_ad_block_cat] = AD_EMPTY_DATA;
+      $this->wp_options[$this->option_ad_after_day] = AD_ZERO_DATA;
+      $this->wp_options[$this->option_ad_block_user] = AD_EMPTY_DATA;
+      $this->wp_options[$this->option_ad_disabled] = AD_EMPTY_DATA;
+      $this->wp_options[$this->option_ad_block_cat] = AD_EMPTY_DATA;
       $this->wp_options[$this->option_ad_block_cat_type] = AD_CATEGORY_BLACK_LIST;
       $this->wp_options[$this->option_widget_settings_home] = AD_SETTINGS_CHECKED;
       $this->wp_options[$this->option_widget_settings_page] = AD_SETTINGS_NOT_CHECKED;
@@ -52,6 +54,11 @@ abstract class BaseAdInserter {
       $this->wp_options[$this->option_widget_settings_search] = AD_SETTINGS_CHECKED;
       $this->wp_options[$this->option_widget_settings_archive] = AD_SETTINGS_CHECKED;
       $this->wp_options[$this->option_process_php]   = AD_SETTINGS_NOT_CHECKED;
+    }
+
+   public function load_options ($options_name){
+     $options = ai_get_option ($options_name);
+     if ($options != '') $this->wp_options = $options;
     }
 
    public function get_append_type(){
@@ -68,6 +75,12 @@ abstract class BaseAdInserter {
 
    public function get_paragraph_number_minimum(){
      $option = $this->wp_options [$this->option_paragraph_number_minimum];
+     if ($option == '') $option = AD_ZERO_DATA;
+     return $option;
+    }
+
+   public function get_excerpt_number(){
+     $option = $this->wp_options [$this->option_excerpt_number];
      if ($option == '') $option = AD_ZERO_DATA;
      return $option;
     }
@@ -331,17 +344,17 @@ abstract class BaseAdInserter {
      return $option;
    }
 
-	public function get_ad_after_day(){
+  public function get_ad_after_day(){
      $option = $this->wp_options [$this->option_ad_after_day];
      if ($option == '') $option = AD_ZERO_DATA;
      return $option;
    }
 
-	public function get_ad_block_user(){
+  public function get_ad_block_user(){
       return $this->wp_options [$this->option_ad_block_user];
    }
 
-	public function get_ad_name(){
+  public function get_ad_name(){
      $name_part = explode ("_", $this->option_ad_name);
      $number = str_replace ("ad", "", $name_part [0]);
      $option = $this->wp_options [$this->option_ad_name];
@@ -349,12 +362,12 @@ abstract class BaseAdInserter {
      return $option;
    }
 
-	public function get_ad_disable(){
-    	return $this->wp_options[$this->option_ad_disabled];
+  public function get_ad_disable(){
+      return $this->wp_options[$this->option_ad_disabled];
    }
 
-	public function get_ad_block_cat(){
-    	return $this->wp_options[$this->option_ad_block_cat];
+  public function get_ad_block_cat(){
+      return $this->wp_options[$this->option_ad_block_cat];
    }
 
   public function get_ad_block_cat_type(){
@@ -375,6 +388,7 @@ class Ad1 extends BaseAdInserter{
    const OPTION_APPEND_TYPE = "ad1_displayType";
    const OPTION_PARAGRAPH_NUMBER = "ad1_paragraphNumber";
    const OPTION_PARAGRAPH_NUMBER_MINIMUM = "ad1_minimum_paragraphs";
+   const OPTION_EXCERPT_NUMBER = "ad1_excerptNumber";
    const OPTION_DIRECTION_TYPE = "ad1_directionType";
    const OPTION_FLOAT_TYPE = "ad1_floatType";
    const OPTION_AD_DATA = "ad1_data";
@@ -392,13 +406,14 @@ class Ad1 extends BaseAdInserter{
    const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad1_widget_settings_archive";
    const OPTION_PROCESS_PHP              = "ad1_process_php";
 
-	//constructor
+  //constructor
     public function Ad1() {
 
       $this->option_ad_name = self::OPTION_AD_NAME;
       $this->option_append_type = self::OPTION_APPEND_TYPE;
       $this->option_paragraph_number = self::OPTION_PARAGRAPH_NUMBER;
       $this->option_paragraph_number_minimum = self::OPTION_PARAGRAPH_NUMBER_MINIMUM;
+      $this->option_excerpt_number = self::OPTION_EXCERPT_NUMBER;
       $this->option_direction_type = self::OPTION_DIRECTION_TYPE;
       $this->option_float_type = self::OPTION_FLOAT_TYPE;
       $this->option_ad_data = self::OPTION_AD_DATA;
@@ -429,6 +444,7 @@ class Ad2 extends BaseAdInserter{
    const OPTION_APPEND_TYPE = "ad2_displayType";
    const OPTION_PARAGRAPH_NUMBER = "ad2_paragraphNumber";
    const OPTION_PARAGRAPH_NUMBER_MINIMUM = "ad2_minimum_paragraphs";
+   const OPTION_EXCERPT_NUMBER = "ad2_excerptNumber";
    const OPTION_DIRECTION_TYPE = "ad2_directionType";
    const OPTION_FLOAT_TYPE = "ad2_floatType";
    const OPTION_AD_DATA = "ad2_data";
@@ -446,13 +462,14 @@ class Ad2 extends BaseAdInserter{
    const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad2_widget_settings_archive";
    const OPTION_PROCESS_PHP              = "ad2_process_php";
 
-	//constructor
+  //constructor
     public function Ad2() {
 
       $this->option_ad_name = self::OPTION_AD_NAME;
       $this->option_append_type = self::OPTION_APPEND_TYPE;
       $this->option_paragraph_number = self::OPTION_PARAGRAPH_NUMBER;
       $this->option_paragraph_number_minimum = self::OPTION_PARAGRAPH_NUMBER_MINIMUM;
+      $this->option_excerpt_number = self::OPTION_EXCERPT_NUMBER;
       $this->option_direction_type = self::OPTION_DIRECTION_TYPE;
       $this->option_float_type = self::OPTION_FLOAT_TYPE;
       $this->option_ad_data = self::OPTION_AD_DATA;
@@ -483,6 +500,7 @@ class Ad3 extends BaseAdInserter{
    const OPTION_APPEND_TYPE = "ad3_displayType";
    const OPTION_PARAGRAPH_NUMBER = "ad3_paragraphNumber";
    const OPTION_PARAGRAPH_NUMBER_MINIMUM = "ad3_minimum_paragraphs";
+   const OPTION_EXCERPT_NUMBER = "ad3_excerptNumber";
    const OPTION_DIRECTION_TYPE = "ad3_directionType";
    const OPTION_FLOAT_TYPE = "ad3_floatType";
    const OPTION_AD_DATA = "ad3_data";
@@ -500,13 +518,14 @@ class Ad3 extends BaseAdInserter{
    const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad3_widget_settings_archive";
    const OPTION_PROCESS_PHP              = "ad3_process_php";
 
-	//constructor
+  //constructor
     public function Ad3() {
 
       $this->option_ad_name = self::OPTION_AD_NAME;
       $this->option_append_type = self::OPTION_APPEND_TYPE;
       $this->option_paragraph_number = self::OPTION_PARAGRAPH_NUMBER;
       $this->option_paragraph_number_minimum = self::OPTION_PARAGRAPH_NUMBER_MINIMUM;
+      $this->option_excerpt_number = self::OPTION_EXCERPT_NUMBER;
       $this->option_direction_type = self::OPTION_DIRECTION_TYPE;
       $this->option_float_type = self::OPTION_FLOAT_TYPE;
       $this->option_ad_data = self::OPTION_AD_DATA;
@@ -537,6 +556,7 @@ class Ad4 extends BaseAdInserter{
    const OPTION_APPEND_TYPE = "ad4_displayType";
    const OPTION_PARAGRAPH_NUMBER = "ad4_paragraphNumber";
    const OPTION_PARAGRAPH_NUMBER_MINIMUM = "ad4_minimum_paragraphs";
+   const OPTION_EXCERPT_NUMBER = "ad4_excerptNumber";
    const OPTION_DIRECTION_TYPE = "ad4_directionType";
    const OPTION_FLOAT_TYPE = "ad4_floatType";
    const OPTION_AD_DATA = "ad4_data";
@@ -554,13 +574,14 @@ class Ad4 extends BaseAdInserter{
    const OPTION_WIDGET_SETTINGS_ARCHIVE  = "ad4_widget_settings_archive";
    const OPTION_PROCESS_PHP              = "ad4_process_php";
 
-	//constructor
+  //constructor
     public function Ad4() {
 
       $this->option_ad_name = self::OPTION_AD_NAME;
       $this->option_append_type = self::OPTION_APPEND_TYPE;
       $this->option_paragraph_number = self::OPTION_PARAGRAPH_NUMBER;
       $this->option_paragraph_number_minimum = self::OPTION_PARAGRAPH_NUMBER_MINIMUM;
+      $this->option_excerpt_number = self::OPTION_EXCERPT_NUMBER;
       $this->option_direction_type = self::OPTION_DIRECTION_TYPE;
       $this->option_float_type = self::OPTION_FLOAT_TYPE;
       $this->option_ad_data = self::OPTION_AD_DATA;
@@ -591,6 +612,7 @@ class Ad5 extends BaseAdInserter{
    const OPTION_APPEND_TYPE = "ad5_displayType";
    const OPTION_PARAGRAPH_NUMBER = "ad5_paragraphNumber";
    const OPTION_PARAGRAPH_NUMBER_MINIMUM = "ad5_minimum_paragraphs";
+   const OPTION_EXCERPT_NUMBER = "ad5_excerptNumber";
    const OPTION_DIRECTION_TYPE = "ad5_directionType";
    const OPTION_FLOAT_TYPE = "ad5_floatType";
    const OPTION_AD_DATA = "ad5_data";
@@ -615,6 +637,7 @@ class Ad5 extends BaseAdInserter{
       $this->option_append_type = self::OPTION_APPEND_TYPE;
       $this->option_paragraph_number = self::OPTION_PARAGRAPH_NUMBER;
       $this->option_paragraph_number_minimum = self::OPTION_PARAGRAPH_NUMBER_MINIMUM;
+      $this->option_excerpt_number = self::OPTION_EXCERPT_NUMBER;
       $this->option_direction_type = self::OPTION_DIRECTION_TYPE;
       $this->option_float_type = self::OPTION_FLOAT_TYPE;
       $this->option_ad_data = self::OPTION_AD_DATA;
@@ -645,6 +668,7 @@ class Ad6 extends BaseAdInserter{
    const OPTION_APPEND_TYPE = "ad6_displayType";
    const OPTION_PARAGRAPH_NUMBER = "ad6_paragraphNumber";
    const OPTION_PARAGRAPH_NUMBER_MINIMUM = "ad6_minimum_paragraphs";
+   const OPTION_EXCERPT_NUMBER = "ad6_excerptNumber";
    const OPTION_DIRECTION_TYPE = "ad6_directionType";
    const OPTION_FLOAT_TYPE = "ad6_floatType";
    const OPTION_AD_DATA = "ad6_data";
@@ -669,6 +693,7 @@ class Ad6 extends BaseAdInserter{
       $this->option_append_type = self::OPTION_APPEND_TYPE;
       $this->option_paragraph_number = self::OPTION_PARAGRAPH_NUMBER;
       $this->option_paragraph_number_minimum = self::OPTION_PARAGRAPH_NUMBER_MINIMUM;
+      $this->option_excerpt_number = self::OPTION_EXCERPT_NUMBER;
       $this->option_direction_type = self::OPTION_DIRECTION_TYPE;
       $this->option_float_type = self::OPTION_FLOAT_TYPE;
       $this->option_ad_data = self::OPTION_AD_DATA;
@@ -699,6 +724,7 @@ class Ad7 extends BaseAdInserter{
    const OPTION_APPEND_TYPE = "ad7_displayType";
    const OPTION_PARAGRAPH_NUMBER = "ad7_paragraphNumber";
    const OPTION_PARAGRAPH_NUMBER_MINIMUM = "ad7_minimum_paragraphs";
+   const OPTION_EXCERPT_NUMBER = "ad7_excerptNumber";
    const OPTION_DIRECTION_TYPE = "ad7_directionType";
    const OPTION_FLOAT_TYPE = "ad7_floatType";
    const OPTION_AD_DATA = "ad7_data";
@@ -723,6 +749,7 @@ class Ad7 extends BaseAdInserter{
       $this->option_append_type = self::OPTION_APPEND_TYPE;
       $this->option_paragraph_number = self::OPTION_PARAGRAPH_NUMBER;
       $this->option_paragraph_number_minimum = self::OPTION_PARAGRAPH_NUMBER_MINIMUM;
+      $this->option_excerpt_number = self::OPTION_EXCERPT_NUMBER;
       $this->option_direction_type = self::OPTION_DIRECTION_TYPE;
       $this->option_float_type = self::OPTION_FLOAT_TYPE;
       $this->option_ad_data = self::OPTION_AD_DATA;
@@ -753,6 +780,7 @@ class Ad8 extends BaseAdInserter{
    const OPTION_APPEND_TYPE = "ad8_displayType";
    const OPTION_PARAGRAPH_NUMBER = "ad8_paragraphNumber";
    const OPTION_PARAGRAPH_NUMBER_MINIMUM = "ad8_minimum_paragraphs";
+   const OPTION_EXCERPT_NUMBER = "ad8_excerptNumber";
    const OPTION_DIRECTION_TYPE = "ad8_directionType";
    const OPTION_FLOAT_TYPE = "ad8_floatType";
    const OPTION_AD_DATA = "ad8_data";
@@ -777,6 +805,7 @@ class Ad8 extends BaseAdInserter{
       $this->option_append_type = self::OPTION_APPEND_TYPE;
       $this->option_paragraph_number = self::OPTION_PARAGRAPH_NUMBER;
       $this->option_paragraph_number_minimum = self::OPTION_PARAGRAPH_NUMBER_MINIMUM;
+      $this->option_excerpt_number = self::OPTION_EXCERPT_NUMBER;
       $this->option_direction_type = self::OPTION_DIRECTION_TYPE;
       $this->option_float_type = self::OPTION_FLOAT_TYPE;
       $this->option_ad_data = self::OPTION_AD_DATA;
@@ -807,6 +836,7 @@ class Ad9 extends BaseAdInserter{
    const OPTION_APPEND_TYPE = "ad9_displayType";
    const OPTION_PARAGRAPH_NUMBER = "ad9_paragraphNumber";
    const OPTION_PARAGRAPH_NUMBER_MINIMUM = "ad9_minimum_paragraphs";
+   const OPTION_EXCERPT_NUMBER = "ad9_excerptNumber";
    const OPTION_DIRECTION_TYPE = "ad9_directionType";
    const OPTION_FLOAT_TYPE = "ad9_floatType";
    const OPTION_AD_DATA = "ad9_data";
@@ -831,6 +861,7 @@ class Ad9 extends BaseAdInserter{
       $this->option_append_type = self::OPTION_APPEND_TYPE;
       $this->option_paragraph_number = self::OPTION_PARAGRAPH_NUMBER;
       $this->option_paragraph_number_minimum = self::OPTION_PARAGRAPH_NUMBER_MINIMUM;
+      $this->option_excerpt_number = self::OPTION_EXCERPT_NUMBER;
       $this->option_direction_type = self::OPTION_DIRECTION_TYPE;
       $this->option_float_type = self::OPTION_FLOAT_TYPE;
       $this->option_ad_data = self::OPTION_AD_DATA;
@@ -861,6 +892,7 @@ class Ad10 extends BaseAdInserter{
    const OPTION_APPEND_TYPE = "ad10_displayType";
    const OPTION_PARAGRAPH_NUMBER = "ad10_paragraphNumber";
    const OPTION_PARAGRAPH_NUMBER_MINIMUM = "ad10_minimum_paragraphs";
+   const OPTION_EXCERPT_NUMBER = "ad10_excerptNumber";
    const OPTION_DIRECTION_TYPE = "ad10_directionType";
    const OPTION_FLOAT_TYPE = "ad10_floatType";
    const OPTION_AD_DATA = "ad10_data";
@@ -885,6 +917,7 @@ class Ad10 extends BaseAdInserter{
       $this->option_append_type = self::OPTION_APPEND_TYPE;
       $this->option_paragraph_number = self::OPTION_PARAGRAPH_NUMBER;
       $this->option_paragraph_number_minimum = self::OPTION_PARAGRAPH_NUMBER_MINIMUM;
+      $this->option_excerpt_number = self::OPTION_EXCERPT_NUMBER;
       $this->option_direction_type = self::OPTION_DIRECTION_TYPE;
       $this->option_float_type = self::OPTION_FLOAT_TYPE;
       $this->option_ad_data = self::OPTION_AD_DATA;
@@ -915,6 +948,7 @@ class Ad11 extends BaseAdInserter{
    const OPTION_APPEND_TYPE = "ad11_displayType";
    const OPTION_PARAGRAPH_NUMBER = "ad11_paragraphNumber";
    const OPTION_PARAGRAPH_NUMBER_MINIMUM = "ad11_minimum_paragraphs";
+   const OPTION_EXCERPT_NUMBER = "ad11_excerptNumber";
    const OPTION_DIRECTION_TYPE = "ad11_directionType";
    const OPTION_FLOAT_TYPE = "ad11_floatType";
    const OPTION_AD_DATA = "ad11_data";
@@ -939,6 +973,7 @@ class Ad11 extends BaseAdInserter{
       $this->option_append_type = self::OPTION_APPEND_TYPE;
       $this->option_paragraph_number = self::OPTION_PARAGRAPH_NUMBER;
       $this->option_paragraph_number_minimum = self::OPTION_PARAGRAPH_NUMBER_MINIMUM;
+      $this->option_excerpt_number = self::OPTION_EXCERPT_NUMBER;
       $this->option_direction_type = self::OPTION_DIRECTION_TYPE;
       $this->option_float_type = self::OPTION_FLOAT_TYPE;
       $this->option_ad_data = self::OPTION_AD_DATA;
@@ -969,6 +1004,7 @@ class Ad12 extends BaseAdInserter{
    const OPTION_APPEND_TYPE = "ad12_displayType";
    const OPTION_PARAGRAPH_NUMBER = "ad12_paragraphNumber";
    const OPTION_PARAGRAPH_NUMBER_MINIMUM = "ad12_minimum_paragraphs";
+   const OPTION_EXCERPT_NUMBER = "ad12_excerptNumber";
    const OPTION_DIRECTION_TYPE = "ad12_directionType";
    const OPTION_FLOAT_TYPE = "ad12_floatType";
    const OPTION_AD_DATA = "ad12_data";
@@ -993,6 +1029,7 @@ class Ad12 extends BaseAdInserter{
       $this->option_append_type = self::OPTION_APPEND_TYPE;
       $this->option_paragraph_number = self::OPTION_PARAGRAPH_NUMBER;
       $this->option_paragraph_number_minimum = self::OPTION_PARAGRAPH_NUMBER_MINIMUM;
+      $this->option_excerpt_number = self::OPTION_EXCERPT_NUMBER;
       $this->option_direction_type = self::OPTION_DIRECTION_TYPE;
       $this->option_float_type = self::OPTION_FLOAT_TYPE;
       $this->option_ad_data = self::OPTION_AD_DATA;
@@ -1023,6 +1060,7 @@ class Ad13 extends BaseAdInserter{
    const OPTION_APPEND_TYPE = "ad13_displayType";
    const OPTION_PARAGRAPH_NUMBER = "ad13_paragraphNumber";
    const OPTION_PARAGRAPH_NUMBER_MINIMUM = "ad13_minimum_paragraphs";
+   const OPTION_EXCERPT_NUMBER = "ad13_excerptNumber";
    const OPTION_DIRECTION_TYPE = "ad13_directionType";
    const OPTION_FLOAT_TYPE = "ad13_floatType";
    const OPTION_AD_DATA = "ad13_data";
@@ -1047,6 +1085,7 @@ class Ad13 extends BaseAdInserter{
       $this->option_append_type = self::OPTION_APPEND_TYPE;
       $this->option_paragraph_number = self::OPTION_PARAGRAPH_NUMBER;
       $this->option_paragraph_number_minimum = self::OPTION_PARAGRAPH_NUMBER_MINIMUM;
+      $this->option_excerpt_number = self::OPTION_EXCERPT_NUMBER;
       $this->option_direction_type = self::OPTION_DIRECTION_TYPE;
       $this->option_float_type = self::OPTION_FLOAT_TYPE;
       $this->option_ad_data = self::OPTION_AD_DATA;
@@ -1077,6 +1116,7 @@ class Ad14 extends BaseAdInserter{
    const OPTION_APPEND_TYPE = "ad14_displayType";
    const OPTION_PARAGRAPH_NUMBER = "ad14_paragraphNumber";
    const OPTION_PARAGRAPH_NUMBER_MINIMUM = "ad14_minimum_paragraphs";
+   const OPTION_EXCERPT_NUMBER = "ad14_excerptNumber";
    const OPTION_DIRECTION_TYPE = "ad14_directionType";
    const OPTION_FLOAT_TYPE = "ad14_floatType";
    const OPTION_AD_DATA = "ad14_data";
@@ -1101,6 +1141,7 @@ class Ad14 extends BaseAdInserter{
       $this->option_append_type = self::OPTION_APPEND_TYPE;
       $this->option_paragraph_number = self::OPTION_PARAGRAPH_NUMBER;
       $this->option_paragraph_number_minimum = self::OPTION_PARAGRAPH_NUMBER_MINIMUM;
+      $this->option_excerpt_number = self::OPTION_EXCERPT_NUMBER;
       $this->option_direction_type = self::OPTION_DIRECTION_TYPE;
       $this->option_float_type = self::OPTION_FLOAT_TYPE;
       $this->option_ad_data = self::OPTION_AD_DATA;
@@ -1131,6 +1172,7 @@ class Ad15 extends BaseAdInserter{
    const OPTION_APPEND_TYPE = "ad15_displayType";
    const OPTION_PARAGRAPH_NUMBER = "ad15_paragraphNumber";
    const OPTION_PARAGRAPH_NUMBER_MINIMUM = "ad15_minimum_paragraphs";
+   const OPTION_EXCERPT_NUMBER = "ad15_excerptNumber";
    const OPTION_DIRECTION_TYPE = "ad15_directionType";
    const OPTION_FLOAT_TYPE = "ad15_floatType";
    const OPTION_AD_DATA = "ad15_data";
@@ -1155,6 +1197,7 @@ class Ad15 extends BaseAdInserter{
       $this->option_append_type = self::OPTION_APPEND_TYPE;
       $this->option_paragraph_number = self::OPTION_PARAGRAPH_NUMBER;
       $this->option_paragraph_number_minimum = self::OPTION_PARAGRAPH_NUMBER_MINIMUM;
+      $this->option_excerpt_number = self::OPTION_EXCERPT_NUMBER;
       $this->option_direction_type = self::OPTION_DIRECTION_TYPE;
       $this->option_float_type = self::OPTION_FLOAT_TYPE;
       $this->option_ad_data = self::OPTION_AD_DATA;
@@ -1185,6 +1228,7 @@ class Ad16 extends BaseAdInserter{
    const OPTION_APPEND_TYPE = "ad16_displayType";
    const OPTION_PARAGRAPH_NUMBER = "ad16_paragraphNumber";
    const OPTION_PARAGRAPH_NUMBER_MINIMUM = "ad16_minimum_paragraphs";
+   const OPTION_EXCERPT_NUMBER = "ad16_excerptNumber";
    const OPTION_DIRECTION_TYPE = "ad16_directionType";
    const OPTION_FLOAT_TYPE = "ad16_floatType";
    const OPTION_AD_DATA = "ad16_data";
@@ -1209,6 +1253,7 @@ class Ad16 extends BaseAdInserter{
       $this->option_append_type = self::OPTION_APPEND_TYPE;
       $this->option_paragraph_number = self::OPTION_PARAGRAPH_NUMBER;
       $this->option_paragraph_number_minimum = self::OPTION_PARAGRAPH_NUMBER_MINIMUM;
+      $this->option_excerpt_number = self::OPTION_EXCERPT_NUMBER;
       $this->option_direction_type = self::OPTION_DIRECTION_TYPE;
       $this->option_float_type = self::OPTION_FLOAT_TYPE;
       $this->option_ad_data = self::OPTION_AD_DATA;
