@@ -8,13 +8,13 @@ jQuery(document).ready(function($) {
   );
 
   $(function() {
-    $(document).tooltip();
+    $('#ai-settings').tooltip();
   });
 
   $('#dummy-tabs').hide();
   $('#ad-tabs').show();
 
   $(function() {
-    $('input[type=submit], button').button();
+    $('#ai-settings input[type=submit], #ai-settings button').button();
   });
 });
