@@ -3,29 +3,36 @@ Contributors: spacetime
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LHGZEMRTR7WB4
 Tags: adsense, amazon, ad, ads, html, javascript, php, code, widget, sidebar, rotating, banner, contextual
 Requires at least: 3.0
-Tested up to: 3.8
+Tested up to: 3.8.1
 Stable tag: 1.3.3
 License: GPLv3
 
-Integrate any HTML/Javascript/PHP code into Wordpress. Perfect for AdSense or contextual Amazon ads.
+Insert any HTML/Javascript/PHP code into Wordpress. Perfect for AdSense or contextual Amazon ads. 16 code blocks, many display options.
 
 == Description ==
 
-An elegant solution to put any ad into Wordpress. **Perfect for AdSense or contextual Amazon ads.** Simply enter any HTML/Javascript/PHP code and select where and how you want to display it (including widgets). You can also use {category}, {short_category}, {title}, {short_title}, {tag}, {smart_tag} or {search_query} tags to get actual post data. To rotate different ad versions separate them with |rotate|. Manual insertion is also possible with {adinserter AD_NAME} or {adinserter AD_NUMBER} tag.
+A simple solution to insert any ad code into Wordpress. **Perfect for AdSense or contextual Amazon ads.** Simply enter any HTML/Javascript/PHP code and select where and how you want to display it (including widgets).
 
 Display Options:
 
-*   Display ad Before Content (before post text)
+*   Display ad Before Content (before post or page text)
 *   Display ad Before Selected Paragraph (0 means random paragraph):
-*   Display ad After Content (after post text)
+*   Display ad After Content (after post or page text)
 *   Display ad Before Title (does not work with all themes)
 *   Display ad Before Excerpt
 *   Display ad After Excerpt
 *   Ad as a Widget
-*   Manual - Insert {adinserter AD_NUMBER} or {adinserter AD_NAME} into post HTML code to display ad with AD_NAME name or ad number AD_NUMBER at this position
+*   Manual - Insert {adinserter AD_NUMBER} or {adinserter AD_NAME} into post or page HTML code to display ad with AD_NAME name or number AD_NUMBER at this position
+*   PHP function call `<?php adinserter (AD_NUMBER); ?>` - Insert code block AD_NUMBER at any position in template file
+
+Additional Options:
+
+*   Use {category}, {short_category}, {title}, {short_title}, {tag}, {smart_tag} or {search_query} tags to insert actual post data into code blocks
+*   To rotate different ad versions separate them with |rotate|
 
 Alignment:
 
+*   No Wrapping (leaves ad code as it is, otherwise it is wrapped by a div)
 *   None
 *   Align Left
 *   Align Right
@@ -39,7 +46,7 @@ Do not display ad if the number of paragraphs is below limit (used only for posi
 
 Display ad only for posts published after N days.
 
-Do not display ads to users from certain domains e.g technorati.com, facebook.com
+Do not display ads to users from certain referrers (domains) e.g technorati.com, facebook.com,... (black list) or display ads only for certain referrers (white list). **Leave referrers list empty and set to Black list to show ads for all referrers.**
 
 Do not display ads in certain caregories e.g sport, news, science,... (black list) or display ads only in certain categories (white list). **Leave category list empty and set to Black list to show ads in all categories.**
 
@@ -55,11 +62,13 @@ For display positions Before Excerpt, After Excerpt, Before Title and Widget you
 *   Search Pages
 *   Archive pages
 
-You can also disable ads in certain posts. For example, to disable ad block 1 in post put the following HTML code within post code:
+You can also disable ads in certain posts. For example, to disable ad block 1 with name Test Block in post put the following HTML code within post or page code:
 
-`<!-- Ad Inserter Ad 1 Disabled -->`
+`<!-- disable adinserter 1 -->`
+or
+`<!-- disable adinserter Test Block -->`
 
-Ad Inserter is perfect for displaying AdSense or Amazon ads. It can also be used to display various versions of <a href="https://www.google.com/adsense/support/bin/answer.py?answer=32614">AdSense ads using channels</a> to test which format or color combination performs best.
+Ad Inserter is perfect for displaying AdSense or Amazon ads. It can also be used to display various versions of <a href="https://support.google.com/adsense/answer/65083?ctx=as2&rd=2&ref_topic=23389">AdSense ads using channels</a> to test which format or color combination performs best.
 
 == Installation ==
 
@@ -76,7 +85,7 @@ Manual installation:
 = I have activated Ad Inserter. How can I use it? =
 
 1. After activation, click "Settings / Ad Inserter" to access the setup page.
-2. Put ad (or any other HTML) code into the ad box.
+2. Put ad (or any other HTML/Javascript/PHP) code into the ad box.
 3. Set the display options.
 4. Save settings.
 
@@ -113,7 +122,7 @@ ad_code_2
 ad_code_3`
 
 
-= How can I use PHP code? =
+= How can I use PHP code for code block? =
 
 Enter PHP code surrounded by PHP tags.
 Example:
@@ -122,6 +131,16 @@ Example:
 Some HTML/Javascript code
 </div>
 <?php echo "PHP code by Ad Inserter"; ?>`
+
+
+= How can I insert code block directly into template php file? =
+
+Call adinserter function with code block number as parameter.
+Example:
+
+`<?php adinserter (AD_NUMBER); ?>`
+
+This would generate code as defined for the code block number AD_NUMBER.
 
 
 = How can I create contextual Amazon ad (to show items related to the post)? =
@@ -189,6 +208,14 @@ ad_code
 
 == Changelog ==
 
+= 1.3.4 =
+* Added option for no code wrapping with div
+* Added option to insert block codes from PHP code
+* Changed HTML codes to disable display on specific pages
+* Selected code block position is preserved after settings are saved
+* Manual insertion can be enabled or disabled regardless of primary display setting
+* Fixed bug: in some cases Before Title display setting inserted code into RSS feed
+
 = 1.3.3 =
 * Added option to insert ads also before or after the excerpt
 * Fixed bug: in some cases many errors reported after activating the plugin
@@ -255,6 +282,14 @@ ad_code
 
 
 == Upgrade Notice ==
+
+= 1.3.4 =
+Fixed bug: in some cases Before Title display setting inserted code into RSS feed,
+Selected code block position is preserved after settings are saved,
+Added option for no code wrapping with div,
+Added option to insert block codes from PHP code,
+Changed HTML codes to disable display on specific pages,
+Manual insertion can be enabled or disabled regardless of primary display setting
 
 = 1.3.3 =
 Fixed bug: in some cases many errors reported after activating the plugin,

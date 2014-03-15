@@ -6,7 +6,7 @@ if (!defined( 'AD_INSERTER_TITLE'))
   define ('AD_INSERTER_TITLE', 'Ad Inserter');
 
 if (!defined( 'AD_INSERTER_VERSION'))
-  define ('AD_INSERTER_VERSION', '1.3.3');
+  define ('AD_INSERTER_VERSION', '1.3.4');
 
 if (!defined ('AD_INSERTER_PLUGIN_DIR'))
   define ('AD_INSERTER_PLUGIN_DIR', plugin_dir_path (__FILE__));
@@ -37,24 +37,6 @@ if (!defined ('WP_PLUGIN_URL'))
 
 if (!defined ('WP_PLUGIN_DIR'))
   define ('WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins');
-
-
-define('AD_DISABLED_1',  '<!-- Ad Inserter Ad 1 Disabled -->');
-define('AD_DISABLED_2',  '<!-- Ad Inserter Ad 2 Disabled -->');
-define('AD_DISABLED_3',  '<!-- Ad Inserter Ad 3 Disabled -->');
-define('AD_DISABLED_4',  '<!-- Ad Inserter Ad 4 Disabled -->');
-define('AD_DISABLED_5',  '<!-- Ad Inserter Ad 5 Disabled -->');
-define('AD_DISABLED_6',  '<!-- Ad Inserter Ad 6 Disabled -->');
-define('AD_DISABLED_7',  '<!-- Ad Inserter Ad 7 Disabled -->');
-define('AD_DISABLED_8',  '<!-- Ad Inserter Ad 8 Disabled -->');
-define('AD_DISABLED_9',  '<!-- Ad Inserter Ad 9 Disabled -->');
-define('AD_DISABLED_10', '<!-- Ad Inserter Ad 10 Disabled -->');
-define('AD_DISABLED_11', '<!-- Ad Inserter Ad 11 Disabled -->');
-define('AD_DISABLED_12', '<!-- Ad Inserter Ad 12 Disabled -->');
-define('AD_DISABLED_13', '<!-- Ad Inserter Ad 13 Disabled -->');
-define('AD_DISABLED_14', '<!-- Ad Inserter Ad 14 Disabled -->');
-define('AD_DISABLED_15', '<!-- Ad Inserter Ad 15 Disabled -->');
-define('AD_DISABLED_16', '<!-- Ad Inserter Ad 16 Disabled -->');
 
 define('AD_EMPTY_DATA', '');
 define('AD_ZERO_DATA', '0');
@@ -102,6 +84,7 @@ define('AD_SELECT_AFTER_CONTENT','After Content');
 define('AD_SELECT_BEFORE_EXCERPT','Before Excerpt');
 define('AD_SELECT_AFTER_EXCERPT','After Excerpt');
 define('AD_SELECT_WIDGET','Widget');
+// Deprecated
 define('AD_SELECT_MANUAL','Manual');
 
 //Direction options
@@ -109,6 +92,7 @@ define('AD_DIRECTION_FROM_TOP','From Top');
 define('AD_DIRECTION_FROM_BOTTOM','From Bottom');
 
 //Alignment options
+define('AD_ALIGNMENT_NO_WRAPPING','No Wrapping');
 define('AD_ALIGNMENT_NONE','None');
 define('AD_ALIGNMENT_LEFT','Align Left');
 define('AD_ALIGNMENT_RIGHT','Align Right');
@@ -116,9 +100,9 @@ define('AD_ALIGNMENT_CENTER','Center');
 define('AD_ALIGNMENT_FLOAT_LEFT','Float Left');
 define('AD_ALIGNMENT_FLOAT_RIGHT','Float Right');
 
-//Category List Type
-define('AD_CATEGORY_BLACK_LIST','Black List');
-define('AD_CATEGORY_WHITE_LIST','White List');
+//List Type
+define('AD_BLACK_LIST','Black List');
+define('AD_WHITE_LIST','White List');
 
 //Settings
 define('AD_SETTINGS_CHECKED', '1');
