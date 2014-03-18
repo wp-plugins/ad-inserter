@@ -140,7 +140,7 @@ Example for block 3:
 
 `<?php echo adinserter (3); ?>`
 
-This would generate code as defined for the code block number AD_NUMBER.
+This would generate code as defined for the code block number 3.
 
 
 = How can I create contextual Amazon ad (to show items related to the post)? =
