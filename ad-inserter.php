@@ -2,7 +2,7 @@
 
 /*
 Plugin Name: Ad Inserter
-Version: 1.3.4
+Version: 1.3.5
 Description: An elegant solution to put any ad into Wordpress. Simply enter any HTML, Javascript or PHP code and select where and how you want to display it (including Widgets). You can also use {category}, {short_category}, {title}, {short_title}, {tag}, {smart_tag} or {search_query} tags to get actual post data. To rotate different ad versions separate them with |rotate|. Manual insertion is also possible with {adinserter AD_NAME} or {adinserter AD_NUMBER} tag.
 Author: Spacetime
 Author URI: http://igorfuna.com/
@@ -16,6 +16,9 @@ TO DO
 
 /*
 Change Log
+
+Ad Inserter 1.3.5 - 18 March 2014
+* Fixed bug: missing echo for PHP function call example
 
 Ad Inserter 1.3.4 - 15 March 2014
 - Added option for no code wrapping with div

@@ -180,10 +180,10 @@ function print_settings_form ($ad_array){
     <hr />
     <input type="hidden"   name="<?php echo $obj->option_enable_php_call; ?>" value="0" />
     <input id="enable-php-call-<?php echo $ad_number; ?>" type="checkbox" name="<?php echo $obj->option_enable_php_call; ?>" value="1" <?php if ($obj->get_enable_php_call () == AD_SETTINGS_CHECKED) echo 'checked '; ?>>
-    <label for="<?php echo $obj->option_enable_php_call; ?>" title="Enable or disable PHP function call to insert this code block at any position in template file ">
-      Enable PHP function call
+    <label for="<?php echo $obj->option_enable_php_call; ?>" title="Enable or disable PHP function call to insert this code block at any position in template file. If function is disabled for block it will return empty string.">
+      Enable PHP function adinserter for block <?php echo $ad_number; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Code example:
     </label>
-    <pre style= "margin: 0; display: inline; color: blue;">&lt;?php adinserter (<?php echo $ad_number; ?>); ?&gt;</pre>
+    <pre style= "margin: 0; display: inline; color: blue;">&lt;?php echo adinserter (<?php echo $ad_number; ?>); ?&gt;</pre>
     <hr />
     To disable automatic insertion of this code block on specific pages for <span style="font-weight: bold;">Content and Paragraph</span> display modes put HTML code
     <pre style= "margin: 0; display: inline; color: blue;">&lt;!-- disable adinserter <?php echo $ad_number; ?> --&gt;</pre> or

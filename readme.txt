@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: adsense, amazon, ad, ads, html, javascript, php, code, widget, sidebar, rotating, banner, contextual
 Requires at least: 3.0
 Tested up to: 3.8.1
-Stable tag: 1.3.4
+Stable tag: 1.3.5
 License: GPLv3
 
 Insert any HTML/Javascript/PHP code into Wordpress. Perfect for AdSense or contextual Amazon ads. 16 code blocks, many display options.
@@ -23,7 +23,7 @@ Display Options:
 *   Display ad After Excerpt
 *   Ad as a Widget
 *   Manual - Insert {adinserter AD_NUMBER} or {adinserter AD_NAME} into post or page HTML code to display ad with AD_NAME name or number AD_NUMBER at this position
-*   PHP function call `<?php adinserter (AD_NUMBER); ?>` - Insert code block AD_NUMBER at any position in template file
+*   PHP function call `<?php echo adinserter (AD_NUMBER); ?>` - Insert code block AD_NUMBER at any position in template file
 
 Additional Options:
 
@@ -135,10 +135,10 @@ Some HTML/Javascript code
 
 = How can I insert code block directly into template php file? =
 
-Call adinserter function with code block number as parameter.
-Example:
+Enable PHP function adinserter for code block and call adinserter function with code block number as parameter.
+Example for block 3:
 
-`<?php adinserter (AD_NUMBER); ?>`
+`<?php echo adinserter (3); ?>`
 
 This would generate code as defined for the code block number AD_NUMBER.
 
@@ -207,6 +207,9 @@ ad_code
 
 
 == Changelog ==
+
+= 1.3.5 =
+* Fixed bug: missing echo for PHP function call example
 
 = 1.3.4 =
 * Added option for no code wrapping with div
@@ -282,6 +285,9 @@ ad_code
 
 
 == Upgrade Notice ==
+
+= 1.3.5 =
+Fixed bug: missing echo for PHP function call example
 
 = 1.3.4 =
 Fixed bug: in some cases Before Title display setting inserted code into RSS feed,
