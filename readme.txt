@@ -23,7 +23,7 @@ Display Options:
 *   Display ad After Excerpt
 *   Ad as a Widget
 *   Manual - Insert {adinserter AD_NUMBER} or {adinserter AD_NAME} into post or page HTML code to display ad with AD_NAME name or number AD_NUMBER at this position
-*   PHP function call `<?php adinserter (AD_NUMBER); ?>` - Insert code block AD_NUMBER at any position in template file
+*   PHP function call `<?php echo adinserter (AD_NUMBER); ?>` - Insert code block AD_NUMBER at any position in template file
 
 Additional Options:
 
@@ -138,7 +138,7 @@ Some HTML/Javascript code
 Call adinserter function with code block number as parameter.
 Example:
 
-`<?php adinserter (AD_NUMBER); ?>`
+`<?php echo adinserter (AD_NUMBER); ?>`
 
 This would generate code as defined for the code block number AD_NUMBER.
 
