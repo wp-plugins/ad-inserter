@@ -1,9 +1,9 @@
 === Ad Inserter ===
 Contributors: spacetime
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LHGZEMRTR7WB4
-Tags: adsense, amazon, ad, ads, html, javascript, php, code, widget, sidebar, rotating, banner, contextual
+Tags: adsense, amazon, clickbank, ad, ads, html, javascript, php, code, widget, sidebar, rotating, banner, banner rotation, contextual, shortcodes, widgets, header, footer, users, logged in, not logged in, custom css
 Requires at least: 3.0
-Tested up to: 3.8.1
+Tested up to: 4.1
 Stable tag: 1.3.5
 License: GPLv3
 
@@ -11,28 +11,36 @@ Insert any HTML/Javascript/PHP code into Wordpress. Perfect for AdSense or conte
 
 == Description ==
 
-A simple solution to insert any ad code into Wordpress. **Perfect for AdSense or contextual Amazon ads.** Simply enter any HTML/Javascript/PHP code and select where and how you want to display it (including widgets).
+A simple solution to insert any code into Wordpress. **Perfect for AdSense or contextual Amazon ads.** Simply enter any HTML/Javascript/PHP code and select where and how you want to display it.
 
-Display Options:
+Automatic Display Options:
 
-*   Display ad Before Content (before post or page text)
-*   Display ad Before Selected Paragraph (0 means random paragraph):
-*   Display ad After Content (after post or page text)
-*   Display ad Before Title (does not work with all themes)
-*   Display ad Before Excerpt
-*   Display ad After Excerpt
-*   Ad as a Widget
-*   Manual - Insert {adinserter AD_NUMBER} or {adinserter AD_NAME} into post or page HTML code to display ad with AD_NAME name or number AD_NUMBER at this position
-*   PHP function call `<?php echo adinserter (AD_NUMBER); ?>` - Insert code block AD_NUMBER at any position in template file
+*   Display Before Content (before post or page text)
+*   Display Before Selected Paragraph (0 means random paragraph):
+*   Display After Selected Paragraph (0 means random paragraph):
+*   Display After Content (after post or page text)
+*   Display Before Title (does not work with all themes)
+*   Display Before Excerpt
+*   Display After Excerpt
+*   As a Widget
+*   Manual - Insert shortcode [adinserter block="BLOCK_NUMBER"] or [adinserter name="BLOCK_NAME"] into post or page HTML code to display block with BLOCK_NAME name or BLOCK_NUMBER number at this position
+*   PHP function call `<?php echo adinserter (BLOCK_NUMBER); ?>` - Insert code block BLOCK_NUMBER at any position in template file
 
 Additional Options:
 
 *   Use {category}, {short_category}, {title}, {short_title}, {tag}, {smart_tag} or {search_query} tags to insert actual post data into code blocks
 *   To rotate different ad versions separate them with |rotate|
 
+Display Block to:
+
+*   All users
+*   Logged in users
+*   Not logged in users
+
 Alignment:
 
 *   No Wrapping (leaves ad code as it is, otherwise it is wrapped by a div)
+*   Custom CSS (Custom CSS code for wrapping div)
 *   None
 *   Align Left
 *   Align Right
@@ -42,7 +50,7 @@ Alignment:
 
 PHP processing: Enabled or Disabled
 
-Do not display ad if the number of paragraphs is below limit (used only for position Before Selected Paragraph).
+Do not display ad if the number of paragraphs is below limit (used only for position Before or After selected paragraph).
 
 Display ad only for posts published after N days.
 
@@ -69,6 +77,15 @@ or
 `<!-- disable adinserter Test Block -->`
 
 Ad Inserter is perfect for displaying AdSense or Amazon ads. It can also be used to display various versions of <a href="https://support.google.com/adsense/answer/65083?ctx=as2&rd=2&ref_topic=23389">AdSense ads using channels</a> to test which format or color combination performs best.
+
+Support for Special Code Blocks:
+
+*   Header scripts (tab H)
+*   Footer scripts (tab F)
+
+Wrapping divs for code blocks have 'ad-inserter' and 'ad-inserter-N' classes which can be used for custom styles.
+
+To configure syntax highlighting go to Ad Inserter Settings (tab #) and choose theme. Try 'Ad Inserter' if you like dark themes.
 
 == Installation ==
 
@@ -151,7 +168,7 @@ For titles and search terms use tags. For example, the code below would display 
 `<div style="height: 531px;">
 <script type="text/javascript">
 var amzn_wdgt={widget:"Search"};
-amzn_wdgt.tag="adinserter-20";
+amzn_wdgt.tag="ad-inserter-20";
 amzn_wdgt.columns="1";
 amzn_wdgt.rows="5";
 amzn_wdgt.defaultSearchTerm="{smart_tag}";
@@ -177,7 +194,7 @@ Another example for nice contextual carousel below posts:
 `<div style="overflow: auto; width: 100%;">
 <script type='text/javascript'>
 var amzn_wdgt={widget:'Carousel'};
-amzn_wdgt.tag='adinserter-20';
+amzn_wdgt.tag='ad-inserter-20';
 amzn_wdgt.widgetType='SearchAndAdd';
 amzn_wdgt.searchIndex='All';
 amzn_wdgt.keywords='{smart_tag}';
@@ -207,6 +224,17 @@ ad_code
 
 
 == Changelog ==
+
+= 1.4.0 =
+* Added support to skip paragraphs with specified text
+* Added position After paragraph
+* Added support for header and footer scripts
+* Added support for custom CSS styles
+* Added support to display blocks to all, logged in or not logged in users
+* Added support for syntax highlighting
+* Added support for shortcodes
+* Added classes to block wrapping divs
+* Few bugs fixed
 
 = 1.3.5 =
 * Fixed bug: missing echo for PHP function call example
@@ -285,6 +313,17 @@ ad_code
 
 
 == Upgrade Notice ==
+
+= 1.4.0 =
+Added support to skip paragraphs with specified text
+Added position After paragraph
+Added support for header and footer scripts
+Added support for custom CSS styles
+Added support to display blocks to all, logged in or not logged in users
+Added support for syntax highlighting
+Added support for shortcodes
+Added classes to block wrapping divs
+Few bugs fixed
 
 = 1.3.5 =
 Fixed bug: missing echo for PHP function call example
