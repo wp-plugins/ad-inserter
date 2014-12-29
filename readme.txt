@@ -225,6 +225,9 @@ ad_code
 
 == Changelog ==
 
+= 1.4.1 =
+* Fixed bug: Code blocks configured as widgets were not displayed properly on widgets admin page
+
 = 1.4.0 =
 * Added support to skip paragraphs with specified text
 * Added position After paragraph
@@ -313,6 +316,9 @@ ad_code
 
 
 == Upgrade Notice ==
+
+= 1.4.1 =
+Fixed bug: Code blocks configured as widgets were not displayed properly on widgets admin page
 
 = 1.4.0 =
 Added support to skip paragraphs with specified text

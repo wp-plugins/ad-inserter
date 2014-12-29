@@ -1,8 +1,8 @@
 <?php
 /*
 Plugin Name: Ad Inserter
-Version: 1.4.0
-Description: A simple solution to insert any ad code into Wordpress. Simply enter any HTML, Javascript or PHP code and select where and how you want to display it.
+Version: 1.4.1
+Description: A simple solution to insert any code into Wordpress. Simply enter any HTML, Javascript or PHP code and select where and how you want to display it.
 Author: Spacetime
 Author URI: http://igorfuna.com/
 Plugin URI: http://igorfuna.com/software/web/ad-inserter-wordpress-plugin
@@ -15,6 +15,9 @@ TO DO
 
 /*
 Change Log
+
+Ad Inserter 1.4.1 - 29 December 2014
+- Fixed bug: Code blocks configured as widgets were not displayed properly on widgets admin page
 
 Ad Inserter 1.4.0 - 21 December 2014
 - Added support to skip paragraphs with specified text
@@ -153,18 +156,15 @@ function ai_init_hook() {
 
   $ad_all_data = array ($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8,$ad9,$ad10,$ad11,$ad12,$ad13,$ad14,$ad15,$ad16);
 
-  // Load options from db
-  foreach($ad_all_data as $key => $obj){
-    $obj->load_options ("AdInserter".($key + 1)."Options");
-  }
-
   foreach ($ad_all_data as $key => $obj){
+    $obj->load_options ("AdInserter".($key + 1)."Options");
     if($obj->get_append_type() == AD_SELECT_WIDGET){
       $ad_counter = $key + 1;
       // register widget
-      $widget_options = array ('classname' => 'ai_widget', 'description' => "Ad Inserter code block ".$ad_counter.".");
+      $widget_options = array ('classname' => 'ai_widget', 'description' => "Ad Inserter code block ".$ad_counter);
       $widget_parameters = array ('block' => $ad_counter);
-      wp_register_sidebar_widget ('ai_widget'.$ad_counter, $obj->get_ad_name(), 'ai_widget', $widget_options, $widget_parameters);
+      // Different callback functions because widgets that share callback functions don't get displayed
+      wp_register_sidebar_widget ('ai_widget'.$ad_counter, $obj->get_ad_name(), 'ai_widget'.$ad_counter, $widget_options, $widget_parameters);
     }
   }
 
@@ -1169,6 +1169,72 @@ function ai_widget ($args, $parameters) {
   $ad = new Block ($block);
   $ad->load_options (str_replace ("#", $block, AD_ADx_OPTIONS));
   ai_widget_draw ($block, $ad, $args);
+}
+
+// Fix because widgets that share callback functions don't get displayed
+
+function ai_widget1 ($args, $parameters) {
+  ai_widget ($args, $parameters);
+}
+
+function ai_widget2 ($args, $parameters) {
+  ai_widget ($args, $parameters);
+}
+
+function ai_widget3 ($args, $parameters) {
+  ai_widget ($args, $parameters);
+}
+
+function ai_widget4 ($args, $parameters) {
+  ai_widget ($args, $parameters);
+}
+
+function ai_widget5 ($args, $parameters) {
+  ai_widget ($args, $parameters);
+}
+
+function ai_widget6 ($args, $parameters) {
+  ai_widget ($args, $parameters);
+}
+
+function ai_widget7 ($args, $parameters) {
+  ai_widget ($args, $parameters);
+}
+
+function ai_widget8 ($args, $parameters) {
+  ai_widget ($args, $parameters);
+}
+
+function ai_widget9 ($args, $parameters) {
+  ai_widget ($args, $parameters);
+}
+
+function ai_widget10 ($args, $parameters) {
+  ai_widget ($args, $parameters);
+}
+
+function ai_widget11 ($args, $parameters) {
+  ai_widget ($args, $parameters);
+}
+
+function ai_widget12 ($args, $parameters) {
+  ai_widget ($args, $parameters);
+}
+
+function ai_widget13 ($args, $parameters) {
+  ai_widget ($args, $parameters);
+}
+
+function ai_widget14 ($args, $parameters) {
+  ai_widget ($args, $parameters);
+}
+
+function ai_widget15 ($args, $parameters) {
+  ai_widget ($args, $parameters);
+}
+
+function ai_widget16 ($args, $parameters) {
+  ai_widget ($args, $parameters);
 }
 
 function ai_widget_draw ($block, $obj, $args) {
