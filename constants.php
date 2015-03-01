@@ -6,7 +6,7 @@ if (!defined( 'AD_INSERTER_TITLE'))
   define ('AD_INSERTER_TITLE', 'Ad Inserter');
 
 if (!defined( 'AD_INSERTER_VERSION'))
-  define ('AD_INSERTER_VERSION', '1.4.1');
+  define ('AD_INSERTER_VERSION', '1.4.2');
 
 if (!defined ('AD_INSERTER_PLUGIN_DIR'))
   define ('AD_INSERTER_PLUGIN_DIR', plugin_dir_path (__FILE__));
@@ -95,6 +95,12 @@ define('AD_SELECT_MANUAL','Manual');
 define('AD_DISPLAY_ALL_USERS','all');
 define('AD_DISPLAY_LOGGED_IN_USERS','logged in');
 define('AD_DISPLAY_NOT_LOGGED_IN_USERS','not logged in');
+
+define('AD_DISPLAY_ALL_DEVICES','all');
+define('AD_DISPLAY_DESKTOP_DEVICES','desktop');
+define('AD_DISPLAY_MOBILE_DEVICES','mobile');
+define('AD_DISPLAY_TABLET_DEVICES','tablet');
+define('AD_DISPLAY_PHONE_DEVICES','phone');
 
 //Direction options
 define('AD_DIRECTION_FROM_TOP','From Top');

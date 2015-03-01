@@ -1,9 +1,9 @@
 === Ad Inserter ===
 Contributors: spacetime
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LHGZEMRTR7WB4
-Tags: adsense, amazon, clickbank, ad, ads, html, javascript, php, code, widget, sidebar, rotating, banner, banner rotation, contextual, shortcodes, widgets, header, footer, users, logged in, not logged in, custom css
+Tags: adsense, amazon, clickbank, ad, ads, html, javascript, php, code, widget, sidebar, rotating, banner, banner rotation, contextual, shortcodes, widgets, header, footer, users, logged in, not logged in, mobile, desktop, phone, tablet, custom css
 Requires at least: 3.0
-Tested up to: 4.1
+Tested up to: 4.1.1
 Stable tag: 1.4.1
 License: GPLv3
 
@@ -22,7 +22,10 @@ Automatic Display Options:
 *   Display Before Title (does not work with all themes)
 *   Display Before Excerpt
 *   Display After Excerpt
-*   As a Widget
+
+Additional Display Options:
+
+*   As a Widget - Simply drag **Ad Inserter** widget to any postition, select code block and you're done
 *   Manual - Insert shortcode [adinserter block="BLOCK_NUMBER"] or [adinserter name="BLOCK_NAME"] into post or page HTML code to display block with BLOCK_NAME name or BLOCK_NUMBER number at this position
 *   PHP function call `<?php echo adinserter (BLOCK_NUMBER); ?>` - Insert code block BLOCK_NUMBER at any position in template file
 
@@ -37,7 +40,15 @@ Display Block to:
 *   Logged in users
 *   Not logged in users
 
-Alignment:
+on:
+
+*   All devices
+*   Desktop devices
+*   Mobile devices (tablets and phones)
+*   Tablet devices
+*   Phone devices
+
+Block Alignment and Style:
 
 *   No Wrapping (leaves ad code as it is, otherwise it is wrapped by a div)
 *   Custom CSS (Custom CSS code for wrapping div)
@@ -225,6 +236,12 @@ ad_code
 
 == Changelog ==
 
+= 1.4.2 =
+* Added support to display blocks on all, desktop or mobile devices
+* Added support for new widgets API - one widget for all code blocks with multiple instances
+* Fixed bug: Display block N days after post is published was not working properly
+* Fixed bug: Display block after paragraph in some cases was not working propery
+
 = 1.4.1 =
 * Fixed bug: Code blocks configured as widgets were not displayed properly on widgets admin page
 
@@ -316,6 +333,12 @@ ad_code
 
 
 == Upgrade Notice ==
+
+= 1.4.2 =
+Added support to display blocks on all, desktop or mobile devices
+Added support for new widgets API - one widget for all code blocks with multiple instances - PLEASE REPLACE ALL OLD WIDGETS WITH THE NEW ONE!
+Fixed bug: Display block N days after post is published was not working properly
+Fixed bug: Display block after paragraph in some cases was not working propery
 
 = 1.4.1 =
 Fixed bug: Code blocks configured as widgets were not displayed properly on widgets admin page

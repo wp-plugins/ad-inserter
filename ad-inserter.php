@@ -16,6 +16,12 @@ TO DO
 /*
 Change Log
 
+Ad Inserter 1.4.2 - 1 March 2015
+- Added support to display blocks on all, desktop or mobile devices
+- Added support for new widgets API - one widget for all code blocks with multiple instances
+- Fixed bug: Display block N days after post is published was not working properly
+- Fixed bug: Display block after paragraph in some cases was not working propery
+
 Ad Inserter 1.4.1 - 29 December 2014
 - Fixed bug: Code blocks configured as widgets were not displayed properly on widgets admin page
 
@@ -124,6 +130,16 @@ if (version_compare ($wp_version, "3.0", "<")) {
 require_once 'class.php';
 require_once 'constants.php';
 require_once 'settings_form.php';
+require_once 'includes/Mobile_Detect.php';
+
+
+$detect = new Mobile_Detect;
+
+define ('AI_MOBILE',   $detect->isMobile ());
+define ('AI_TABLET',   $detect->isTablet ());
+define ('AI_PHONE',    AI_MOBILE && !AI_TABLET);
+define ('AI_DESKTOP',  !AI_MOBILE);
+
 
 //hooks
 add_action ('admin_menu',       'ai_admin_menu_hook');
@@ -134,37 +150,21 @@ add_action ('init',             'ai_init_hook');
 add_action ('admin_notices',    'ai_admin_notice_hook');
 add_action ('wp_head',          'ai_wp_head_hook');
 add_action ('wp_footer',        'ai_wp_footer_hook');
+add_action ('widgets_init',     'ai_widgets_init_hook' );
 
 function ai_init_hook() {
 
-  $ad1  = new Block (1);
-  $ad2  = new Block (2);
-  $ad3  = new Block (3);
-  $ad4  = new Block (4);
-  $ad5  = new Block (5);
-  $ad6  = new Block (6);
-  $ad7  = new Block (7);
-  $ad8  = new Block (8);
-  $ad9  = new Block (9);
-  $ad10 = new Block (10);
-  $ad11 = new Block (11);
-  $ad12 = new Block (12);
-  $ad13 = new Block (13);
-  $ad14 = new Block (14);
-  $ad15 = new Block (15);
-  $ad16 = new Block (16);
-
-  $ad_all_data = array ($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8,$ad9,$ad10,$ad11,$ad12,$ad13,$ad14,$ad15,$ad16);
-
-  foreach ($ad_all_data as $key => $obj){
-    $obj->load_options ("AdInserter".($key + 1)."Options");
+  // OLD WIDGETS - DEPRECATED
+  for ($counter = 1; $counter <= 16; $counter ++) {
+    $obj = new Block ($counter);
+    $obj->load_options ("AdInserter".$counter."Options");
     if($obj->get_append_type() == AD_SELECT_WIDGET){
-      $ad_counter = $key + 1;
       // register widget
-      $widget_options = array ('classname' => 'ai_widget', 'description' => "Ad Inserter code block ".$ad_counter);
-      $widget_parameters = array ('block' => $ad_counter);
+//      $widget_options = array ('classname' => 'ad-inserter-widget', 'description' => "Ad Inserter code block ".$counter);
+      $widget_options = array ('classname' => 'ad-inserter-widget', 'description' => "DEPRECATED - Use 'Ad Inserter' widget instead.");
+      $widget_parameters = array ('block' => $counter);
       // Different callback functions because widgets that share callback functions don't get displayed
-      wp_register_sidebar_widget ('ai_widget'.$ad_counter, $obj->get_ad_name(), 'ai_widget'.$ad_counter, $widget_options, $widget_parameters);
+      wp_register_sidebar_widget ('ai_widget'.$counter, $obj->get_ad_name().' - DEPRECATED', 'ai_widget'.$counter, $widget_options, $widget_parameters);
     }
   }
 
@@ -206,6 +206,10 @@ function ai_admin_notice_hook () {
       Please <a href=\"/wp-admin/options-general.php?page=ad-inserter.php\">check</a> if page display options for all ad slots are set properly.
       Make required changes and save ".AD_INSERTER_TITLE." settings to remove this notice.</strong></div>";
   }
+}
+
+function ai_widgets_init_hook () {
+  register_widget ('ai_widget');
 }
 
 function ai_wp_head_hook () {
@@ -506,8 +510,17 @@ function adinserter ($ad_number = ""){
   $obj = $ad_all_data [$ad_number - 1];
   $obj->load_options ("AdInserter".$ad_number."Options");
 
-  if ($obj->get_display_for_users () == AD_DISPLAY_LOGGED_IN_USERS && !is_user_logged_in ()) return "";
-  if ($obj->get_display_for_users () == AD_DISPLAY_NOT_LOGGED_IN_USERS && is_user_logged_in ()) return "";
+  $display_for_users = $obj->get_display_for_users ();
+
+  if ($display_for_users == AD_DISPLAY_LOGGED_IN_USERS && !is_user_logged_in ()) return "";
+  if ($display_for_users == AD_DISPLAY_NOT_LOGGED_IN_USERS && is_user_logged_in ()) return "";
+
+  $display_for_devices = $obj->get_display_for_devices ();
+
+  if ($display_for_devices == AD_DISPLAY_DESKTOP_DEVICES && !AI_DESKTOP) return "";
+  if ($display_for_devices == AD_DISPLAY_MOBILE_DEVICES && !AI_MOBILE) return "";
+  if ($display_for_devices == AD_DISPLAY_TABLET_DEVICES && !AI_TABLET) return "";
+  if ($display_for_devices == AD_DISPLAY_PHONE_DEVICES && !AI_PHONE) return "";
 
   if (!$obj->get_enable_php_call ()) return "";
 
@@ -526,7 +539,7 @@ function adinserter ($ad_number = ""){
   }
 
   //get post published date
-  $publish_date = the_date ('U','','',false);
+  $publish_date = get_the_date ('U');
 
   //get referer
   $http_referer = '';
@@ -577,7 +590,7 @@ function ai_content_hook ($content = ''){
   }
 
   //get post published date
-  $publish_date = the_date ('U','','',false);
+  $publish_date = get_the_date ('U');
 
   //get referer
   $http_referer = '';
@@ -665,8 +678,17 @@ function ai_excerpt_hook ($content = ''){
 
   foreach ($ad_all_data as $block_index => $obj){
 
-    if ($obj->get_display_for_users () == AD_DISPLAY_LOGGED_IN_USERS && !is_user_logged_in ()) continue;
-    if ($obj->get_display_for_users () == AD_DISPLAY_NOT_LOGGED_IN_USERS && is_user_logged_in ()) continue;
+    $display_for_users = $obj->get_display_for_users ();
+
+    if ($display_for_users == AD_DISPLAY_LOGGED_IN_USERS && !is_user_logged_in ()) continue;
+    if ($display_for_users == AD_DISPLAY_NOT_LOGGED_IN_USERS && is_user_logged_in ()) continue;
+
+    $display_for_devices = $obj->get_display_for_devices ();
+
+    if ($display_for_devices == AD_DISPLAY_DESKTOP_DEVICES && !AI_DESKTOP) continue;
+    if ($display_for_devices == AD_DISPLAY_MOBILE_DEVICES && !AI_MOBILE) continue;
+    if ($display_for_devices == AD_DISPLAY_TABLET_DEVICES && !AI_TABLET) continue;
+    if ($display_for_devices == AD_DISPLAY_PHONE_DEVICES && !AI_PHONE) continue;
 
     if ($obj->get_append_type () != AD_SELECT_BEFORE_EXCERPT && $obj->get_append_type () != AD_SELECT_AFTER_EXCERPT) continue;
 
@@ -744,7 +766,7 @@ function ai_loop_start_hook ($query){
   }
 
   //get post published date
-  $publish_date = the_date ('U','','',false);
+  $publish_date = get_the_date ('U');
 
   //get referer
   $http_referer = '';
@@ -756,8 +778,17 @@ function ai_loop_start_hook ($query){
 
   foreach ($ad_all_data as $block_index => $obj){
 
-    if ($obj->get_display_for_users () == AD_DISPLAY_LOGGED_IN_USERS && !is_user_logged_in ()) continue;
-    if ($obj->get_display_for_users () == AD_DISPLAY_NOT_LOGGED_IN_USERS && is_user_logged_in ()) continue;
+    $display_for_users = $obj->get_display_for_users ();
+
+    if ($display_for_users == AD_DISPLAY_LOGGED_IN_USERS && !is_user_logged_in ()) continue;
+    if ($display_for_users == AD_DISPLAY_NOT_LOGGED_IN_USERS && is_user_logged_in ()) continue;
+
+    $display_for_devices = $obj->get_display_for_devices ();
+
+    if ($display_for_devices == AD_DISPLAY_DESKTOP_DEVICES && !AI_DESKTOP) continue;
+    if ($display_for_devices == AD_DISPLAY_MOBILE_DEVICES && !AI_MOBILE) continue;
+    if ($display_for_devices == AD_DISPLAY_TABLET_DEVICES && !AI_TABLET) continue;
+    if ($display_for_devices == AD_DISPLAY_PHONE_DEVICES && !AI_PHONE) continue;
 
     if ($obj->get_append_type () != AD_SELECT_BEFORE_TITLE) continue;
 
@@ -932,8 +963,17 @@ function generateAdInserterCode ($content, $ad_all_data, $publish_date, $http_re
 
   foreach($ad_all_data as $index => $obj) {
 
-    if ($obj->get_display_for_users () == AD_DISPLAY_LOGGED_IN_USERS && !is_user_logged_in ()) continue;
-    if ($obj->get_display_for_users () == AD_DISPLAY_NOT_LOGGED_IN_USERS && is_user_logged_in ()) continue;
+    $display_for_users = $obj->get_display_for_users ();
+
+    if ($display_for_users == AD_DISPLAY_LOGGED_IN_USERS && !is_user_logged_in ()) continue;
+    if ($display_for_users == AD_DISPLAY_NOT_LOGGED_IN_USERS && is_user_logged_in ()) continue;
+
+    $display_for_devices = $obj->get_display_for_devices ();
+
+    if ($display_for_devices == AD_DISPLAY_DESKTOP_DEVICES && !AI_DESKTOP) continue;
+    if ($display_for_devices == AD_DISPLAY_MOBILE_DEVICES && !AI_MOBILE) continue;
+    if ($display_for_devices == AD_DISPLAY_TABLET_DEVICES && !AI_TABLET) continue;
+    if ($display_for_devices == AD_DISPLAY_PHONE_DEVICES && !AI_PHONE) continue;
 
     //if empty data, continue next
     if ($obj->get_ad_data() == AD_EMPTY_DATA) {
@@ -965,7 +1005,7 @@ function generateAdInserterCode ($content, $ad_all_data, $publish_date, $http_re
     if ($obj->get_append_type() == AD_SELECT_BEFORE_PARAGRAPH) {
       $content = ai_generateBeforeParagraph ($index + 1, $content, $obj);
     } elseif ($obj->get_append_type() == AD_SELECT_AFTER_PARAGRAPH) {
-      $content = ai_generateBeforeParagraph ($index + 1, $content, $obj, false);
+      $content = ai_generateAfterParagraph ($index + 1, $content, $obj);
     } elseif ($obj->get_append_type () == AD_SELECT_BEFORE_CONTENT) {
       $content = ai_generateDivBefore ($index + 1, $content, $obj);
     } elseif ($obj->get_append_type() == AD_SELECT_AFTER_CONTENT) {
@@ -1014,7 +1054,7 @@ function ai_getAdCode ($obj){
 }
 
 
-function ai_generateBeforeParagraph ($block, $content, $obj, $before = true){
+function ai_generateBeforeParagraph ($block, $content, $obj){
 
   $paragraph_positions = array ();
   $poseslast = array ();
@@ -1022,8 +1062,8 @@ function ai_generateBeforeParagraph ($block, $content, $obj, $before = true){
 
   $paragraph_start = "<p";
 
-  while (strpos ($content, $paragraph_start, $last_position + 1) !== false){
-    $last_position = strpos ($content, $paragraph_start, $last_position + 1);
+  while (stripos ($content, $paragraph_start, $last_position + 1) !== false){
+    $last_position = stripos ($content, $paragraph_start, $last_position + 1);
     if ($content [$last_position + 2] == ">" || $content [$last_position + 2] == " ")
       $paragraph_positions [] = $last_position;
   }
@@ -1045,36 +1085,78 @@ function ai_generateBeforeParagraph ($block, $content, $obj, $before = true){
     $paragraph_positions = $filtered_paragraph_positions;
   }
 
-  $para = $obj->get_paragraph_number();
+  $position = $obj->get_paragraph_number();
 
-  if ($before) {
-    if ($para <= 0) {
-      $para = rand (0, sizeof ($paragraph_positions) - 1);
-    } elseif ($obj->get_direction_type() == AD_DIRECTION_FROM_BOTTOM) {
-      $paragraph_positions = array_reverse ($paragraph_positions);
-      $para = $para - 1;
-    } else $para --;
-  } else {
-      if ($para <= 0) {
-        $para = rand (1, sizeof ($paragraph_positions));
-      } elseif ($obj->get_direction_type() == AD_DIRECTION_FROM_BOTTOM) {
-        $para = sizeof ($paragraph_positions) - $para + 1;
-        if ($para <= 0) {
-          return $content;
-        }
-      }
-    }
+  if ($position <= 0) {
+    $position = rand (0, sizeof ($paragraph_positions) - 1);
+  } elseif ($obj->get_direction_type() == AD_DIRECTION_FROM_BOTTOM) {
+    $paragraph_positions = array_reverse ($paragraph_positions);
+    $position --;
+  } else $position --;
 
   if (sizeof ($paragraph_positions) >= $obj->get_paragraph_number_minimum()) {
-    if (!$before && $para == sizeof ($paragraph_positions)) {
-      if ($obj->get_alignment_type() == AD_ALIGNMENT_NO_WRAPPING) $content .= ai_getAdCode ($obj); else
-        $content .= "<div class='ad-inserter ad-inserter-".$block."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
-    } elseif (sizeof ($paragraph_positions) > $para) {
-        $pickme = $paragraph_positions [$para];
+    if (sizeof ($paragraph_positions) > $position) {
+      $content_position = $paragraph_positions [$position];
 
-        if ($obj->get_alignment_type() == AD_ALIGNMENT_NO_WRAPPING) $content = substr_replace ($content, ai_getAdCode ($obj), $pickme, 0); else
-          $content = substr_replace ($content, "<div class='ad-inserter ad-inserter-".$block."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>", $pickme, 0);
+      if ($obj->get_alignment_type() == AD_ALIGNMENT_NO_WRAPPING) $content = substr_replace ($content, ai_getAdCode ($obj), $content_position, 0); else
+        $content = substr_replace ($content, "<div class='ad-inserter ad-inserter-".$block."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>", $content_position, 0);
+    }
+  }
+
+  return $content;
+}
+
+function ai_generateAfterParagraph ($block, $content, $obj, $before = true){
+
+  $paragraph_positions = array ();
+  $poseslast = array ();
+  $last_position = - 1;
+
+  $paragraph_end = "</p>";
+
+  while (stripos ($content, $paragraph_end, $last_position + 1) !== false){
+    $last_position = stripos ($content, $paragraph_end, $last_position + 1) + 3;
+    $paragraph_positions [] = $last_position;
+  }
+
+  $paragraph_texts = explode (",", $obj->get_paragraph_text());
+  if ($obj->get_paragraph_text() != "" && count ($paragraph_texts != 0)) {
+    $filtered_paragraph_positions = array ();
+    foreach ($paragraph_positions as $index => $paragraph_position) {
+      $paragraph_code = $index == 0 ? substr ($content, 0, $paragraph_position + 1) : substr ($content, $paragraph_positions [$index - 1] + 1, $paragraph_position - $paragraph_positions [$index - 1]);
+      $found = false;
+      foreach ($paragraph_texts as $paragraph_text) {
+        if (stripos ($paragraph_code, trim ($paragraph_text)) !== false) {
+          $found = true;
+          break;
+        }
       }
+      if (!$found) $filtered_paragraph_positions [] = $paragraph_position;
+    }
+    $paragraph_positions = $filtered_paragraph_positions;
+  }
+
+  $position = $obj->get_paragraph_number();
+
+  if ($position <= 0) {
+    $position = rand (0, sizeof ($paragraph_positions) - 1);
+  } elseif ($obj->get_direction_type() == AD_DIRECTION_FROM_BOTTOM) {
+    $paragraph_positions = array_reverse ($paragraph_positions);
+    $position --;
+  } else $position --;
+
+  if (sizeof ($paragraph_positions) >= $obj->get_paragraph_number_minimum()) {
+    if (sizeof ($paragraph_positions) > $position) {
+      $content_position = $paragraph_positions [$position];
+
+      if ($content_position >= strlen ($content) - 1) {
+        if ($obj->get_alignment_type() == AD_ALIGNMENT_NO_WRAPPING) $content = $content = $content . ai_getAdCode ($obj); else
+          $content = $content . "<div class='ad-inserter ad-inserter-".$block."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
+      } else {
+          if ($obj->get_alignment_type() == AD_ALIGNMENT_NO_WRAPPING) $content = substr_replace ($content, ai_getAdCode ($obj), $content_position + 1, 0); else
+            $content = substr_replace ($content, "<div class='ad-inserter ad-inserter-".$block."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>", $content_position + 1, 0);
+        }
+    }
   }
 
   return $content;
@@ -1153,8 +1235,17 @@ function process_shortcodes ($atts) {
   if ($block != 0) {
     $obj = $ad_all_data [$block - 1];
     if ($obj->get_enable_manual ()) {
-      if ($obj->get_display_for_users () == AD_DISPLAY_LOGGED_IN_USERS && !is_user_logged_in ()) return "";
-      if ($obj->get_display_for_users () == AD_DISPLAY_NOT_LOGGED_IN_USERS && is_user_logged_in ()) return "";
+      $display_for_users = $obj->get_display_for_users ();
+
+      if ($display_for_users == AD_DISPLAY_LOGGED_IN_USERS && !is_user_logged_in ()) return "";
+      if ($display_for_users == AD_DISPLAY_NOT_LOGGED_IN_USERS && is_user_logged_in ()) return "";
+
+      $display_for_devices = $obj->get_display_for_devices ();
+
+      if ($display_for_devices == AD_DISPLAY_DESKTOP_DEVICES && !AI_DESKTOP) return "";
+      if ($display_for_devices == AD_DISPLAY_MOBILE_DEVICES && !AI_MOBILE) return "";
+      if ($display_for_devices == AD_DISPLAY_TABLET_DEVICES && !AI_TABLET) return "";
+      if ($display_for_devices == AD_DISPLAY_PHONE_DEVICES && !AI_PHONE) return "";
 
       if ($obj->get_alignment_type() == AD_ALIGNMENT_NO_WRAPPING) $ad_code = ai_getAdCode ($obj); else
         $ad_code = "<div class='ad-inserter ad-inserter-".$block."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
@@ -1163,6 +1254,84 @@ function process_shortcodes ($atts) {
   }
   return "";
 }
+
+
+class ai_widget extends WP_Widget {
+
+  function __construct () {
+    parent::__construct (
+      false,                                  // Base ID
+      'Ad Inserter',               // Name
+      array (                                 // Args
+        'classname'   => 'ai_widget',
+        'description' => 'Ad Inserter code block widget.')
+    );
+  }
+
+  function widget ($args, $instance) {
+    // Widget output
+
+    $title = !empty ($instance ['widget-title']) ? $instance ['widget-title'] : '';
+    $block = !empty ($instance ['block']) ? $instance ['block'] : 1;
+
+    $ad = new Block ($block);
+    $ad->load_options (str_replace ("#", $block, AD_ADx_OPTIONS));
+    ai_widget_draw ($block, $ad, $args, $title);
+  }
+
+  function form ($instance) {
+    // Output admin widget options form
+
+    $blocks = array ();
+    for ($block_index = 1; $block_index <= 16; $block_index ++) {
+      $obj = new Block ($block_index);
+      $obj->load_options (str_replace ("#", $block_index, AD_ADx_OPTIONS));
+      $blocks [$block_index] = $obj;
+    }
+
+    $widget_title = !empty ($instance ['widget-title']) ? $instance ['widget-title'] : '';
+    $block = !empty ($instance ['block']) ? $instance ['block'] : 1;
+
+    $obj = $blocks [$block];
+    $title = '[' . $block . '] ' . $obj->get_ad_name();
+    if (!empty ($widget_title)) $title .= ' - ' . $widget_title
+
+    ?>
+    <input id="<?php echo $this->get_field_id ('title'); ?>" name="<?php echo $this->get_field_name ('title'); ?>" type="hidden" value="<?php echo esc_attr ($title); ?>">
+
+    <p>
+      <label for="<?php echo $this->get_field_id ('widget-title'); ?>">Title:</label>
+      <input id="<?php echo $this->get_field_id ('widget-title'); ?>" name="<?php echo $this->get_field_name ('widget-title'); ?>" type="text" value="<?php echo esc_attr ($widget_title); ?>" style="width: 90%;">
+    </p>
+
+    <p>
+      <label for="<?php echo $this->get_field_id ('block'); ?>">Block:</label>
+      <select id="<?php echo $this->get_field_id ('block'); ?>" name="<?php echo $this->get_field_name('block'); ?>" style="width: 88%;">
+        <?php
+          for ($block_index = 1; $block_index <= 16; $block_index ++) {
+            $obj = $blocks [$block_index];
+        ?>
+        <option value='<?php echo $block_index; ?>' <?php if ($block_index == $block) echo 'selected="selected"'; ?>><?php echo $obj->get_ad_name(); ?></option>
+        <?php } ?>
+      </select>
+    </p>
+    <?php
+  }
+
+  function update ($new_instance, $old_instance) {
+    // Save widget options
+    $instance = $old_instance;
+
+    $instance ['widget-title'] = (!empty ($new_instance ['widget-title'])) ? strip_tags ($new_instance ['widget-title']) : '';
+    $instance ['title'] = (!empty ($new_instance ['title'])) ? strip_tags ($new_instance ['title']) : '';
+    $instance ['block'] = (!empty ($new_instance ['block'])) ? $new_instance ['block'] : 1;
+
+    return $instance;
+  }
+}
+
+
+// OLD WIDGETS - DEPRECATED
 
 function ai_widget ($args, $parameters) {
   $block = $parameters ['block'];
@@ -1236,21 +1405,32 @@ function ai_widget15 ($args, $parameters) {
 function ai_widget16 ($args, $parameters) {
   ai_widget ($args, $parameters);
 }
+// OLD WIDGETS END
 
-function ai_widget_draw ($block, $obj, $args) {
 
-  if ($obj->get_display_for_users () == AD_DISPLAY_LOGGED_IN_USERS && !is_user_logged_in ()) return;
-  if ($obj->get_display_for_users () == AD_DISPLAY_NOT_LOGGED_IN_USERS && is_user_logged_in ()) return;
+function ai_widget_draw ($block, $obj, $args, $title = '') {
+
+  $display_for_users = $obj->get_display_for_users ();
+
+  if ($display_for_users == AD_DISPLAY_LOGGED_IN_USERS && !is_user_logged_in ()) return;
+  if ($display_for_users == AD_DISPLAY_NOT_LOGGED_IN_USERS && is_user_logged_in ()) return;
+
+  $display_for_devices = $obj->get_display_for_devices ();
+
+  if ($display_for_devices == AD_DISPLAY_DESKTOP_DEVICES && !AI_DESKTOP) return;
+  if ($display_for_devices == AD_DISPLAY_MOBILE_DEVICES && !AI_MOBILE) return;;
+  if ($display_for_devices == AD_DISPLAY_TABLET_DEVICES && !AI_TABLET) return;
+  if ($display_for_devices == AD_DISPLAY_PHONE_DEVICES && !AI_PHONE) return;
 
   //get post published date
-  $publish_date = the_date ('U','','',false);
+//  $publish_date = get_the_date ('U');      // Widgets are not in posts
 
   $http_referer = '';
   if(isset($_SERVER['HTTP_REFERER'])) {
       $http_referer = $_SERVER['HTTP_REFERER'];
   }
 
-  if ($obj->get_append_type () != AD_SELECT_WIDGET) return;
+//  if ($obj->get_append_type () != AD_SELECT_WIDGET) return;
 
   //if empty data, continue next
   if($obj->get_ad_data()==AD_EMPTY_DATA){
@@ -1280,15 +1460,18 @@ function ai_widget_draw ($block, $obj, $args) {
      return;
   }
 
-  if(ai_isDisplayDateAllowed($obj, $publish_date)==false){
-     return;
-  }
+//  if(ai_isDisplayDateAllowed($obj, $publish_date)==false){
+//     return;
+//  }
 
   if(ai_isRefererAllowed($obj, $http_referer, $obj->get_ad_domain_list_type()) == false){
      return;
   }
 
+  if (!empty ($title)) {
+    echo $args ['before_title'] . apply_filters ('widget_title', $title). $args ['after_title'];
+  }
 
-  if ($obj->get_alignment_type() == AD_ALIGNMENT_NO_WRAPPING) echo $args['before_widget'] . ai_getAdCode ($obj) . $args['after_widget']; else
-    echo $args['before_widget'] . "<div class='ad-inserter ad-inserter-".$block."' style='" . $obj->get_alignmet_style(false) . "'>" . ai_getAdCode ($obj) . "</div>" . $args['after_widget'];
+  if ($obj->get_alignment_type() == AD_ALIGNMENT_NO_WRAPPING) echo $args ['before_widget'] . ai_getAdCode ($obj) . $args ['after_widget']; else
+    echo $args ['before_widget'] . "<div class='ad-inserter ad-inserter-".$block."' style='" . $obj->get_alignmet_style(false) . "'>" . ai_getAdCode ($obj) . "</div>" . $args ['after_widget'];
 }

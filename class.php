@@ -66,6 +66,7 @@ abstract class CodeBlock extends BaseCodeBlock {
     var $option_paragraph_text;
     var $option_custom_css;
     var $option_display_for_users;
+    var $option_display_for_devices;
 
     function CodeBlock() {
 
@@ -96,6 +97,7 @@ abstract class CodeBlock extends BaseCodeBlock {
       $this->wp_options[$this->option_paragraph_text]           = AD_EMPTY_DATA;
       $this->wp_options[$this->option_custom_css]               = AD_EMPTY_DATA;
       $this->wp_options[$this->option_display_for_users]        = AD_DISPLAY_ALL_USERS;
+      $this->wp_options[$this->option_display_for_devices]      = AD_DISPLAY_ALL_DEVICES;
 
       parent::BaseCodeBlock();
     }
@@ -251,6 +253,14 @@ abstract class CodeBlock extends BaseCodeBlock {
      } else $display_for_users = '';
      if ($display_for_users == '') $display_for_users = AD_DISPLAY_ALL_USERS;
      return $display_for_users;
+   }
+
+   public function get_display_for_devices (){
+     if (isset ($this->wp_options [$this->option_display_for_devices])) {
+      $display_for_devices = $this->wp_options [$this->option_display_for_devices];
+     } else $display_for_devices = '';
+     if ($display_for_devices == '') $display_for_devices = AD_DISPLAY_ALL_DEVICES;
+     return $display_for_devices;
    }
 
    public function get_ad_data_replaced(){
@@ -478,6 +488,7 @@ class Block extends CodeBlock{
    const OPTION_PARAGRAPH_TEXT            = "ad#_paragraph_text";
    const OPTION_CUSTOM_CSS                = "ad#_custom_css";
    const OPTION_DISPLAY_FOR_USERS         = "ad#_display_for_users";
+   const OPTION_DISPLAY_FOR_DEVICES       = "ad#_display_for_devices";
 
 	//constructor
     public function Block ($number) {
@@ -508,6 +519,7 @@ class Block extends CodeBlock{
       $this->option_paragraph_text            = str_replace ("#", $number, self::OPTION_PARAGRAPH_TEXT);
       $this->option_custom_css                = str_replace ("#", $number, self::OPTION_CUSTOM_CSS);
       $this->option_display_for_users         = str_replace ("#", $number, self::OPTION_DISPLAY_FOR_USERS);
+      $this->option_display_for_devices       = str_replace ("#", $number, self::OPTION_DISPLAY_FOR_DEVICES);
 
       parent::CodeBlock();
       $this->number = $number;
@@ -552,6 +564,3 @@ class AdF extends BaseCodeBlock{
     }
 
 }
-
-
-

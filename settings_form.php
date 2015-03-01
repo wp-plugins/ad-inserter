@@ -102,6 +102,11 @@ function print_settings_form (){
      Block Name:  <input style="border-radius: 5px;" type="text" name="<?php echo $obj->option_ad_name; ?>" value="<?php echo $obj->get_ad_name() ?>" size="50" maxlength="50"/>
   </div>
 
+  <div style="display: inline-block; padding: 1px 10px; float: right;">
+   <input type="hidden"   style="border-radius: 5px;" name="<?php echo $obj->option_process_php; ?>" value="0" />
+   <input type="checkbox" style="border-radius: 5px;" name="<?php echo $obj->option_process_php; ?>" value="1" id="process-php-<?php echo $ad_number; ?>" <?php if ($obj->get_process_php () == AD_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_process_php; ?>" title="Process PHP code in block">Process PHP</label>
+  </div>
+
   <div style="padding-left:16px;">
       HTML / Javascript / PHP code (separate rotating versions with |rotate| )
   </div>
@@ -130,17 +135,19 @@ function print_settings_form (){
         <option value="<?php echo AD_DISPLAY_LOGGED_IN_USERS; ?>" <?php echo ($obj->get_display_for_users()==AD_DISPLAY_LOGGED_IN_USERS) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DISPLAY_LOGGED_IN_USERS; ?></option>
         <option value="<?php echo AD_DISPLAY_NOT_LOGGED_IN_USERS; ?>" <?php echo ($obj->get_display_for_users()==AD_DISPLAY_NOT_LOGGED_IN_USERS) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DISPLAY_NOT_LOGGED_IN_USERS; ?></option>
      </select>
-     users
-
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-     <div style="display: inline-block; padding-top: 5px; float: right;">
-      <input type="hidden"   style="border-radius: 5px;" name="<?php echo $obj->option_process_php; ?>" value="0" />
-      <input type="checkbox" style="border-radius: 5px;" name="<?php echo $obj->option_process_php; ?>" value="1" id="process-php-<?php echo $ad_number; ?>" <?php if ($obj->get_process_php () == AD_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_process_php; ?>" title="Process PHP code in block">Process PHP</label>
-     </div>
+     users on
+     <select style="border-radius: 5px; margin-bottom: 3px;" id="display-for-users-<?php echo $ad_number; ?>" name="<?php echo $obj->option_display_for_devices; ?>" style="width:160px">
+        <option value="<?php echo AD_DISPLAY_ALL_DEVICES; ?>" <?php echo ($obj->get_display_for_devices() == AD_DISPLAY_ALL_DEVICES) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DISPLAY_ALL_DEVICES; ?></option>
+        <option value="<?php echo AD_DISPLAY_DESKTOP_DEVICES; ?>" <?php echo ($obj->get_display_for_devices() == AD_DISPLAY_DESKTOP_DEVICES) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DISPLAY_DESKTOP_DEVICES; ?></option>
+        <option value="<?php echo AD_DISPLAY_MOBILE_DEVICES; ?>" <?php echo ($obj->get_display_for_devices() == AD_DISPLAY_MOBILE_DEVICES) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DISPLAY_MOBILE_DEVICES; ?></option>
+        <option value="<?php echo AD_DISPLAY_TABLET_DEVICES; ?>" <?php echo ($obj->get_display_for_devices() == AD_DISPLAY_TABLET_DEVICES) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DISPLAY_TABLET_DEVICES; ?></option>
+        <option value="<?php echo AD_DISPLAY_PHONE_DEVICES; ?>" <?php echo ($obj->get_display_for_devices() == AD_DISPLAY_PHONE_DEVICES) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DISPLAY_PHONE_DEVICES; ?></option>
+     </select>
+     devices
   </div>
 
   <div style="padding:0px 0px 8px 16px;">
-     Block Style:&nbsp;&nbsp;&nbsp;
+     Block Alignment and Style:&nbsp;&nbsp;&nbsp;
      <select style="border-radius: 5px;" id="block-alignment-<?php echo $ad_number; ?>" name="<?php echo $obj->option_float_type; ?>" style="width:120px">
         <option value="<?php echo AD_ALIGNMENT_NO_WRAPPING; ?>" <?php echo ($obj->get_alignment_type()==AD_ALIGNMENT_NO_WRAPPING) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ALIGNMENT_NO_WRAPPING; ?></option>
         <option value="<?php echo AD_ALIGNMENT_CUSTOM_CSS; ?>" <?php echo ($obj->get_alignment_type()==AD_ALIGNMENT_CUSTOM_CSS) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ALIGNMENT_CUSTOM_CSS; ?></option>
@@ -151,7 +158,7 @@ function print_settings_form (){
         <option value="<?php echo AD_ALIGNMENT_FLOAT_LEFT; ?>" <?php echo ($obj->get_alignment_type()==AD_ALIGNMENT_FLOAT_LEFT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ALIGNMENT_FLOAT_LEFT; ?></option>
         <option value="<?php echo AD_ALIGNMENT_FLOAT_RIGHT; ?>" <?php echo ($obj->get_alignment_type()==AD_ALIGNMENT_FLOAT_RIGHT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ALIGNMENT_FLOAT_RIGHT; ?></option>
      </select>
-     <span id="custom-css-<?php echo $ad_number; ?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Custom CSS: <input style="border-radius: 5px;" type="text" name="<?php echo $obj->option_custom_css; ?>" value="<?php echo $obj->get_custom_css() ?>" size="67" maxlength="160" title="Custom CSS code for wrapping div" /></span>
+     <span id="custom-css-<?php echo $ad_number; ?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Custom CSS: <input style="border-radius: 5px;" type="text" name="<?php echo $obj->option_custom_css; ?>" value="<?php echo $obj->get_custom_css() ?>" size="53" maxlength="160" title="Custom CSS code for wrapping div" /></span>
   </div>
 
   <div style="padding:8px 8px 8px 8px; margin-left: 10px; border: 1px solid #ddd; border-radius: 5px;">
