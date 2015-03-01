@@ -136,7 +136,7 @@ function print_settings_form (){
         <option value="<?php echo AD_DISPLAY_NOT_LOGGED_IN_USERS; ?>" <?php echo ($obj->get_display_for_users()==AD_DISPLAY_NOT_LOGGED_IN_USERS) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DISPLAY_NOT_LOGGED_IN_USERS; ?></option>
      </select>
      users on
-     <select style="border-radius: 5px; margin-bottom: 3px;" id="display-for-users-<?php echo $ad_number; ?>" name="<?php echo $obj->option_display_for_devices; ?>" style="width:160px">
+     <select style="border-radius: 5px; margin-bottom: 3px;" id="display-for-devices-<?php echo $ad_number; ?>" name="<?php echo $obj->option_display_for_devices; ?>" style="width:160px">
         <option value="<?php echo AD_DISPLAY_ALL_DEVICES; ?>" <?php echo ($obj->get_display_for_devices() == AD_DISPLAY_ALL_DEVICES) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DISPLAY_ALL_DEVICES; ?></option>
         <option value="<?php echo AD_DISPLAY_DESKTOP_DEVICES; ?>" <?php echo ($obj->get_display_for_devices() == AD_DISPLAY_DESKTOP_DEVICES) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DISPLAY_DESKTOP_DEVICES; ?></option>
         <option value="<?php echo AD_DISPLAY_MOBILE_DEVICES; ?>" <?php echo ($obj->get_display_for_devices() == AD_DISPLAY_MOBILE_DEVICES) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DISPLAY_MOBILE_DEVICES; ?></option>
