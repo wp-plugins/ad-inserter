@@ -52,7 +52,7 @@ Block Alignment and Style:
 
 *   No Wrapping (leaves ad code as it is, otherwise it is wrapped by a div)
 *   Custom CSS (Custom CSS code for wrapping div)
-*   None
+*   None (simple div with margin)
 *   Align Left
 *   Align Right
 *   Center
@@ -81,11 +81,13 @@ For display positions Before Excerpt, After Excerpt, Before Title and Widget you
 *   Search Pages
 *   Archive pages
 
-You can also disable ads in certain posts. For example, to disable ad block 1 with name Test Block in post put the following HTML code within post or page code:
+You can also disable ads in certain posts or pages. For example, to disable ad block 1 with name Test Block in post put the following HTML code within post or page code:
 
 `<!-- disable adinserter 1 -->`
 or
 `<!-- disable adinserter Test Block -->`
+
+**Disabling works only for code blocks in posts and pages!**
 
 Ad Inserter is perfect for displaying AdSense or Amazon ads. It can also be used to display various versions of <a href="https://support.google.com/adsense/answer/65083?ctx=as2&rd=2&ref_topic=23389">AdSense ads using channels</a> to test which format or color combination performs best.
 
@@ -118,7 +120,18 @@ Manual installation:
 4. Save settings.
 
 
-= How can I insert the post category name into my ad code? =
+= How can I replace deprecated widgets with a new one? =
+
+0. This is needed ONLY if you have used widgets with Ad Inserter version 1.4.1 or older
+1. Locate all code blocks that are configured as widgets.
+2. Locate all widget positions where you have the old Ad Inserter widgets.
+3. Drag new "Ad Inserter" widget to the position where there is the old, deprecated widget.
+4. Select code block for this widget to be the same as it is for the old one.
+5. Drag the old, deprecated widget to the left to remove it.
+5. Replace steps for all old widgets.
+
+
+= How can I insert post category name into my ad code? =
 
 1. Use {category} in the ad. This will be replaced with the post category name.
 2. You can also use
@@ -335,10 +348,10 @@ ad_code
 == Upgrade Notice ==
 
 = 1.4.2 =
-Added support to display blocks on all, desktop or mobile devices
-Added support for new widgets API - one widget for all code blocks with multiple instances - PLEASE REPLACE ALL OLD WIDGETS WITH THE NEW ONE!
-Fixed bug: Display block N days after post is published was not working properly
-Fixed bug: Display block after paragraph in some cases was not working propery
+Display blocks on all, desktop or mobile devices;
+New widgets API - one widget for all code blocks with multiple instances - PLEASE REPLACE ALL OLD WIDGETS WITH THE NEW ONE!
+Fixed bug: Display block N days after post is published;
+Fixed bug: Display block after paragraph
 
 = 1.4.1 =
 Fixed bug: Code blocks configured as widgets were not displayed properly on widgets admin page
