@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: adsense, amazon, clickbank, ad, ads, html, javascript, php, code, widget, sidebar, rotating, banner, banner rotation, contextual, shortcodes, widgets, header, footer, users, logged in, not logged in, mobile, desktop, phone, tablet, custom css
 Requires at least: 3.0
 Tested up to: 4.1.1
-Stable tag: 1.4.1
+Stable tag: 1.5.0
 License: GPLv3
 
 Insert any HTML/Javascript/PHP code into Wordpress. Perfect for AdSense or contextual Amazon ads. 16 code blocks, many display options.
@@ -16,8 +16,8 @@ A simple solution to insert any code into Wordpress. **Perfect for AdSense or co
 Automatic Display Options:
 
 *   Display Before Content (before post or page text)
-*   Display Before Selected Paragraph (0 means random paragraph):
-*   Display After Selected Paragraph (0 means random paragraph):
+*   Display Before Selected Paragraph (0 means random paragraph)
+*   Display After Selected Paragraph (0 means random paragraph)
 *   Display After Content (after post or page text)
 *   Display Before Title (does not work with all themes)
 *   Display Before Excerpt
