@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Ad Inserter
-Version: 1.4.1
+Version: 1.5.0
 Description: A simple solution to insert any code into Wordpress. Simply enter any HTML, Javascript or PHP code and select where and how you want to display it.
 Author: Spacetime
 Author URI: http://igorfuna.com/
@@ -16,9 +16,10 @@ TO DO
 /*
 Change Log
 
-Ad Inserter 1.4.2 - 1 March 2015
+Ad Inserter 1.5.0 - 2 March 2015
 - Added support to display blocks on all, desktop or mobile devices
 - Added support for new widgets API - one widget for all code blocks with multiple instances
+- Added support to change wrapping code CSS class name
 - Fixed bug: Display block N days after post is published was not working properly
 - Fixed bug: Display block after paragraph in some cases was not working propery
 
@@ -236,7 +237,7 @@ function filter_characters ($str){
   return $str;
 }
 
-function ai_plugin_options ($syntax_highlighter_theme = 'chrome'){
+function ai_plugin_options ($syntax_highlighter_theme = DEFAULT_SYNTAX_HIGHLIGHTER_THEME, $block_class_name = DEFAULT_BLOCK_CLASS_NAME){
   $plugin_options = array ();
 
   $version_array = explode (".", AD_INSERTER_VERSION);
@@ -247,7 +248,8 @@ function ai_plugin_options ($syntax_highlighter_theme = 'chrome'){
 
   $plugin_options ['VERSION'] = $version_string;
 
-  $plugin_options ['SYNTAX_HIGHLIGHTER_THEME'] = $syntax_highlighter_theme;
+  $plugin_options ['SYNTAX_HIGHLIGHTER_THEME']  = $syntax_highlighter_theme;
+  $plugin_options ['BLOCK_CLASS_NAME']          = $block_class_name;
 
   return ($plugin_options);
 }
@@ -268,10 +270,20 @@ function get_syntax_highlighter_theme () {
   $plugin_db_options = get_option (AD_OPTIONS);
 
   if (!isset ($plugin_db_options ['SYNTAX_HIGHLIGHTER_THEME']) || $plugin_db_options ['SYNTAX_HIGHLIGHTER_THEME'] == '') {
-    $plugin_db_options ['SYNTAX_HIGHLIGHTER_THEME'] = 'chrome';
+    $plugin_db_options ['SYNTAX_HIGHLIGHTER_THEME'] = DEFAULT_SYNTAX_HIGHLIGHTER_THEME;
   }
 
   return ($plugin_db_options ['SYNTAX_HIGHLIGHTER_THEME']);
+}
+
+function get_block_class_name () {
+  $plugin_db_options = get_option (AD_OPTIONS);
+
+  if (!isset ($plugin_db_options ['BLOCK_CLASS_NAME']) || $plugin_db_options ['BLOCK_CLASS_NAME'] == '') {
+    $plugin_db_options ['BLOCK_CLASS_NAME'] = DEFAULT_BLOCK_CLASS_NAME;
+  }
+
+  return ($plugin_db_options ['BLOCK_CLASS_NAME']);
 }
 
 function ai_menu () {
@@ -406,7 +418,7 @@ function ai_menu () {
         }
       }
 
-      update_option (AD_OPTIONS, ai_plugin_options ($_POST ['syntax-highlighter-theme']));
+      update_option (AD_OPTIONS, ai_plugin_options ($_POST ['syntax-highlighter-theme'], $_POST ['block-class-name']));
 
       update_option (AD_AD1_OPTIONS,  $ad1->wp_options);
       update_option (AD_AD2_OPTIONS,  $ad2->wp_options);
@@ -555,9 +567,10 @@ function adinserter ($ad_number = ""){
 
   if (ai_isRefererAllowed ($obj, $http_referer, $obj->get_ad_domain_list_type()) == false) return "";
 
+  $block_class_name = get_block_class_name ();
 
   if ($obj->get_alignment_type() == AD_ALIGNMENT_NO_WRAPPING) $ad_code = ai_getAdCode ($obj); else
-    $ad_code = "<div class='ad-inserter ad-inserter-".$ad_number."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
+    $ad_code = "<div class='" . $block_class_name . " " . $block_class_name . "-" . $ad_number."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
 
   return $ad_code;
 }
@@ -724,8 +737,9 @@ function ai_excerpt_hook ($content = ''){
       continue;
     }
 
+    $block_class_name = get_block_class_name ();
     if ($obj->get_alignment_type() == AD_ALIGNMENT_NO_WRAPPING) $ad_code .= ai_getAdCode ($obj); else
-      $ad_code .= "<div class='ad-inserter ad-inserter-".($block_index + 1)."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
+      $ad_code .= "<div class='" . $block_class_name . " " . $block_class_name . "-" .($block_index + 1)."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
 
     if ($obj->get_append_type () == AD_SELECT_BEFORE_EXCERPT)
         $content = $ad_code . $content; else
@@ -828,8 +842,9 @@ function ai_loop_start_hook ($query){
       continue;
     }
 
+    $block_class_name = get_block_class_name ();
     if ($obj->get_alignment_type() == AD_ALIGNMENT_NO_WRAPPING) $ad_code .= ai_getAdCode ($obj); else
-      $ad_code .= "<div class='ad-inserter ad-inserter-".($block_index + 1)."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
+      $ad_code .= "<div class='" . $block_class_name . " " . $block_class_name . "-" . ($block_index + 1)."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
   }
 
   echo $ad_code;
@@ -1098,8 +1113,10 @@ function ai_generateBeforeParagraph ($block, $content, $obj){
     if (sizeof ($paragraph_positions) > $position) {
       $content_position = $paragraph_positions [$position];
 
+      $block_class_name = get_block_class_name ();
+
       if ($obj->get_alignment_type() == AD_ALIGNMENT_NO_WRAPPING) $content = substr_replace ($content, ai_getAdCode ($obj), $content_position, 0); else
-        $content = substr_replace ($content, "<div class='ad-inserter ad-inserter-".$block."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>", $content_position, 0);
+        $content = substr_replace ($content, "<div class='" . $block_class_name . " " . $block_class_name . "-" . $block."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>", $content_position, 0);
     }
   }
 
@@ -1149,12 +1166,14 @@ function ai_generateAfterParagraph ($block, $content, $obj, $before = true){
     if (sizeof ($paragraph_positions) > $position) {
       $content_position = $paragraph_positions [$position];
 
+      $block_class_name = get_block_class_name ();
+
       if ($content_position >= strlen ($content) - 1) {
         if ($obj->get_alignment_type() == AD_ALIGNMENT_NO_WRAPPING) $content = $content = $content . ai_getAdCode ($obj); else
-          $content = $content . "<div class='ad-inserter ad-inserter-".$block."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
+          $content = $content . "<div class='" . $block_class_name . " " . $block_class_name . "-" . $block."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
       } else {
           if ($obj->get_alignment_type() == AD_ALIGNMENT_NO_WRAPPING) $content = substr_replace ($content, ai_getAdCode ($obj), $content_position + 1, 0); else
-            $content = substr_replace ($content, "<div class='ad-inserter ad-inserter-".$block."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>", $content_position + 1, 0);
+            $content = substr_replace ($content, "<div class='" . $block_class_name . " " . $block_class_name . "-" . $block."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>", $content_position + 1, 0);
         }
     }
   }
@@ -1163,16 +1182,22 @@ function ai_generateAfterParagraph ($block, $content, $obj, $before = true){
 }
 
 function ai_generateDivBefore ($block, $content, $obj){
+  $block_class_name = get_block_class_name ();
+
   if ($obj->get_alignment_type() == AD_ALIGNMENT_NO_WRAPPING) return ai_getAdCode ($obj) . $content; else
-    return "<div class='ad-inserter ad-inserter-".$block."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>" . $content;
+    return "<div class='" . $block_class_name . " " . $block_class_name . "-" . $block."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>" . $content;
 }
 
 function ai_generateDivAfter ($block, $content, $obj){
+  $block_class_name = get_block_class_name ();
+
   if ($obj->get_alignment_type() == AD_ALIGNMENT_NO_WRAPPING) return $content . ai_getAdCode ($obj); else
-    return $content . "<div class='ad-inserter ad-inserter-".$block."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
+    return $content . "<div class='" . $block_class_name . " " . $block_class_name . "-" . $block."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
 }
 
 function ai_generateDivManual ($block, $content, $obj, $ad_number){
+
+   $block_class_name = get_block_class_name ();
 
    if (preg_match_all("/{adinserter (.+?)}/", $content, $tags)){
      foreach ($tags [1] as $tag) {
@@ -1180,7 +1205,7 @@ function ai_generateDivManual ($block, $content, $obj, $ad_number){
         $ad_name = strtolower (trim ($obj->get_ad_name()));
         if ($ad_tag == $ad_name || $ad_tag == $ad_number) {
          if ($obj->get_alignment_type() == AD_ALIGNMENT_NO_WRAPPING) $ad_code = ai_getAdCode ($obj); else
-           $ad_code = "<div class='ad-inserter ad-inserter-".$block."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
+           $ad_code = "<div class='" . $block_class_name . " " . $block_class_name . "-" . $block."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
          $content = preg_replace ("/{adinserter " . $tag . "}/", $ad_code, $content);
         }
      }
@@ -1247,8 +1272,10 @@ function process_shortcodes ($atts) {
       if ($display_for_devices == AD_DISPLAY_TABLET_DEVICES && !AI_TABLET) return "";
       if ($display_for_devices == AD_DISPLAY_PHONE_DEVICES && !AI_PHONE) return "";
 
+      $block_class_name = get_block_class_name ();
+
       if ($obj->get_alignment_type() == AD_ALIGNMENT_NO_WRAPPING) $ad_code = ai_getAdCode ($obj); else
-        $ad_code = "<div class='ad-inserter ad-inserter-".$block."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
+        $ad_code = "<div class='" . $block_class_name . " " . $block_class_name . "-" . $block."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
       return ($ad_code);
     }
   }
@@ -1472,6 +1499,8 @@ function ai_widget_draw ($block, $obj, $args, $title = '') {
     echo $args ['before_title'] . apply_filters ('widget_title', $title). $args ['after_title'];
   }
 
+  $block_class_name = get_block_class_name ();
+
   if ($obj->get_alignment_type() == AD_ALIGNMENT_NO_WRAPPING) echo $args ['before_widget'] . ai_getAdCode ($obj) . $args ['after_widget']; else
-    echo $args ['before_widget'] . "<div class='ad-inserter ad-inserter-".$block."' style='" . $obj->get_alignmet_style(false) . "'>" . ai_getAdCode ($obj) . "</div>" . $args ['after_widget'];
+    echo $args ['before_widget'] . "<div class='" . $block_class_name . " " . $block_class_name . "-" . $block."' style='" . $obj->get_alignmet_style(false) . "'>" . ai_getAdCode ($obj) . "</div>" . $args ['after_widget'];
 }

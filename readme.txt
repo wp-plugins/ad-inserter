@@ -96,9 +96,9 @@ Support for Special Code Blocks:
 *   Header scripts (tab H)
 *   Footer scripts (tab F)
 
-Wrapping divs for code blocks have 'ad-inserter' and 'ad-inserter-N' classes which can be used for custom styles.
+Wrapping divs for code blocks have 'ad-inserter' and 'ad-inserter-N' classes which can be used for custom styles. Class name can be changed in Ad Inserter settings.
 
-To configure syntax highlighting go to Ad Inserter Settings (tab #) and choose theme. Try 'Ad Inserter' if you like dark themes.
+To configure syntax highlighting go to Ad Inserter Settings (tab #) and choose theme.
 
 == Installation ==
 
@@ -244,14 +244,17 @@ ad_code
 
 == Screenshots ==
 
-1. This screenshot shows settings for one ad block. Up to 16 ad blocks can be configured.
+1. Settings for one code block. Up to 16 blocks can be configured.
+2. Settings for header code
+3. Ad Inserter settings
 
 
 == Changelog ==
 
-= 1.4.2 =
+= 1.5.0 =
 * Added support to display blocks on all, desktop or mobile devices
 * Added support for new widgets API - one widget for all code blocks with multiple instances
+* Added support to change wrapping code CSS class name
 * Fixed bug: Display block N days after post is published was not working properly
 * Fixed bug: Display block after paragraph in some cases was not working propery
 
@@ -347,9 +350,10 @@ ad_code
 
 == Upgrade Notice ==
 
-= 1.4.2 =
+= 1.5.0 =
 Display blocks on all, desktop or mobile devices;
 New widgets API - one widget for all code blocks with multiple instances - PLEASE REPLACE ALL OLD WIDGETS WITH THE NEW ONE!
+Wrapping code CSS class name can be changed;
 Fixed bug: Display block N days after post is published;
 Fixed bug: Display block after paragraph
 

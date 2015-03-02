@@ -6,7 +6,7 @@ if (!defined( 'AD_INSERTER_TITLE'))
   define ('AD_INSERTER_TITLE', 'Ad Inserter');
 
 if (!defined( 'AD_INSERTER_VERSION'))
-  define ('AD_INSERTER_VERSION', '1.4.2');
+  define ('AD_INSERTER_VERSION', '1.5.0');
 
 if (!defined ('AD_INSERTER_PLUGIN_DIR'))
   define ('AD_INSERTER_PLUGIN_DIR', plugin_dir_path (__FILE__));
@@ -37,6 +37,9 @@ if (!defined ('WP_PLUGIN_URL'))
 
 if (!defined ('WP_PLUGIN_DIR'))
   define ('WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins');
+
+define('DEFAULT_SYNTAX_HIGHLIGHTER_THEME', 'ad_inserter');
+define('DEFAULT_BLOCK_CLASS_NAME', 'ad-inserter');
 
 define('AD_EMPTY_DATA', '');
 define('AD_ZERO_DATA', '0');

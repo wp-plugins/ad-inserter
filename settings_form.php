@@ -34,6 +34,7 @@ function print_settings_form (){
   $adF->load_options (AD_FOOTER_OPTIONS);
 
   $syntax_highlighter_theme = get_syntax_highlighter_theme ();
+  $block_class_name         = get_block_class_name ();
 
 ?>
 <div id="ai-settings" style="margin-right: 16px; float: left; ">
@@ -274,8 +275,14 @@ function print_settings_form (){
         <input style="border-radius: 5px;" name="<?php echo AD_FORM_SAVE; ?>" value="Save All Settings" type="submit" style="width:120px; font-weight: bold;" />
   </div>
 
-  <div style="padding:0px 8px 16px 16px;">
-    Code will be placed within the &lt;head&gt;&lt;/head&gt; section of the theme (theme-dependent)
+  <div style="padding:0px 8px 22px 16px;">
+    Code will be placed within the <pre style="display: inline; color: blue;">&lt;head&gt;&lt;/head&gt;</pre> section of the theme (theme-dependent)
+  </div>
+
+  <div style="display: inline-block; padding: 1px 10px; float: right;">
+   <input style="border-radius: 5px;" type="hidden"   name="<?php echo $adH->option_process_php; ?>" value="0" />
+   <input style="border-radius: 5px;" type="checkbox" name="<?php echo $adH->option_process_php; ?>" value="1" id="process-php-17" <?php if ($adH->get_process_php () == AD_SETTINGS_CHECKED) echo 'checked '; ?>>
+   <label for="<?php echo $adH->option_process_php; ?>" title="Process PHP code">Process PHP</label>
   </div>
 
   <div style="padding-left:16px;">
@@ -290,11 +297,6 @@ function print_settings_form (){
     <input style="border-radius: 5px;" type="checkbox" name="<?php echo $adH->option_enable_manual; ?>" value="1" <?php if ($adH->get_enable_manual () == AD_SETTINGS_CHECKED) echo 'checked '; ?>>
     <label for="<?php echo $adH->option_enable_manual; ?>" title="Enable or disable insertion of this code into header">Enable</label>
   </div>
-  <div style="display: inline-block; padding-top: 5px; float: right; margin-right: 5px;">
-   <input style="border-radius: 5px;" type="hidden"   name="<?php echo $adH->option_process_php; ?>" value="0" />
-   <input style="border-radius: 5px;" type="checkbox" name="<?php echo $adH->option_process_php; ?>" value="1" id="process-php-17" <?php if ($adH->get_process_php () == AD_SETTINGS_CHECKED) echo 'checked '; ?>>
-   <label for="<?php echo $adH->option_process_php; ?>" title="Process PHP code">Process PHP</label>
-  </div>
 </div>
 
 <div id="tab-18" style="padding: 0 0 30px 0;">
@@ -308,8 +310,14 @@ function print_settings_form (){
         <input style="border-radius: 5px;" name="<?php echo AD_FORM_SAVE; ?>" value="Save All Settings" type="submit" style="width:120px; font-weight: bold;" />
   </div>
 
-  <div style="padding:0px 8px 16px 16px;">
-    Code will be placed near the &lt;/body&gt; tag of the theme (theme-dependent)
+  <div style="padding:0px 8px 22px 16px;">
+    Code will be placed near the <pre style="display: inline; color: blue;">&lt;/body&gt;</pre> tag of the theme (theme-dependent)
+  </div>
+
+  <div style="display: inline-block; padding: 1px 10px; float: right;">
+   <input style="border-radius: 5px;" type="hidden"   name="<?php echo $adF->option_process_php; ?>" value="0" />
+   <input style="border-radius: 5px;" type="checkbox" name="<?php echo $adF->option_process_php; ?>" value="1" id="process-php-18" <?php if ($adF->get_process_php () == AD_SETTINGS_CHECKED) echo 'checked '; ?>>
+   <label for="<?php echo $adF->option_process_php; ?>" title="Process PHP code">Process PHP</label>
   </div>
 
   <div style="padding-left:16px;">
@@ -323,11 +331,6 @@ function print_settings_form (){
     <input style="border-radius: 5px;" type="hidden"   name="<?php echo $adF->option_enable_manual; ?>" value="0" />
     <input style="border-radius: 5px;" type="checkbox" name="<?php echo $adF->option_enable_manual; ?>" value="1" <?php if ($adF->get_enable_manual () == AD_SETTINGS_CHECKED) echo 'checked '; ?>>
     <label for="<?php echo $adF->option_enable_manual; ?>" title="Enable or disable insertion of this code into footer">Enable</label>
-  </div>
-  <div style="display: inline-block; padding-top: 5px; float: right; margin-right: 5px;">
-   <input style="border-radius: 5px;" type="hidden"   name="<?php echo $adF->option_process_php; ?>" value="0" />
-   <input style="border-radius: 5px;" type="checkbox" name="<?php echo $adF->option_process_php; ?>" value="1" id="process-php-18" <?php if ($adF->get_process_php () == AD_SETTINGS_CHECKED) echo 'checked '; ?>>
-   <label for="<?php echo $adF->option_process_php; ?>" title="Process PHP code">Process PHP</label>
   </div>
 </div>
 
@@ -391,6 +394,11 @@ function print_settings_form (){
               <option value="vibrant_ink" <?php echo ($syntax_highlighter_theme == 'vibrant_ink') ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>>Vibrant Ink</option>
           </optgroup>
       </select>
+  </div>
+
+  <div style="padding:0px 0px 8px 16px;">
+    Block Class Name:&nbsp;&nbsp;&nbsp;
+      <input style="border-radius: 5px; margin-left: 0px;" title="CSS Class Name" type="text" id="block-class-name" name="block-class-name" value="<?php echo $block_class_name; ?>" size="15" maxlength="40"/> <span style= "margin: 3px 10px 0 0; display: inline; float: right;">Example: &nbsp;&nbsp; <pre style= "display: inline; color: blue;">&lt;div class="<?php echo $block_class_name; ?> <?php echo $block_class_name; ?>-n"&gt;<span style= "color: black;">BlockCode</span>&lt;/div&gt;</pre></span>
   </div>
 
 </div>
