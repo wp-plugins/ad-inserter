@@ -16,12 +16,12 @@ A simple solution to insert any code into Wordpress. **Perfect for AdSense or co
 Automatic Display Options:
 
 *   Display Before Content (before post or page text)
-*   Display Before Selected Paragraph (0 means random paragraph)
-*   Display After Selected Paragraph (0 means random paragraph)
+*   Display Before Selected Paragraph
+*   Display After Selected Paragraph
 *   Display After Content (after post or page text)
 *   Display Before Title (does not work with all themes)
-*   Display Before Excerpt
-*   Display After Excerpt
+*   Display Before Excerpt (on blog pages)
+*   Display After Excerpt (on blog pages)
 
 Additional Display Options:
 
@@ -87,7 +87,11 @@ You can also disable ads in certain posts or pages. For example, to disable ad b
 or
 `<!-- disable adinserter Test Block -->`
 
-**Disabling works only for code blocks in posts and pages!**
+To disable ALL ads in certain posts or pages use:
+
+`<!-- disable adinserter * -->`
+
+**Note: Disabling works only for code blocks in posts and pages!**
 
 Ad Inserter is perfect for displaying AdSense or Amazon ads. It can also be used to display various versions of <a href="https://support.google.com/adsense/answer/65083?ctx=as2&rd=2&ref_topic=23389">AdSense ads using channels</a> to test which format or color combination performs best.
 
@@ -251,6 +255,10 @@ ad_code
 
 == Changelog ==
 
+= 1.5.1 =
+* Few fixes to solve plugin incompatibility issues
+* Added support to disable all ads on specific page
+
 = 1.5.0 =
 * Added support to display blocks on all, desktop or mobile devices
 * Added support for new widgets API - one widget for all code blocks with multiple instances
@@ -350,6 +358,10 @@ ad_code
 
 == Upgrade Notice ==
 
+= 1.5.1 =
+Few fixes to solve plugin incompatibility issues;
+Added support to disable all ads on specific page
+
 = 1.5.0 =
 Display blocks on all, desktop or mobile devices;
 New widgets API - one widget for all code blocks with multiple instances - PLEASE REPLACE ALL OLD WIDGETS WITH THE NEW ONE!
@@ -440,3 +452,4 @@ Support for different sidebar implementations in various themes
 
 = 1.0.0 =
 Initial release
+

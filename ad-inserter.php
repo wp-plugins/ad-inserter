@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Ad Inserter
-Version: 1.5.0
+Version: 1.5.1
 Description: A simple solution to insert any code into Wordpress. Simply enter any HTML, Javascript or PHP code and select where and how you want to display it.
 Author: Spacetime
 Author URI: http://igorfuna.com/
@@ -15,6 +15,10 @@ TO DO
 
 /*
 Change Log
+
+Ad Inserter 1.5.1 - 3 March 2015
+- Few fixes to solve plugin incompatibility issues
+- Added support to disable all ads on specific page
 
 Ad Inserter 1.5.0 - 2 March 2015
 - Added support to display blocks on all, desktop or mobile devices
@@ -134,7 +138,7 @@ require_once 'settings_form.php';
 require_once 'includes/Mobile_Detect.php';
 
 
-$detect = new Mobile_Detect;
+$detect = new ai_Mobile_Detect;
 
 define ('AI_MOBILE',   $detect->isMobile ());
 define ('AI_TABLET',   $detect->isTablet ());
@@ -157,7 +161,7 @@ function ai_init_hook() {
 
   // OLD WIDGETS - DEPRECATED
   for ($counter = 1; $counter <= 16; $counter ++) {
-    $obj = new Block ($counter);
+    $obj = new ai_Block ($counter);
     $obj->load_options ("AdInserter".$counter."Options");
     if($obj->get_append_type() == AD_SELECT_WIDGET){
       // register widget
@@ -214,7 +218,7 @@ function ai_widgets_init_hook () {
 }
 
 function ai_wp_head_hook () {
-  $obj = new AdH();
+  $obj = new ai_AdH();
   $obj->load_options (AD_HEADER_OPTIONS);
 
   if ($obj->get_enable_manual ()) {
@@ -223,7 +227,7 @@ function ai_wp_head_hook () {
 }
 
 function ai_wp_footer_hook () {
-  $obj = new AdF();
+  $obj = new ai_AdF();
   $obj->load_options (AD_FOOTER_OPTIONS);
 
   if ($obj->get_enable_manual ()) {
@@ -290,25 +294,25 @@ function ai_menu () {
 
   if (isset ($_POST [AD_FORM_SAVE])) {
 
-    $ad1  = new Block (1);
-    $ad2  = new Block (2);
-    $ad3  = new Block (3);
-    $ad4  = new Block (4);
-    $ad5  = new Block (5);
-    $ad6  = new Block (6);
-    $ad7  = new Block (7);
-    $ad8  = new Block (8);
-    $ad9  = new Block (9);
-    $ad10 = new Block (10);
-    $ad11 = new Block (11);
-    $ad12 = new Block (12);
-    $ad13 = new Block (13);
-    $ad14 = new Block (14);
-    $ad15 = new Block (15);
-    $ad16 = new Block (16);
+    $ad1  = new ai_Block (1);
+    $ad2  = new ai_Block (2);
+    $ad3  = new ai_Block (3);
+    $ad4  = new ai_Block (4);
+    $ad5  = new ai_Block (5);
+    $ad6  = new ai_Block (6);
+    $ad7  = new ai_Block (7);
+    $ad8  = new ai_Block (8);
+    $ad9  = new ai_Block (9);
+    $ad10 = new ai_Block (10);
+    $ad11 = new ai_Block (11);
+    $ad12 = new ai_Block (12);
+    $ad13 = new ai_Block (13);
+    $ad14 = new ai_Block (14);
+    $ad15 = new ai_Block (15);
+    $ad16 = new ai_Block (16);
 
-    $adH  = new AdH();
-    $adF  = new AdF();
+    $adH  = new ai_AdH();
+    $adF  = new ai_AdF();
 
      foreach(array_keys($ad1->wp_options) as $key){
         if(isset($_POST[$key])){
@@ -443,25 +447,25 @@ function ai_menu () {
     echo "<div id='message' class='updated' style='margin: 5px 15px 2px 0px; padding: 10px;'><strong>Settings saved.</strong></div>";
 
   } elseif (isset ($_POST [AD_FORM_CLEAR])) {
-      $ad1  = new Block (1);
-      $ad2  = new Block (2);
-      $ad3  = new Block (3);
-      $ad4  = new Block (4);
-      $ad5  = new Block (5);
-      $ad6  = new Block (6);
-      $ad7  = new Block (7);
-      $ad8  = new Block (8);
-      $ad9  = new Block (9);
-      $ad10 = new Block (10);
-      $ad11 = new Block (11);
-      $ad12 = new Block (12);
-      $ad13 = new Block (13);
-      $ad14 = new Block (14);
-      $ad15 = new Block (15);
-      $ad16 = new Block (16);
+      $ad1  = new ai_Block (1);
+      $ad2  = new ai_Block (2);
+      $ad3  = new ai_Block (3);
+      $ad4  = new ai_Block (4);
+      $ad5  = new ai_Block (5);
+      $ad6  = new ai_Block (6);
+      $ad7  = new ai_Block (7);
+      $ad8  = new ai_Block (8);
+      $ad9  = new ai_Block (9);
+      $ad10 = new ai_Block (10);
+      $ad11 = new ai_Block (11);
+      $ad12 = new ai_Block (12);
+      $ad13 = new ai_Block (13);
+      $ad14 = new ai_Block (14);
+      $ad15 = new ai_Block (15);
+      $ad16 = new ai_Block (16);
 
-      $adH  = new AdH();
-      $adF  = new AdF();
+      $adH  = new ai_AdH();
+      $adF  = new ai_AdF();
 
       update_option (AD_OPTIONS, ai_plugin_options ());
       update_option (AD_AD1_OPTIONS, $ad1->wp_options);
@@ -493,22 +497,22 @@ function ai_menu () {
 function adinserter ($ad_number = ""){
   if ($ad_number == "") return "";
 
-  $ad1  = new Block (1);
-  $ad2  = new Block (2);
-  $ad3  = new Block (3);
-  $ad4  = new Block (4);
-  $ad5  = new Block (5);
-  $ad6  = new Block (6);
-  $ad7  = new Block (7);
-  $ad8  = new Block (8);
-  $ad9  = new Block (9);
-  $ad10 = new Block (10);
-  $ad11 = new Block (11);
-  $ad12 = new Block (12);
-  $ad13 = new Block (13);
-  $ad14 = new Block (14);
-  $ad15 = new Block (15);
-  $ad16 = new Block (16);
+  $ad1  = new ai_Block (1);
+  $ad2  = new ai_Block (2);
+  $ad3  = new ai_Block (3);
+  $ad4  = new ai_Block (4);
+  $ad5  = new ai_Block (5);
+  $ad6  = new ai_Block (6);
+  $ad7  = new ai_Block (7);
+  $ad8  = new ai_Block (8);
+  $ad9  = new ai_Block (9);
+  $ad10 = new ai_Block (10);
+  $ad11 = new ai_Block (11);
+  $ad12 = new ai_Block (12);
+  $ad13 = new ai_Block (13);
+  $ad14 = new ai_Block (14);
+  $ad15 = new ai_Block (15);
+  $ad16 = new ai_Block (16);
 
   $ad_all_data = array ($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8,$ad9,$ad10,$ad11,$ad12,$ad13,$ad14,$ad15,$ad16);
 
@@ -578,22 +582,22 @@ function adinserter ($ad_number = ""){
 
 function ai_content_hook ($content = ''){
 
-  $ad1  = new Block (1);
-  $ad2  = new Block (2);
-  $ad3  = new Block (3);
-  $ad4  = new Block (4);
-  $ad5  = new Block (5);
-  $ad6  = new Block (6);
-  $ad7  = new Block (7);
-  $ad8  = new Block (8);
-  $ad9  = new Block (9);
-  $ad10 = new Block (10);
-  $ad11 = new Block (11);
-  $ad12 = new Block (12);
-  $ad13 = new Block (13);
-  $ad14 = new Block (14);
-  $ad15 = new Block (15);
-  $ad16 = new Block (16);
+  $ad1  = new ai_Block (1);
+  $ad2  = new ai_Block (2);
+  $ad3  = new ai_Block (3);
+  $ad4  = new ai_Block (4);
+  $ad5  = new ai_Block (5);
+  $ad6  = new ai_Block (6);
+  $ad7  = new ai_Block (7);
+  $ad8  = new ai_Block (8);
+  $ad9  = new ai_Block (9);
+  $ad10 = new ai_Block (10);
+  $ad11 = new ai_Block (11);
+  $ad12 = new ai_Block (12);
+  $ad13 = new ai_Block (13);
+  $ad14 = new ai_Block (14);
+  $ad15 = new ai_Block (15);
+  $ad16 = new ai_Block (16);
 
   $ad_all_data = array ($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8,$ad9,$ad10,$ad11,$ad12,$ad13,$ad14,$ad15,$ad16);
 
@@ -619,22 +623,22 @@ function ai_content_hook ($content = ''){
 // Process Before/After Excerpt postion
 function ai_excerpt_hook ($content = ''){
 
-  $ad1  = new Block (1);
-  $ad2  = new Block (2);
-  $ad3  = new Block (3);
-  $ad4  = new Block (4);
-  $ad5  = new Block (5);
-  $ad6  = new Block (6);
-  $ad7  = new Block (7);
-  $ad8  = new Block (8);
-  $ad9  = new Block (9);
-  $ad10 = new Block (10);
-  $ad11 = new Block (11);
-  $ad12 = new Block (12);
-  $ad13 = new Block (13);
-  $ad14 = new Block (14);
-  $ad15 = new Block (15);
-  $ad16 = new Block (16);
+  $ad1  = new ai_Block (1);
+  $ad2  = new ai_Block (2);
+  $ad3  = new ai_Block (3);
+  $ad4  = new ai_Block (4);
+  $ad5  = new ai_Block (5);
+  $ad6  = new ai_Block (6);
+  $ad7  = new ai_Block (7);
+  $ad8  = new ai_Block (8);
+  $ad9  = new ai_Block (9);
+  $ad10 = new ai_Block (10);
+  $ad11 = new ai_Block (11);
+  $ad12 = new ai_Block (12);
+  $ad13 = new ai_Block (13);
+  $ad14 = new ai_Block (14);
+  $ad15 = new ai_Block (15);
+  $ad16 = new ai_Block (16);
 
   $ad_all_data = array ($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8,$ad9,$ad10,$ad11,$ad12,$ad13,$ad14,$ad15,$ad16);
 
@@ -738,6 +742,7 @@ function ai_excerpt_hook ($content = ''){
     }
 
     $block_class_name = get_block_class_name ();
+
     if ($obj->get_alignment_type() == AD_ALIGNMENT_NO_WRAPPING) $ad_code .= ai_getAdCode ($obj); else
       $ad_code .= "<div class='" . $block_class_name . " " . $block_class_name . "-" .($block_index + 1)."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
 
@@ -755,22 +760,22 @@ function ai_loop_start_hook ($query){
   if (!$query->is_main_query()) return;
   if (is_feed()) return;
 
-  $ad1  = new Block (1);
-  $ad2  = new Block (2);
-  $ad3  = new Block (3);
-  $ad4  = new Block (4);
-  $ad5  = new Block (5);
-  $ad6  = new Block (6);
-  $ad7  = new Block (7);
-  $ad8  = new Block (8);
-  $ad9  = new Block (9);
-  $ad10 = new Block (10);
-  $ad11 = new Block (11);
-  $ad12 = new Block (12);
-  $ad13 = new Block (13);
-  $ad14 = new Block (14);
-  $ad15 = new Block (15);
-  $ad16 = new Block (16);
+  $ad1  = new ai_Block (1);
+  $ad2  = new ai_Block (2);
+  $ad3  = new ai_Block (3);
+  $ad4  = new ai_Block (4);
+  $ad5  = new ai_Block (5);
+  $ad6  = new ai_Block (6);
+  $ad7  = new ai_Block (7);
+  $ad8  = new ai_Block (8);
+  $ad9  = new ai_Block (9);
+  $ad10 = new ai_Block (10);
+  $ad11 = new ai_Block (11);
+  $ad12 = new ai_Block (12);
+  $ad13 = new ai_Block (13);
+  $ad14 = new ai_Block (14);
+  $ad15 = new ai_Block (15);
+  $ad16 = new ai_Block (16);
 
   $ad_all_data = array ($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8,$ad9,$ad10,$ad11,$ad12,$ad13,$ad14,$ad15,$ad16);
 
@@ -843,6 +848,7 @@ function ai_loop_start_hook ($query){
     }
 
     $block_class_name = get_block_class_name ();
+
     if ($obj->get_alignment_type() == AD_ALIGNMENT_NO_WRAPPING) $ad_code .= ai_getAdCode ($obj); else
       $ad_code .= "<div class='" . $block_class_name . " " . $block_class_name . "-" . ($block_index + 1)."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
   }
@@ -917,6 +923,8 @@ function ai_isCategoryAllowed ($categories, $cat_type){
 function ai_isDisplayDisabled ($obj, $content){
 
   if (preg_match ("/<!-- +Ad +Inserter +Ad +".($ad_name = $obj->number)." +Disabled +-->/i", $content)) return true;
+
+  if (preg_match ("/<!-- +disable +adinserter +\* +-->/i", $content)) return true;
 
   if (preg_match ("/<!-- +disable +adinserter +".($obj->number)." +-->/i", $content)) return true;
 
@@ -1215,22 +1223,22 @@ function ai_generateDivManual ($block, $content, $obj, $ad_number){
 }
 
 function process_shortcodes ($atts) {
-  $ad1  = new Block (1);
-  $ad2  = new Block (2);
-  $ad3  = new Block (3);
-  $ad4  = new Block (4);
-  $ad5  = new Block (5);
-  $ad6  = new Block (6);
-  $ad7  = new Block (7);
-  $ad8  = new Block (8);
-  $ad9  = new Block (9);
-  $ad10 = new Block (10);
-  $ad11 = new Block (11);
-  $ad12 = new Block (12);
-  $ad13 = new Block (13);
-  $ad14 = new Block (14);
-  $ad15 = new Block (15);
-  $ad16 = new Block (16);
+  $ad1  = new ai_Block (1);
+  $ad2  = new ai_Block (2);
+  $ad3  = new ai_Block (3);
+  $ad4  = new ai_Block (4);
+  $ad5  = new ai_Block (5);
+  $ad6  = new ai_Block (6);
+  $ad7  = new ai_Block (7);
+  $ad8  = new ai_Block (8);
+  $ad9  = new ai_Block (9);
+  $ad10 = new ai_Block (10);
+  $ad11 = new ai_Block (11);
+  $ad12 = new ai_Block (12);
+  $ad13 = new ai_Block (13);
+  $ad14 = new ai_Block (14);
+  $ad15 = new ai_Block (15);
+  $ad16 = new ai_Block (16);
 
   $ad_all_data = array ($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8,$ad9,$ad10,$ad11,$ad12,$ad13,$ad14,$ad15,$ad16);
 
@@ -1301,7 +1309,7 @@ class ai_widget extends WP_Widget {
     $title = !empty ($instance ['widget-title']) ? $instance ['widget-title'] : '';
     $block = !empty ($instance ['block']) ? $instance ['block'] : 1;
 
-    $ad = new Block ($block);
+    $ad = new ai_Block ($block);
     $ad->load_options (str_replace ("#", $block, AD_ADx_OPTIONS));
     ai_widget_draw ($block, $ad, $args, $title);
   }
@@ -1311,7 +1319,7 @@ class ai_widget extends WP_Widget {
 
     $blocks = array ();
     for ($block_index = 1; $block_index <= 16; $block_index ++) {
-      $obj = new Block ($block_index);
+      $obj = new ai_Block ($block_index);
       $obj->load_options (str_replace ("#", $block_index, AD_ADx_OPTIONS));
       $blocks [$block_index] = $obj;
     }
@@ -1362,7 +1370,7 @@ class ai_widget extends WP_Widget {
 
 function ai_widget ($args, $parameters) {
   $block = $parameters ['block'];
-  $ad = new Block ($block);
+  $ad = new ai_Block ($block);
   $ad->load_options (str_replace ("#", $block, AD_ADx_OPTIONS));
   ai_widget_draw ($block, $ad, $args);
 }

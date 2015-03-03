@@ -25,7 +25,7 @@
  * @version     2.8.11
  */
 
-class Mobile_Detect
+class ai_Mobile_Detect
 {
     /**
      * Mobile detection type.

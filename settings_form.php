@@ -4,24 +4,24 @@ require_once 'constants.php';
 
 function print_settings_form (){
 
-  $ad1  = new Block (1);
-  $ad2  = new Block (2);
-  $ad3  = new Block (3);
-  $ad4  = new Block (4);
-  $ad5  = new Block (5);
-  $ad6  = new Block (6);
-  $ad7  = new Block (7);
-  $ad8  = new Block (8);
-  $ad9  = new Block (9);
-  $ad10 = new Block (10);
-  $ad11 = new Block (11);
-  $ad12 = new Block (12);
-  $ad13 = new Block (13);
-  $ad14 = new Block (14);
-  $ad15 = new Block (15);
-  $ad16 = new Block (16);
-  $adH  = new AdH();
-  $adF  = new AdF();
+  $ad1  = new ai_Block (1);
+  $ad2  = new ai_Block (2);
+  $ad3  = new ai_Block (3);
+  $ad4  = new ai_Block (4);
+  $ad5  = new ai_Block (5);
+  $ad6  = new ai_Block (6);
+  $ad7  = new ai_Block (7);
+  $ad8  = new ai_Block (8);
+  $ad9  = new ai_Block (9);
+  $ad10 = new ai_Block (10);
+  $ad11 = new ai_Block (11);
+  $ad12 = new ai_Block (12);
+  $ad13 = new ai_Block (13);
+  $ad14 = new ai_Block (14);
+  $ad15 = new ai_Block (15);
+  $ad16 = new ai_Block (16);
+  $adH  = new ai_AdH();
+  $adF  = new ai_AdF();
 
   $ad_array = array($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8,$ad9,$ad10,$ad11,$ad12,$ad13,$ad14,$ad15,$ad16);
 
@@ -253,8 +253,9 @@ function print_settings_form (){
     <hr />
     To disable automatic insertion of this code block on specific pages for <span style="font-weight: bold;">Content and Paragraph</span> display modes put HTML code
     <pre style= "margin: 0; display: inline; color: blue;">&lt;!-- disable adinserter <?php echo $ad_number; ?> --&gt;</pre> or
-    <pre style= "margin: 0; display: inline; color: blue;">&lt;!-- disable adinserter <?php echo $obj->get_ad_name(); ?> --&gt;</pre>
-    at the end of post code.
+    <pre style= "margin: 0; display: inline; color: blue;">&lt;!-- disable adinserter <?php echo $obj->get_ad_name(); ?> --&gt;</pre>.
+    at the end of post code. To disable all ads on the page use
+    <pre style= "margin: 0; display: inline; color: blue;">&lt;!-- disable adinserter * --&gt;</pre>
   </div>
 
 </div>

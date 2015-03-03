@@ -2,14 +2,14 @@
 
 require_once 'constants.php';
 
-abstract class BaseCodeBlock {
+abstract class ai_BaseCodeBlock {
     var $wp_options;
 
     var $option_ad_data;
     var $option_process_php;
     var $option_enable_manual;
 
-    function BaseCodeBlock() {
+    function ai_BaseCodeBlock() {
       $this->wp_options[$this->option_ad_data]          = AD_EMPTY_DATA;
       $this->wp_options[$this->option_process_php]      = AD_SETTINGS_NOT_CHECKED;
       $this->wp_options[$this->option_enable_manual]    = AD_SETTINGS_NOT_CHECKED;
@@ -38,7 +38,7 @@ abstract class BaseCodeBlock {
    }
 }
 
-abstract class CodeBlock extends BaseCodeBlock {
+abstract class ai_CodeBlock extends ai_BaseCodeBlock {
 
     // define properties
     var $number;
@@ -68,7 +68,7 @@ abstract class CodeBlock extends BaseCodeBlock {
     var $option_display_for_users;
     var $option_display_for_devices;
 
-    function CodeBlock() {
+    function ai_CodeBlock() {
 
       $this->number = 0;
 
@@ -99,7 +99,7 @@ abstract class CodeBlock extends BaseCodeBlock {
       $this->wp_options[$this->option_display_for_users]        = AD_DISPLAY_ALL_USERS;
       $this->wp_options[$this->option_display_for_devices]      = AD_DISPLAY_ALL_DEVICES;
 
-      parent::BaseCodeBlock();
+      parent::ai_BaseCodeBlock();
     }
 
    public function get_append_type(){
@@ -460,7 +460,7 @@ abstract class CodeBlock extends BaseCodeBlock {
    }
 }
 
-class Block extends CodeBlock{
+class ai_Block extends ai_CodeBlock {
 
    const OPTION_AD_NAME                   = "ad#_name";
    const OPTION_APPEND_TYPE               = "ad#_displayType";
@@ -491,7 +491,7 @@ class Block extends CodeBlock{
    const OPTION_DISPLAY_FOR_DEVICES       = "ad#_display_for_devices";
 
 	//constructor
-    public function Block ($number) {
+    public function ai_Block ($number) {
 
       $this->option_ad_name                   = str_replace ("#", $number, self::OPTION_AD_NAME);
       $this->option_append_type               = str_replace ("#", $number, self::OPTION_APPEND_TYPE);
@@ -521,7 +521,7 @@ class Block extends CodeBlock{
       $this->option_display_for_users         = str_replace ("#", $number, self::OPTION_DISPLAY_FOR_USERS);
       $this->option_display_for_devices       = str_replace ("#", $number, self::OPTION_DISPLAY_FOR_DEVICES);
 
-      parent::CodeBlock();
+      parent::ai_CodeBlock();
       $this->number = $number;
       $this->wp_options[$this->option_ad_name] = AD_NAME." ".$number;
     }
@@ -529,7 +529,7 @@ class Block extends CodeBlock{
 }
 
 
-class AdH extends BaseCodeBlock{
+class ai_AdH extends ai_BaseCodeBlock {
 
    const OPTION_AD_DATA       = "adH_data";
    const OPTION_ENABLE_MANUAL = "adH_enable";
@@ -542,12 +542,12 @@ class AdH extends BaseCodeBlock{
       $this->option_enable_manual = self::OPTION_ENABLE_MANUAL;
       $this->option_process_php   = self::OPTION_PROCESS_PHP;
 
-      parent::BaseCodeBlock();
+      parent::ai_BaseCodeBlock();
     }
 
 }
 
-class AdF extends BaseCodeBlock{
+class ai_AdF extends ai_BaseCodeBlock {
 
    const OPTION_AD_DATA       = "adF_data";
    const OPTION_ENABLE_MANUAL = "adF_enable";
@@ -560,7 +560,7 @@ class AdF extends BaseCodeBlock{
       $this->option_enable_manual = self::OPTION_ENABLE_MANUAL;
       $this->option_process_php   = self::OPTION_PROCESS_PHP;
 
-      parent::BaseCodeBlock();
+      parent::ai_BaseCodeBlock();
     }
 
 }
