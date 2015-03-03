@@ -254,7 +254,9 @@ function print_settings_form (){
     To disable automatic insertion of this code block on specific pages for <span style="font-weight: bold;">Content and Paragraph</span> display modes put HTML code
     <pre style= "margin: 0; display: inline; color: blue;">&lt;!-- disable adinserter <?php echo $ad_number; ?> --&gt;</pre> or
     <pre style= "margin: 0; display: inline; color: blue;">&lt;!-- disable adinserter <?php echo $obj->get_ad_name(); ?> --&gt;</pre>.
-    at the end of post code. To disable all ads on the page use
+    at the end of post code.
+    <br />
+    To disable all ads on the page use code
     <pre style= "margin: 0; display: inline; color: blue;">&lt;!-- disable adinserter * --&gt;</pre>
   </div>
 

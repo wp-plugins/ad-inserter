@@ -10,6 +10,8 @@ abstract class ai_BaseCodeBlock {
     var $option_enable_manual;
 
     function ai_BaseCodeBlock() {
+      $this->wp_options = array ();
+
       $this->wp_options[$this->option_ad_data]          = AD_EMPTY_DATA;
       $this->wp_options[$this->option_process_php]      = AD_SETTINGS_NOT_CHECKED;
       $this->wp_options[$this->option_enable_manual]    = AD_SETTINGS_NOT_CHECKED;
@@ -17,7 +19,8 @@ abstract class ai_BaseCodeBlock {
 
    public function load_options ($options_name){
      $options = ai_get_option ($options_name);
-     if ($options != '') $this->wp_options = $options;
+     if ($options != '') $this->wp_options = array_merge ($this->wp_options, $options);
+     unset ($this->wp_options ['']);
     }
 
    public function get_ad_data(){
@@ -72,7 +75,7 @@ abstract class ai_CodeBlock extends ai_BaseCodeBlock {
 
       $this->number = 0;
 
-      $this->wp_options = array ();
+      parent::ai_BaseCodeBlock();
 
       $this->wp_options[$this->option_ad_name]                  = AD_NAME;
       $this->wp_options[$this->option_append_type]              = AD_SELECT_NONE;
@@ -98,8 +101,6 @@ abstract class ai_CodeBlock extends ai_BaseCodeBlock {
       $this->wp_options[$this->option_custom_css]               = AD_EMPTY_DATA;
       $this->wp_options[$this->option_display_for_users]        = AD_DISPLAY_ALL_USERS;
       $this->wp_options[$this->option_display_for_devices]      = AD_DISPLAY_ALL_DEVICES;
-
-      parent::ai_BaseCodeBlock();
     }
 
    public function get_append_type(){
@@ -462,6 +463,10 @@ abstract class ai_CodeBlock extends ai_BaseCodeBlock {
 
 class ai_Block extends ai_CodeBlock {
 
+   const OPTION_AD_DATA                   = "ad#_data";
+   const OPTION_ENABLE_MANUAL             = "ad#_enable_manual";
+   const OPTION_PROCESS_PHP               = "ad#_process_php";
+
    const OPTION_AD_NAME                   = "ad#_name";
    const OPTION_APPEND_TYPE               = "ad#_displayType";
    const OPTION_PARAGRAPH_NUMBER          = "ad#_paragraphNumber";
@@ -469,7 +474,6 @@ class ai_Block extends ai_CodeBlock {
    const OPTION_EXCERPT_NUMBER            = "ad#_excerptNumber";
    const OPTION_DIRECTION_TYPE            = "ad#_directionType";
    const OPTION_FLOAT_TYPE                = "ad#_floatType";
-   const OPTION_AD_DATA                   = "ad#_data";
    const OPTION_AD_GENERAL_TAG            = "ad#_general_tag";
    const OPTION_AD_AFTER_DAY              = "ad#_after_day";
    const OPTION_AD_DOMAIN_LIST            = "ad#_block_user";
@@ -482,8 +486,6 @@ class ai_Block extends ai_CodeBlock {
    const OPTION_WIDGET_SETTINGS_CATEGORY  = "ad#_widget_settings_category";
    const OPTION_WIDGET_SETTINGS_SEARCH    = "ad#_widget_settings_search";
    const OPTION_WIDGET_SETTINGS_ARCHIVE   = "ad#_widget_settings_archive";
-   const OPTION_PROCESS_PHP               = "ad#_process_php";
-   const OPTION_ENABLE_MANUAL             = "ad#_enable_manual";
    const OPTION_ENABLE_PHP_CALL           = "ad#_enable_php_call";
    const OPTION_PARAGRAPH_TEXT            = "ad#_paragraph_text";
    const OPTION_CUSTOM_CSS                = "ad#_custom_css";
@@ -493,6 +495,10 @@ class ai_Block extends ai_CodeBlock {
 	//constructor
     public function ai_Block ($number) {
 
+      $this->option_ad_data                   = str_replace ("#", $number, self::OPTION_AD_DATA);
+      $this->option_enable_manual             = str_replace ("#", $number, self::OPTION_ENABLE_MANUAL);
+      $this->option_process_php               = str_replace ("#", $number, self::OPTION_PROCESS_PHP);
+
       $this->option_ad_name                   = str_replace ("#", $number, self::OPTION_AD_NAME);
       $this->option_append_type               = str_replace ("#", $number, self::OPTION_APPEND_TYPE);
       $this->option_paragraph_number          = str_replace ("#", $number, self::OPTION_PARAGRAPH_NUMBER);
@@ -500,7 +506,6 @@ class ai_Block extends ai_CodeBlock {
       $this->option_excerpt_number            = str_replace ("#", $number, self::OPTION_EXCERPT_NUMBER);
       $this->option_direction_type            = str_replace ("#", $number, self::OPTION_DIRECTION_TYPE);
       $this->option_float_type                = str_replace ("#", $number, self::OPTION_FLOAT_TYPE);
-      $this->option_ad_data                   = str_replace ("#", $number, self::OPTION_AD_DATA);
       $this->option_ad_general_tag            = str_replace ("#", $number, self::OPTION_AD_GENERAL_TAG);
       $this->option_ad_after_day              = str_replace ("#", $number, self::OPTION_AD_AFTER_DAY);
       $this->option_ad_domain_list            = str_replace ("#", $number, self::OPTION_AD_DOMAIN_LIST);
@@ -513,8 +518,6 @@ class ai_Block extends ai_CodeBlock {
       $this->option_widget_settings_category  = str_replace ("#", $number, self::OPTION_WIDGET_SETTINGS_CATEGORY);
       $this->option_widget_settings_search    = str_replace ("#", $number, self::OPTION_WIDGET_SETTINGS_SEARCH);
       $this->option_widget_settings_archive   = str_replace ("#", $number, self::OPTION_WIDGET_SETTINGS_ARCHIVE);
-      $this->option_process_php               = str_replace ("#", $number, self::OPTION_PROCESS_PHP);
-      $this->option_enable_manual             = str_replace ("#", $number, self::OPTION_ENABLE_MANUAL);
       $this->option_enable_php_call           = str_replace ("#", $number, self::OPTION_ENABLE_PHP_CALL);
       $this->option_paragraph_text            = str_replace ("#", $number, self::OPTION_PARAGRAPH_TEXT);
       $this->option_custom_css                = str_replace ("#", $number, self::OPTION_CUSTOM_CSS);
@@ -522,6 +525,7 @@ class ai_Block extends ai_CodeBlock {
       $this->option_display_for_devices       = str_replace ("#", $number, self::OPTION_DISPLAY_FOR_DEVICES);
 
       parent::ai_CodeBlock();
+
       $this->number = $number;
       $this->wp_options[$this->option_ad_name] = AD_NAME." ".$number;
     }
@@ -536,7 +540,7 @@ class ai_AdH extends ai_BaseCodeBlock {
    const OPTION_PROCESS_PHP   = "adH_process_php";
 
     // constructor
-    public function AdH() {
+    public function ai_AdH() {
 
       $this->option_ad_data       = self::OPTION_AD_DATA;
       $this->option_enable_manual = self::OPTION_ENABLE_MANUAL;
@@ -554,7 +558,7 @@ class ai_AdF extends ai_BaseCodeBlock {
    const OPTION_PROCESS_PHP   = "adF_process_php";
 
     // constructor
-    public function AdF() {
+    public function ai_AdF() {
 
       $this->option_ad_data       = self::OPTION_AD_DATA;
       $this->option_enable_manual = self::OPTION_ENABLE_MANUAL;

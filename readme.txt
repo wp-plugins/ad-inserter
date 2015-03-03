@@ -360,7 +360,7 @@ ad_code
 
 = 1.5.1 =
 Few fixes to solve plugin incompatibility issues;
-Added support to disable all ads on specific page
+Support to disable all ads on specific page
 
 = 1.5.0 =
 Display blocks on all, desktop or mobile devices;
