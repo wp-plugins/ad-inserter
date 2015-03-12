@@ -39,7 +39,7 @@ if (!defined ('WP_PLUGIN_DIR'))
   define ('WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins');
 
 define('DEFAULT_SYNTAX_HIGHLIGHTER_THEME', 'ad_inserter');
-define('DEFAULT_BLOCK_CLASS_NAME', 'ad-inserter');
+define('DEFAULT_BLOCK_CLASS_NAME', 'code-block');
 
 define('AD_EMPTY_DATA', '');
 define('AD_ZERO_DATA', '0');

@@ -18,6 +18,7 @@ Change Log
 
 Ad Inserter 1.5.2 - 12 March 2015
 - Fixed bug: Widget titles might be displayed at wrong sidebar positions
+- Change: Default block CSS class name was changed from ad-inserter to code-block to prevent Ad Blockers from blocking Ad Inserter divs
 
 Ad Inserter 1.5.1 - 3 March 2015
 - Few fixes to solve plugin incompatibility issues
