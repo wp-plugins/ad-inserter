@@ -16,6 +16,9 @@ TO DO
 /*
 Change Log
 
+Ad Inserter 1.5.2 - 12 March 2015
+- Fixed bug: Widget titles might be displayed at wrong sidebar positions
+
 Ad Inserter 1.5.1 - 3 March 2015
 - Few fixes to solve plugin incompatibility issues
 - Added support to disable all ads on specific page
@@ -1503,12 +1506,16 @@ function ai_widget_draw ($block, $obj, $args, $title = '') {
      return;
   }
 
-  if (!empty ($title)) {
-    echo $args ['before_title'] . apply_filters ('widget_title', $title). $args ['after_title'];
-  }
-
   $block_class_name = get_block_class_name ();
 
-  if ($obj->get_alignment_type() == AD_ALIGNMENT_NO_WRAPPING) echo $args ['before_widget'] . ai_getAdCode ($obj) . $args ['after_widget']; else
-    echo $args ['before_widget'] . "<div class='" . $block_class_name . " " . $block_class_name . "-" . $block."' style='" . $obj->get_alignmet_style(false) . "'>" . ai_getAdCode ($obj) . "</div>" . $args ['after_widget'];
+  echo $args ['before_widget'];
+
+  if (!empty ($title)) {
+    echo $args ['before_title'], apply_filters ('widget_title', $title), $args ['after_title'];
+  }
+
+  if ($obj->get_alignment_type() == AD_ALIGNMENT_NO_WRAPPING) echo ai_getAdCode ($obj); else
+    echo "<div class='" . $block_class_name . " " . $block_class_name . "-" . $block."' style='" . $obj->get_alignmet_style(false) . "'>" . ai_getAdCode ($obj) . "</div>";
+
+  echo $args ['after_widget'];
 }
