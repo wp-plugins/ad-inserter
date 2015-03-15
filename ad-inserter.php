@@ -16,9 +16,11 @@ TO DO
 /*
 Change Log
 
-Ad Inserter 1.5.2 - 12 March 2015
+Ad Inserter 1.5.2 - 15 March 2015
 - Fixed bug: Widget titles might be displayed at wrong sidebar positions
-- Change: Default block CSS class name was changed from ad-inserter to code-block to prevent Ad Blockers from blocking Ad Inserter divs
+- Change: Default code block CSS class name was changed from ad-inserter to code-block to prevent Ad Blockers from blocking Ad Inserter divs
+- Added warning message if deprecated widgets are used
+- Added support to display blocks on desktop + tablet and desktop + phone devices
 
 Ad Inserter 1.5.1 - 3 March 2015
 - Few fixes to solve plugin incompatibility issues
@@ -210,10 +212,27 @@ function ai_admin_notice_hook () {
   $ad_inserter_installed = get_option ('ad1_name') != '';
 
   if ($ad_inserter_installed && !isset ($plugin_db_options ['VERSION']) && ($current_screen->id != "settings_page_ad-inserter" || (!isset ($_POST [AD_FORM_SAVE]) && !isset ($_POST [AD_FORM_CLEAR])))) {
-    echo "<div id='message' class='updated below-h2' style='margin: 5px 15px 2px 0px; padding: 10px;'><strong>
+    echo "<div class='updated below-h2' style='margin: 5px 15px 2px 0px; padding: 10px;'><strong>
       Notice: ".AD_INSERTER_TITLE." plugin was updated. New version can insert ads also on static pages.
       Please <a href=\"/wp-admin/options-general.php?page=ad-inserter.php\">check</a> if page display options for all ad slots are set properly.
       Make required changes and save ".AD_INSERTER_TITLE." settings to remove this notice.</strong></div>";
+  }
+
+  $sidebar_widgets = wp_get_sidebars_widgets();
+  $sidebars_with_deprecated_widgets = array ();
+
+  foreach ($sidebar_widgets as $sidebar_widget_index => $sidebar_widget) {
+    foreach ($sidebar_widget as $widget) {
+      if (preg_match ("/ai_widget([\d]+)/", $widget)) {
+        $sidebars_with_deprecated_widgets [$sidebar_widget_index] = $GLOBALS ['wp_registered_sidebars'][$sidebar_widget_index]['name'];
+      }
+    }
+  }
+
+  if (!empty ($sidebars_with_deprecated_widgets)) {
+    echo "<div class='update-nag below-h2' style='margin: 5px 15px 2px 0px; padding: 10px;'><strong>Warning: You are using deprecated Ad Inserter widgets in the following sidebars: ",
+    implode (", ", $sidebars_with_deprecated_widgets),
+    ". Please replace them with the new 'Ad Inserter' code block widget. See <a href='https://wordpress.org/plugins/ad-inserter/faq/' target='_blank'>FAQ</a> for details.</strong></div>";
   }
 }
 
@@ -448,7 +467,7 @@ function ai_menu () {
       update_option (AD_HEADER_OPTIONS, $adH->wp_options);
       update_option (AD_FOOTER_OPTIONS, $adF->wp_options);
 
-    echo "<div id='message' class='updated' style='margin: 5px 15px 2px 0px; padding: 10px;'><strong>Settings saved.</strong></div>";
+    echo "<div class='updated' style='margin: 5px 15px 2px 0px; padding: 10px;'><strong>Settings saved.</strong></div>";
 
   } elseif (isset ($_POST [AD_FORM_CLEAR])) {
       $ad1  = new ai_Block (1);
@@ -491,7 +510,7 @@ function ai_menu () {
       update_option (AD_HEADER_OPTIONS, $adH->wp_options);
       update_option (AD_FOOTER_OPTIONS, $adF->wp_options);
 
-      echo "<div id='message' class='error' style='margin: 5px 15px 2px 0px; padding: 10px;'>Settings cleared.</div>";
+      echo "<div class='error' style='margin: 5px 15px 2px 0px; padding: 10px;'>Settings cleared.</div>";
   }
 
   print_settings_form ();
@@ -541,6 +560,8 @@ function adinserter ($ad_number = ""){
   if ($display_for_devices == AD_DISPLAY_MOBILE_DEVICES && !AI_MOBILE) return "";
   if ($display_for_devices == AD_DISPLAY_TABLET_DEVICES && !AI_TABLET) return "";
   if ($display_for_devices == AD_DISPLAY_PHONE_DEVICES && !AI_PHONE) return "";
+  if ($display_for_devices == AD_DISPLAY_DESKTOP_TABLET_DEVICES && !(AI_DESKTOP || AI_TABLET)) return "";
+  if ($display_for_devices == AD_DISPLAY_DESKTOP_PHONE_DEVICES && !(AI_DESKTOP || AI_PHONE)) return "";
 
   if (!$obj->get_enable_php_call ()) return "";
 
@@ -710,6 +731,8 @@ function ai_excerpt_hook ($content = ''){
     if ($display_for_devices == AD_DISPLAY_MOBILE_DEVICES && !AI_MOBILE) continue;
     if ($display_for_devices == AD_DISPLAY_TABLET_DEVICES && !AI_TABLET) continue;
     if ($display_for_devices == AD_DISPLAY_PHONE_DEVICES && !AI_PHONE) continue;
+    if ($display_for_devices == AD_DISPLAY_DESKTOP_TABLET_DEVICES && !(AI_DESKTOP || AI_TABLET)) continue;
+    if ($display_for_devices == AD_DISPLAY_DESKTOP_PHONE_DEVICES && !(AI_DESKTOP || AI_PHONE)) continue;
 
     if ($obj->get_append_type () != AD_SELECT_BEFORE_EXCERPT && $obj->get_append_type () != AD_SELECT_AFTER_EXCERPT) continue;
 
@@ -812,6 +835,8 @@ function ai_loop_start_hook ($query){
     if ($display_for_devices == AD_DISPLAY_MOBILE_DEVICES && !AI_MOBILE) continue;
     if ($display_for_devices == AD_DISPLAY_TABLET_DEVICES && !AI_TABLET) continue;
     if ($display_for_devices == AD_DISPLAY_PHONE_DEVICES && !AI_PHONE) continue;
+    if ($display_for_devices == AD_DISPLAY_DESKTOP_TABLET_DEVICES && !(AI_DESKTOP || AI_TABLET)) continue;
+    if ($display_for_devices == AD_DISPLAY_DESKTOP_PHONE_DEVICES && !(AI_DESKTOP || AI_PHONE)) continue;
 
     if ($obj->get_append_type () != AD_SELECT_BEFORE_TITLE) continue;
 
@@ -1001,6 +1026,8 @@ function generateAdInserterCode ($content, $ad_all_data, $publish_date, $http_re
     if ($display_for_devices == AD_DISPLAY_MOBILE_DEVICES && !AI_MOBILE) continue;
     if ($display_for_devices == AD_DISPLAY_TABLET_DEVICES && !AI_TABLET) continue;
     if ($display_for_devices == AD_DISPLAY_PHONE_DEVICES && !AI_PHONE) continue;
+    if ($display_for_devices == AD_DISPLAY_DESKTOP_TABLET_DEVICES && !(AI_DESKTOP || AI_TABLET)) continue;
+    if ($display_for_devices == AD_DISPLAY_DESKTOP_PHONE_DEVICES && !(AI_DESKTOP || AI_PHONE)) continue;
 
     //if empty data, continue next
     if ($obj->get_ad_data() == AD_EMPTY_DATA) {
@@ -1251,7 +1278,7 @@ function process_shortcodes ($atts) {
     $obj->load_options ("AdInserter".($key + 1)."Options");
   }
 
-  $parameters = shortcode_atts ( array(
+  $parameters = shortcode_atts (array (
     "block" => "",
     "name" => "",
   ), $atts);
@@ -1283,6 +1310,8 @@ function process_shortcodes ($atts) {
       if ($display_for_devices == AD_DISPLAY_MOBILE_DEVICES && !AI_MOBILE) return "";
       if ($display_for_devices == AD_DISPLAY_TABLET_DEVICES && !AI_TABLET) return "";
       if ($display_for_devices == AD_DISPLAY_PHONE_DEVICES && !AI_PHONE) return "";
+      if ($display_for_devices == AD_DISPLAY_DESKTOP_TABLET_DEVICES && !(AI_DESKTOP || AI_TABLET)) return "";
+      if ($display_for_devices == AD_DISPLAY_DESKTOP_PHONE_DEVICES && !(AI_DESKTOP || AI_PHONE)) return "";
 
       $block_class_name = get_block_class_name ();
 
@@ -1460,6 +1489,8 @@ function ai_widget_draw ($block, $obj, $args, $title = '') {
   if ($display_for_devices == AD_DISPLAY_MOBILE_DEVICES && !AI_MOBILE) return;;
   if ($display_for_devices == AD_DISPLAY_TABLET_DEVICES && !AI_TABLET) return;
   if ($display_for_devices == AD_DISPLAY_PHONE_DEVICES && !AI_PHONE) return;
+  if ($display_for_devices == AD_DISPLAY_DESKTOP_TABLET_DEVICES && !(AI_DESKTOP || AI_TABLET)) return;
+  if ($display_for_devices == AD_DISPLAY_DESKTOP_PHONE_DEVICES && !(AI_DESKTOP || AI_PHONE)) return;
 
   //get post published date
 //  $publish_date = get_the_date ('U');      // Widgets are not in posts

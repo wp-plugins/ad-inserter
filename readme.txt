@@ -124,11 +124,11 @@ Manual installation:
 4. Save settings.
 
 
-= How can I replace deprecated widgets with a new one? =
+= How can I replace deprecated widgets with the new one? =
 
 0. This is needed ONLY if you have used widgets with Ad Inserter version 1.4.1 or older
 1. Locate all code blocks that are configured as widgets.
-2. Locate all widget positions where you have the old Ad Inserter widgets.
+2. Locate all widget positions (sidebars) where you have the old Ad Inserter widgets (warning message should list them).
 3. Drag new "Ad Inserter" widget to the position where there is the old, deprecated widget.
 4. Select code block for this widget to be the same as it is for the old one.
 5. Drag the old, deprecated widget to the left to remove it.
@@ -255,6 +255,12 @@ ad_code
 
 == Changelog ==
 
+= 1.5.2 =
+* Fixed bug: Widget titles might be displayed at wrong sidebar positions
+* Change: Default code block CSS class name was changed from ad-inserter to code-block to prevent Ad Blockers from blocking Ad Inserter divs
+* Added warning message if deprecated widgets are used
+* Added support to display blocks on desktop + tablet and desktop + phone devices
+
 = 1.5.1 =
 * Few fixes to solve plugin incompatibility issues
 * Added support to disable all ads on specific page
@@ -357,6 +363,12 @@ ad_code
 
 
 == Upgrade Notice ==
+
+= 1.5.2 =
+Fixed bug: Widget titles might be displayed at wrong sidebar positions;
+Change: Default code block CSS class name changed to code-block;
+Warning message if deprecated widgets are used;
+Display blocks on desktop + tablet and desktop + phone devices
 
 = 1.5.1 =
 Few fixes to solve plugin incompatibility issues;

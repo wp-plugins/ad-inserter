@@ -104,6 +104,8 @@ define('AD_DISPLAY_DESKTOP_DEVICES','desktop');
 define('AD_DISPLAY_MOBILE_DEVICES','mobile');
 define('AD_DISPLAY_TABLET_DEVICES','tablet');
 define('AD_DISPLAY_PHONE_DEVICES','phone');
+define('AD_DISPLAY_DESKTOP_TABLET_DEVICES','desktop and tablet');
+define('AD_DISPLAY_DESKTOP_PHONE_DEVICES','desktop and phone');
 
 //Direction options
 define('AD_DIRECTION_FROM_TOP','From Top');
