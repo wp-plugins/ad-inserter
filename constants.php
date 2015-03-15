@@ -6,7 +6,7 @@ if (!defined( 'AD_INSERTER_TITLE'))
   define ('AD_INSERTER_TITLE', 'Ad Inserter');
 
 if (!defined( 'AD_INSERTER_VERSION'))
-  define ('AD_INSERTER_VERSION', '1.3.4');
+  define ('AD_INSERTER_VERSION', '1.5.1');
 
 if (!defined ('AD_INSERTER_PLUGIN_DIR'))
   define ('AD_INSERTER_PLUGIN_DIR', plugin_dir_path (__FILE__));
@@ -38,6 +38,9 @@ if (!defined ('WP_PLUGIN_URL'))
 if (!defined ('WP_PLUGIN_DIR'))
   define ('WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins');
 
+define('DEFAULT_SYNTAX_HIGHLIGHTER_THEME', 'ad_inserter');
+define('DEFAULT_BLOCK_CLASS_NAME', 'code-block');
+
 define('AD_EMPTY_DATA', '');
 define('AD_ZERO_DATA', '0');
 define('AD_GENERAL_TAG', 'gadgets');
@@ -45,6 +48,7 @@ define('AD_NAME', 'Block');
 
 //options
 define('AD_OPTIONS',     'AdInserterOptions');   // general plugin options
+define('AD_ADx_OPTIONS', 'AdInserter#Options');
 define('AD_AD1_OPTIONS', 'AdInserter1Options');
 define('AD_AD2_OPTIONS', 'AdInserter2Options');
 define('AD_AD3_OPTIONS', 'AdInserter3Options');
@@ -61,6 +65,8 @@ define('AD_AD13_OPTIONS','AdInserter13Options');
 define('AD_AD14_OPTIONS','AdInserter14Options');
 define('AD_AD15_OPTIONS','AdInserter15Options');
 define('AD_AD16_OPTIONS','AdInserter16Options');
+define('AD_HEADER_OPTIONS','AdInserterHeaderOptions');
+define('AD_FOOTER_OPTIONS','AdInserterFooterOptions');
 
 //misc
 define('AD_EMPTY_VALUE','');
@@ -79,6 +85,7 @@ define('AD_SELECT_SELECTED','selected');
 define('AD_SELECT_NONE','None');
 define('AD_SELECT_BEFORE_TITLE','Before Title');
 define('AD_SELECT_BEFORE_PARAGRAPH','Before Paragraph');
+define('AD_SELECT_AFTER_PARAGRAPH','After Paragraph');
 define('AD_SELECT_BEFORE_CONTENT','Before Content');
 define('AD_SELECT_AFTER_CONTENT','After Content');
 define('AD_SELECT_BEFORE_EXCERPT','Before Excerpt');
@@ -87,12 +94,26 @@ define('AD_SELECT_WIDGET','Widget');
 // Deprecated
 define('AD_SELECT_MANUAL','Manual');
 
+//Display options
+define('AD_DISPLAY_ALL_USERS','all');
+define('AD_DISPLAY_LOGGED_IN_USERS','logged in');
+define('AD_DISPLAY_NOT_LOGGED_IN_USERS','not logged in');
+
+define('AD_DISPLAY_ALL_DEVICES','all');
+define('AD_DISPLAY_DESKTOP_DEVICES','desktop');
+define('AD_DISPLAY_MOBILE_DEVICES','mobile');
+define('AD_DISPLAY_TABLET_DEVICES','tablet');
+define('AD_DISPLAY_PHONE_DEVICES','phone');
+define('AD_DISPLAY_DESKTOP_TABLET_DEVICES','desktop and tablet');
+define('AD_DISPLAY_DESKTOP_PHONE_DEVICES','desktop and phone');
+
 //Direction options
 define('AD_DIRECTION_FROM_TOP','From Top');
 define('AD_DIRECTION_FROM_BOTTOM','From Bottom');
 
 //Alignment options
 define('AD_ALIGNMENT_NO_WRAPPING','No Wrapping');
+define('AD_ALIGNMENT_CUSTOM_CSS','Custom CSS');
 define('AD_ALIGNMENT_NONE','None');
 define('AD_ALIGNMENT_LEFT','Align Left');
 define('AD_ALIGNMENT_RIGHT','Align Right');
