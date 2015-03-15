@@ -212,7 +212,7 @@ function ai_admin_notice_hook () {
   $ad_inserter_installed = get_option ('ad1_name') != '';
 
   if ($ad_inserter_installed && !isset ($plugin_db_options ['VERSION']) && ($current_screen->id != "settings_page_ad-inserter" || (!isset ($_POST [AD_FORM_SAVE]) && !isset ($_POST [AD_FORM_CLEAR])))) {
-    echo "<div class='updated below-h2' style='margin: 5px 15px 2px 0px; padding: 10px;'><strong>
+    echo "<div class='updated'><strong>
       Notice: ".AD_INSERTER_TITLE." plugin was updated. New version can insert ads also on static pages.
       Please <a href=\"/wp-admin/options-general.php?page=ad-inserter.php\">check</a> if page display options for all ad slots are set properly.
       Make required changes and save ".AD_INSERTER_TITLE." settings to remove this notice.</strong></div>";
@@ -230,7 +230,7 @@ function ai_admin_notice_hook () {
   }
 
   if (!empty ($sidebars_with_deprecated_widgets)) {
-    echo "<div class='update-nag below-h2' style='margin: 5px 15px 2px 0px; padding: 10px;'><strong>Warning: You are using deprecated Ad Inserter widgets in the following sidebars: ",
+    echo "<div class='update-nag'><strong>Warning: You are using deprecated Ad Inserter widgets in the following sidebars: ",
     implode (", ", $sidebars_with_deprecated_widgets),
     ". Please replace them with the new 'Ad Inserter' code block widget. See <a href='https://wordpress.org/plugins/ad-inserter/faq/' target='_blank'>FAQ</a> for details.</strong></div>";
   }
