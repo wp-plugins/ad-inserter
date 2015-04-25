@@ -3,7 +3,7 @@ Contributors: spacetime
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LHGZEMRTR7WB4
 Tags: adsense, amazon, clickbank, ad, ads, html, javascript, php, code, widget, sidebar, rotating, banner, banner rotation, contextual, shortcodes, widgets, header, footer, users, logged in, not logged in, mobile, desktop, phone, tablet, custom css
 Requires at least: 3.0
-Tested up to: 4.1.1
+Tested up to: 4.2
 Stable tag: 1.5.2
 License: GPLv3
 
@@ -23,11 +23,17 @@ Automatic Display Options:
 *   Display Before Excerpt (on blog pages)
 *   Display After Excerpt (on blog pages)
 
+Paragraph number for Automatic Display Options Before and After Paragraph:
+
+*   0 means random paragraph position
+*   value between 0 and 1 means relative position in post or page (e.g. 0.3 means paragraph 30% from top or bottom)
+*   1 or more means paragraph number
+
 Additional Display Options:
 
 *   As a Widget - Simply drag **Ad Inserter** widget to any postition, select code block and you're done
 *   Manual - Insert shortcode [adinserter block="BLOCK_NUMBER"] or [adinserter name="BLOCK_NAME"] into post or page HTML code to display block with BLOCK_NAME name or BLOCK_NUMBER number at this position
-*   PHP function call `<?php echo adinserter (BLOCK_NUMBER); ?>` - Insert code block BLOCK_NUMBER at any position in template file
+*   PHP function call `<?php if (function_exists ('adinserter')) echo adinserter (BLOCK_NUMBER); ?>` - Insert code block BLOCK_NUMBER at any position in template file
 
 Additional Options:
 
@@ -65,14 +71,18 @@ Do not display ad if the number of paragraphs is below limit (used only for posi
 
 Display ad only for posts published after N days.
 
-Do not display ads to users from certain referrers (domains) e.g technorati.com, facebook.com,... (black list) or display ads only for certain referrers (white list). **Leave referrers list empty and set to Black list to show ads for all referrers.**
+Do not display ads to users from certain referrers (domains) e.g technorati.com, facebook.com,... (black list) or display ads only for certain referrers (white list). **Leave referrers list empty and set it to Black list to show ads for all referrers.**
 
-Do not display ads in certain caregories e.g sport, news, science,... (black list) or display ads only in certain categories (white list). **Leave category list empty and set to Black list to show ads in all categories.**
+Do not display ads in certain caregories e.g sport, news, science,... (black list) or display ads only in certain categories (white list). **Leave category list empty and set it to Black list to show ads in all categories.**
+
+Do not display ads in posts with certain tags (black list) or display ads only in posts with certain tags (white list). **Leave tag list empty and set it to Black list to show ads for all tags.**
 
 For all display positions you can also define Wordpress page types where the ads can be displayed:
 
 *   Posts
 *   Pages
+
+You can also disable ads on certain posts or pages. For each code block on posts or pages you first define default display settings. Then you can define post/page exceptions on the post/page editor page (check Ad Inserter Exceptions meta box below).
 
 For display positions Before Excerpt, After Excerpt, Before Title and Widget you can select additional pages where the ads can be displayed:
 
@@ -81,18 +91,6 @@ For display positions Before Excerpt, After Excerpt, Before Title and Widget you
 *   Search Pages
 *   Archive pages
 
-You can also disable ads in certain posts or pages. For example, to disable ad block 1 with name Test Block in post put the following HTML code within post or page code:
-
-`<!-- disable adinserter 1 -->`
-or
-`<!-- disable adinserter Test Block -->`
-
-To disable ALL ads in certain posts or pages use:
-
-`<!-- disable adinserter * -->`
-
-**Note: Disabling works only for code blocks in posts and pages!**
-
 Ad Inserter is perfect for displaying AdSense or Amazon ads. It can also be used to display various versions of <a href="https://support.google.com/adsense/answer/65083?ctx=as2&rd=2&ref_topic=23389">AdSense ads using channels</a> to test which format or color combination performs best.
 
 Support for Special Code Blocks:
@@ -100,7 +98,7 @@ Support for Special Code Blocks:
 *   Header scripts (tab H)
 *   Footer scripts (tab F)
 
-Wrapping divs for code blocks have 'ad-inserter' and 'ad-inserter-N' classes which can be used for custom styles. Class name can be changed in Ad Inserter settings.
+Wrapping divs for code blocks have 'code-block' and 'code-block-N' classes which can be used for custom styles. Class name can be changed in Ad Inserter settings.
 
 To configure syntax highlighting go to Ad Inserter Settings (tab #) and choose theme.
 
@@ -132,7 +130,16 @@ Manual installation:
 3. Drag new "Ad Inserter" widget to the position where there is the old, deprecated widget.
 4. Select code block for this widget to be the same as it is for the old one.
 5. Drag the old, deprecated widget to the left to remove it.
-5. Replace steps for all old widgets.
+6. Replace steps for all old widgets.
+
+
+= How can I disable ads on specific posts/pages? =
+
+1. Go to Ad Inserter settings page and define default display options for post/page.
+2. Enable automatic display on posts/pages and choose default display: **On all**, **On all except selected** or **Only on selected**.
+3. Go to post/page editor and open **Ad Inserter Exceptions** meta box below.
+4. Check default display options for wanted code blocks.
+4. Set exceptions for this post or page.
 
 
 = How can I insert post category name into my ad code? =
@@ -255,6 +262,13 @@ ad_code
 
 == Changelog ==
 
+= 1.5.3 =
+* Fixed Security Vulnerability: Plugin was vulnerable to a combination of CSRF/XSS attacks (credits to Kaustubh Padwad)
+* Fixed bug: In some cases deprecated widgets warning reported errors
+* Added support to white-list or black-list tags
+* Added support for relative paragraph positions
+* Added support for individual code block exceptions on post/page editor page
+
 = 1.5.2 =
 * Fixed bug: Widget titles might be displayed at wrong sidebar positions
 * Change: Default code block CSS class name was changed from ad-inserter to code-block to prevent Ad Blockers from blocking Ad Inserter divs
@@ -363,6 +377,13 @@ ad_code
 
 
 == Upgrade Notice ==
+
+= 1.5.3 =
+Fixed Security Vulnerability (CSRF/XSS attacks);
+Fixed bug where deprecated widgets warning reported errors;
+Added support to white-list or black-list tags;
+Added support for relative paragraph positions;
+Added support for individual code block exceptions on post/page editor page
 
 = 1.5.2 =
 Fixed bug: Widget titles might be displayed at wrong sidebar positions;

@@ -6,7 +6,7 @@ if (!defined( 'AD_INSERTER_TITLE'))
   define ('AD_INSERTER_TITLE', 'Ad Inserter');
 
 if (!defined( 'AD_INSERTER_VERSION'))
-  define ('AD_INSERTER_VERSION', '1.5.2');
+  define ('AD_INSERTER_VERSION', '1.5.3');
 
 if (!defined ('AD_INSERTER_PLUGIN_DIR'))
   define ('AD_INSERTER_PLUGIN_DIR', plugin_dir_path (__FILE__));
@@ -110,6 +110,11 @@ define('AD_DISPLAY_DESKTOP_PHONE_DEVICES','desktop and phone');
 //Direction options
 define('AD_DIRECTION_FROM_TOP','From Top');
 define('AD_DIRECTION_FROM_BOTTOM','From Bottom');
+
+//Post-Page options
+define('AD_ENABLED_ON_ALL',                     'On all');
+define('AD_ENABLED_ON_ALL_EXCEPT_ON_SELECTED',  'On all except selected');
+define('AD_ENABLED_ONLY_ON_SELECTED',           'Only on selected');
 
 //Alignment options
 define('AD_ALIGNMENT_NO_WRAPPING','No Wrapping');

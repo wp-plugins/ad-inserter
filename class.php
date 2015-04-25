@@ -59,12 +59,16 @@ abstract class ai_CodeBlock extends ai_BaseCodeBlock {
     var $option_ad_domain_list_type;
     var $option_ad_category_list;
     var $option_ad_category_list_type;
+    var $option_ad_tag_list;
+    var $option_ad_tag_list_type;
     var $option_widget_settings_home;
     var $option_widget_settings_page;
     var $option_widget_settings_post;
     var $option_widget_settings_category;
     var $option_widget_settings_search;
     var $option_widget_settings_archive;
+    var $option_enabled_on_which_pages;
+    var $option_enabled_on_which_posts;
     var $option_enable_php_call;
     var $option_paragraph_text;
     var $option_custom_css;
@@ -90,12 +94,16 @@ abstract class ai_CodeBlock extends ai_BaseCodeBlock {
       $this->wp_options[$this->option_ad_domain_list_type]      = AD_BLACK_LIST;
       $this->wp_options[$this->option_ad_category_list]         = AD_EMPTY_DATA;
       $this->wp_options[$this->option_ad_category_list_type]    = AD_BLACK_LIST;
+      $this->wp_options[$this->option_ad_tag_list]              = AD_EMPTY_DATA;
+      $this->wp_options[$this->option_ad_tag_list_type]         = AD_BLACK_LIST;
       $this->wp_options[$this->option_widget_settings_home]     = AD_SETTINGS_CHECKED;
       $this->wp_options[$this->option_widget_settings_page]     = AD_SETTINGS_NOT_CHECKED;
       $this->wp_options[$this->option_widget_settings_post]     = AD_SETTINGS_CHECKED;
       $this->wp_options[$this->option_widget_settings_category] = AD_SETTINGS_CHECKED;
       $this->wp_options[$this->option_widget_settings_search]   = AD_SETTINGS_CHECKED;
       $this->wp_options[$this->option_widget_settings_archive]  = AD_SETTINGS_CHECKED;
+      $this->wp_options[$this->option_enabled_on_which_pages]   = AD_ENABLED_ON_ALL;
+      $this->wp_options[$this->option_enabled_on_which_posts]   = AD_ENABLED_ON_ALL;
       $this->wp_options[$this->option_enable_php_call]          = AD_SETTINGS_NOT_CHECKED;
       $this->wp_options[$this->option_paragraph_text]           = AD_EMPTY_DATA;
       $this->wp_options[$this->option_custom_css]               = AD_EMPTY_DATA;
@@ -459,6 +467,28 @@ abstract class ai_CodeBlock extends ai_BaseCodeBlock {
      if ($option == '') $option = AD_BLACK_LIST;
      return $option;
    }
+
+  public function get_ad_block_tag(){
+      return $this->wp_options[$this->option_ad_tag_list];
+  }
+
+  public function get_ad_block_tag_type(){
+     $option = $this->wp_options [$this->option_ad_tag_list_type];
+     if ($option == '') $option = AD_BLACK_LIST;
+     return $option;
+  }
+
+  public function get_ad_enabled_on_which_pages (){
+    $option = $this->wp_options [$this->option_enabled_on_which_pages];
+    if ($option == '') $option = AD_ENABLED_ON_ALL;
+    return $option;
+  }
+
+  public function get_ad_enabled_on_which_posts (){
+    $option = $this->wp_options [$this->option_enabled_on_which_posts];
+    if ($option == '') $option = AD_ENABLED_ON_ALL;
+    return $option;
+  }
 }
 
 class ai_Block extends ai_CodeBlock {
@@ -480,12 +510,16 @@ class ai_Block extends ai_CodeBlock {
    const OPTION_AD_DOMAIN_LIST_TYPE       = "ad#_domain_list_type";
    const OPTION_AD_CATEGORY_LIST          = "ad#_block_cat";
    const OPTION_AD_CATEGORY_LIST_TYPE     = "ad#_block_cat_type";
+   const OPTION_AD_TAG_LIST               = "ad#_block_tag";
+   const OPTION_AD_TAG_LIST_TYPE          = "ad#_block_tag_type";
    const OPTION_WIDGET_SETTINGS_HOME      = "ad#_widget_settings_home";
    const OPTION_WIDGET_SETTINGS_PAGE      = "ad#_widget_settings_page";
    const OPTION_WIDGET_SETTINGS_POST      = "ad#_widget_settings_post";
    const OPTION_WIDGET_SETTINGS_CATEGORY  = "ad#_widget_settings_category";
    const OPTION_WIDGET_SETTINGS_SEARCH    = "ad#_widget_settings_search";
    const OPTION_WIDGET_SETTINGS_ARCHIVE   = "ad#_widget_settings_archive";
+   const OPTION_ENABLED_ON_WHICH_PAGES    = "ad#_enabled_on_which_pages";
+   const OPTION_ENABLED_ON_WHICH_POSTS    = "ad#_enabled_on_which_posts";
    const OPTION_ENABLE_PHP_CALL           = "ad#_enable_php_call";
    const OPTION_PARAGRAPH_TEXT            = "ad#_paragraph_text";
    const OPTION_CUSTOM_CSS                = "ad#_custom_css";
@@ -512,12 +546,16 @@ class ai_Block extends ai_CodeBlock {
       $this->option_ad_domain_list_type       = str_replace ("#", $number, self::OPTION_AD_DOMAIN_LIST_TYPE);
       $this->option_ad_category_list          = str_replace ("#", $number, self::OPTION_AD_CATEGORY_LIST);
       $this->option_ad_category_list_type     = str_replace ("#", $number, self::OPTION_AD_CATEGORY_LIST_TYPE);
+      $this->option_ad_tag_list               = str_replace ("#", $number, self::OPTION_AD_TAG_LIST);
+      $this->option_ad_tag_list_type          = str_replace ("#", $number, self::OPTION_AD_TAG_LIST_TYPE);
       $this->option_widget_settings_home      = str_replace ("#", $number, self::OPTION_WIDGET_SETTINGS_HOME);
       $this->option_widget_settings_page      = str_replace ("#", $number, self::OPTION_WIDGET_SETTINGS_PAGE);
       $this->option_widget_settings_post      = str_replace ("#", $number, self::OPTION_WIDGET_SETTINGS_POST);
       $this->option_widget_settings_category  = str_replace ("#", $number, self::OPTION_WIDGET_SETTINGS_CATEGORY);
       $this->option_widget_settings_search    = str_replace ("#", $number, self::OPTION_WIDGET_SETTINGS_SEARCH);
       $this->option_widget_settings_archive   = str_replace ("#", $number, self::OPTION_WIDGET_SETTINGS_ARCHIVE);
+      $this->option_enabled_on_which_pages    = str_replace ("#", $number, self::OPTION_ENABLED_ON_WHICH_PAGES);
+      $this->option_enabled_on_which_posts    = str_replace ("#", $number, self::OPTION_ENABLED_ON_WHICH_POSTS);
       $this->option_enable_php_call           = str_replace ("#", $number, self::OPTION_ENABLE_PHP_CALL);
       $this->option_paragraph_text            = str_replace ("#", $number, self::OPTION_PARAGRAPH_TEXT);
       $this->option_custom_css                = str_replace ("#", $number, self::OPTION_CUSTOM_CSS);

@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Ad Inserter
-Version: 1.5.2
+Version: 1.5.3
 Description: A simple solution to insert any code into Wordpress. Simply enter any HTML, Javascript or PHP code and select where and how you want to display it.
 Author: Spacetime
 Author URI: http://igorfuna.com/
@@ -15,6 +15,13 @@ TO DO
 
 /*
 Change Log
+
+Ad Inserter 1.5.3 - 25 April 2015
+- Fixed Security Vulnerability: Plugin was vulnerable to a combination of CSRF/XSS attacks (credits to Kaustubh Padwad)
+- Fixed bug: In some cases deprecated widgets warning reported errors
+- Added support to white-list or black-list tags
+- Added support for relative paragraph positions
+- Added support for individual code block exceptions on post/page editor page
 
 Ad Inserter 1.5.2 - 15 March 2015
 - Fixed bug: Widget titles might be displayed at wrong sidebar positions
@@ -161,7 +168,10 @@ add_action ('init',             'ai_init_hook');
 add_action ('admin_notices',    'ai_admin_notice_hook');
 add_action ('wp_head',          'ai_wp_head_hook');
 add_action ('wp_footer',        'ai_wp_footer_hook');
-add_action ('widgets_init',     'ai_widgets_init_hook' );
+add_action ('widgets_init',     'ai_widgets_init_hook');
+add_action ('add_meta_boxes',   'ai_add_meta_box');
+add_action ('save_post',        'ai_save_meta_box_data');
+
 
 function ai_init_hook() {
 
@@ -222,11 +232,12 @@ function ai_admin_notice_hook () {
   $sidebars_with_deprecated_widgets = array ();
 
   foreach ($sidebar_widgets as $sidebar_widget_index => $sidebar_widget) {
-    foreach ($sidebar_widget as $widget) {
-      if (preg_match ("/ai_widget([\d]+)/", $widget)) {
-        $sidebars_with_deprecated_widgets [$sidebar_widget_index] = $GLOBALS ['wp_registered_sidebars'][$sidebar_widget_index]['name'];
+    if (is_array ($sidebar_widget))
+      foreach ($sidebar_widget as $widget) {
+        if (preg_match ("/ai_widget([\d]+)/", $widget)) {
+          $sidebars_with_deprecated_widgets [$sidebar_widget_index] = $GLOBALS ['wp_registered_sidebars'][$sidebar_widget_index]['name'];
+        }
       }
-    }
   }
 
   if (!empty ($sidebars_with_deprecated_widgets)) {
@@ -234,6 +245,166 @@ function ai_admin_notice_hook () {
     implode (", ", $sidebars_with_deprecated_widgets),
     ". Please replace them with the new 'Ad Inserter' code block widget. See <a href='https://wordpress.org/plugins/ad-inserter/faq/' target='_blank'>FAQ</a> for details.</strong></div>";
   }
+}
+
+function ai_add_meta_box() {
+
+  $screens = array ('post', 'page');
+
+  foreach ($screens as $screen) {
+    add_meta_box(
+      'adinserter_sectionid',
+      'Ad Inserter Exceptions',
+      'ai_meta_box_callback',
+      $screen
+    );
+  }
+}
+
+function ai_meta_box_callback ($post) {
+
+  // Add an nonce field so we can check for it later.
+  wp_nonce_field ('adinserter_meta_box', 'adinserter_meta_box_nonce');
+
+  $ad1  = new ai_Block (1);
+  $ad2  = new ai_Block (2);
+  $ad3  = new ai_Block (3);
+  $ad4  = new ai_Block (4);
+  $ad5  = new ai_Block (5);
+  $ad6  = new ai_Block (6);
+  $ad7  = new ai_Block (7);
+  $ad8  = new ai_Block (8);
+  $ad9  = new ai_Block (9);
+  $ad10 = new ai_Block (10);
+  $ad11 = new ai_Block (11);
+  $ad12 = new ai_Block (12);
+  $ad13 = new ai_Block (13);
+  $ad14 = new ai_Block (14);
+  $ad15 = new ai_Block (15);
+  $ad16 = new ai_Block (16);
+
+  $ad_array = array ($ad1,$ad2,$ad3,$ad4,$ad5,$ad6,$ad7,$ad8,$ad9,$ad10,$ad11,$ad12,$ad13,$ad14,$ad15,$ad16);
+
+  $post_type = get_post_type ($post);
+
+  /*
+   * Use get_post_meta() to retrieve an existing value
+   * from the database and use the value for the form.
+   */
+  $post_meta = get_post_meta ($post->ID, '_adinserter_block_exceptions', true);
+  $selected_blocks = explode (",", $post_meta);
+
+  echo '<table>';
+  echo '<thead style="font-weight: bold;">';
+    echo '  <td>Block</td>';
+    echo '  <td style="padding: 0 10px 0 10px;">Name</td>';
+    echo '  <td style="padding: 0 10px 0 10px;">Automatic Display Type</td>';
+    echo '  <td style="padding: 0 5px 0 5px;">Posts</td>';
+    echo '  <td style="padding: 0 5px 0 5px;">Pages</td>';
+    echo '  <td style="padding: 0 5px 0 5px;">Manual</td>';
+    echo '  <td style="padding: 0 5px 0 5px;">PHP</td>';
+    echo '  <td style="padding: 0 10px 0 10px;">Default</td>';
+    echo '  <td style="padding: 0 10px 0 10px;">For this ', $post_type, '</td>';
+  echo '</thead>';
+  echo '<tbody>';
+  $rows = 0;
+  foreach ($ad_array as $key => $obj){
+    $obj->load_options ("AdInserter".($key + 1)."Options");
+
+    if ($post_type == 'post') {
+      $enabled_on_text  = $obj->get_ad_enabled_on_which_posts ();
+      $general_enabled  = $obj->get_display_settings_post();
+    } else {
+        $enabled_on_text = $obj->get_ad_enabled_on_which_pages ();
+        $general_enabled = $obj->get_display_settings_page();
+      }
+
+    $individual_option_enabled  = $general_enabled && ($enabled_on_text == AD_ENABLED_ON_ALL_EXCEPT_ON_SELECTED || $enabled_on_text == AD_ENABLED_ONLY_ON_SELECTED);
+    $individual_text_enabled    = $enabled_on_text == AD_ENABLED_ON_ALL_EXCEPT_ON_SELECTED;
+
+    $ad_number = $obj->number;
+    $display_type = $obj->get_append_type();
+    if ($rows % 2 != 0) $background = "#F0F0F0"; else $background = "#FFF";
+    echo '<tr style="background: ', $background, ';">';
+    echo '  <td style="text-align: right;">', $obj->number, '</td>';
+    echo '  <td style="padding: 0 10px 0 10px;">', $obj->get_ad_name(), '</td>';
+    echo '  <td style="padding: 0 10px 0 10px;">', $display_type, '</td>';
+
+    echo '  <td style="padding: 0 10px 0 10px; text-align: center;">';
+    if ($obj->get_display_settings_post ()) echo '&check;';
+    echo '  </td>';
+    echo '  <td style="padding: 0 10px 0 10px; text-align: center;">';
+    if ($obj->get_display_settings_page ()) echo '&check;';
+    echo '  </td>';
+    echo '  <td style="padding: 0 10px 0 10px; text-align: center;">';
+    if ($obj->get_enable_manual ()) echo '&check;';
+    echo '  </td>';
+    echo '  <td style="padding: 0 10px 0 10px; text-align: center;">';
+    if ($obj->get_enable_php_call ()) echo '&check;';
+    echo '  </td>';
+
+    echo '  <td style="padding: 0 10px 0 10px; text-align: left;">';
+
+    if ($individual_option_enabled) {
+      if ($individual_text_enabled) echo 'Enabled'; else echo 'Disabled';
+    } else {
+        if ($general_enabled) echo 'Enabled on all ', $post_type, 's'; else
+          echo 'Disabled on all ', $post_type, 's';
+      }
+    echo '  </td>';
+
+    echo '  <td style="padding: 0 10px 0 10px; text-align: left;">';
+    echo '<input type="hidden"   style="border-radius: 5px;" name="adinserter_selected_block_', $ad_number, '" value="0" />';
+    echo '<input type="', $individual_option_enabled ? 'checkbox' : 'hidden', '" style="border-radius: 5px;" name="adinserter_selected_block_', $ad_number, '" value="1"';
+    if (in_array ($ad_number, $selected_blocks)) echo 'checked ';
+    echo '>';
+
+    echo '<label for="adinserter_selected_block_', $ad_number, '">';
+    if ($individual_option_enabled) {
+      if (!$individual_text_enabled) echo 'Enabled'; else echo 'Disabled';
+    }
+    echo '</label>';
+    echo '  </td>';
+
+    echo '</tr>';
+    $rows ++;
+  }
+
+  echo '</tbody>';
+  echo '</table>';
+
+  echo '<p>Default behavior for all code blocks for ', $post_type, 's (enabled or disabled) can be configured on <a href="/wp-admin/options-general.php?page=ad-inserter.php" target="_blank">Ad Inserter Settings page</a>. Here you can configure exceptions for this ', $post_type, '.</p>';
+}
+
+function ai_save_meta_box_data ($post_id) {
+
+  // Check if our nonce is set.
+  if (!isset ($_POST ['adinserter_meta_box_nonce'])) return;
+
+  // Verify that the nonce is valid.
+  if (!wp_verify_nonce ($_POST ['adinserter_meta_box_nonce'], 'adinserter_meta_box')) return;
+
+  // If this is an autosave, our form has not been submitted, so we don't want to do anything.
+  if (defined ('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+
+  // Check the user's permissions.
+  if (isset ($_POST ['post_type']) && 'page' == $_POST ['post_type']) {
+    if (!current_user_can ('edit_page', $post_id)) return;
+  } else {
+    if (!current_user_can ('edit_post', $post_id)) return;
+  }
+
+  /* OK, it's safe for us to save the data now. */
+
+  $selected = array ();
+  for ($block = 1; $block <= 16; $block ++) {
+    $option_name = 'adinserter_selected_block_' . $block;
+    if (!isset ($_POST [$option_name])) return;
+    if ($_POST [$option_name]) $selected []= $block;
+  }
+
+  // Update the meta field in the database.
+  update_post_meta ($post_id, '_adinserter_block_exceptions', implode (",", $selected));
 }
 
 function ai_widgets_init_hook () {
@@ -256,12 +427,6 @@ function ai_wp_footer_hook () {
   if ($obj->get_enable_manual ()) {
     echo ai_getCode ($obj);
   }
-}
-
-function filter_characters ($str){
-
-  $str = str_replace (array ("\\\""), array ("\""), $str);
-  return $str;
 }
 
 function ai_plugin_options ($syntax_highlighter_theme = DEFAULT_SYNTAX_HIGHLIGHTER_THEME, $block_class_name = DEFAULT_BLOCK_CLASS_NAME){
@@ -313,9 +478,60 @@ function get_block_class_name () {
   return ($plugin_db_options ['BLOCK_CLASS_NAME']);
 }
 
+function filter_html_class ($str){
+
+  $str = str_replace (array ("\\\""), array ("\""), $str);
+  $str = sanitize_html_class ($str);
+
+  return $str;
+}
+
+function filter_string ($str){
+
+  $str = str_replace (array ("\\\""), array ("\""), $str);
+  $str = str_replace (array ("\"", "<", ">"), "", $str);
+  $str = esc_html ($str);
+
+  return $str;
+}
+
+function filter_option ($ad, $option, $value){
+  $value = str_replace (array ("\\\""), array ("\""), $value);
+
+  if ($option == $ad->option_ad_name ||
+      $option == $ad->option_ad_general_tag ||
+      $option == $ad->option_ad_domain_list ||
+      $option == $ad->option_ad_category_list ||
+      $option == $ad->option_ad_tag_list ||
+      $option == $ad->option_paragraph_text ||
+      $option == $ad->option_paragraph_number ||
+      $option == $ad->option_paragraph_number_minimum ||
+      $option == $ad->option_ad_after_day ||
+      $option == $ad->option_excerpt_number ||
+      $option == $ad->option_custom_css) {
+        $value = str_replace (array ("\"", "<", ">"), "", $value);
+        $value = esc_html ($value);
+      }
+
+  return $value;
+}
+
+function filter_option_hf ($option, $value){
+  $value = str_replace (array ("\\\""), array ("\""), $value);
+
+        if ($option == "adH_data"        || $option == "adF_data") {
+  } elseif ($option == "adH_enable"      || $option == "adF_enable") {
+  } elseif ($option == "adH_process_php" || $option == "adF_process_php") {
+  }
+
+  return $value;
+}
+
 function ai_menu () {
 
   if (isset ($_POST [AD_FORM_SAVE])) {
+
+    check_admin_referer ('save_adinserter_settings');
 
     $ad1  = new ai_Block (1);
     $ad2  = new ai_Block (2);
@@ -339,113 +555,113 @@ function ai_menu () {
 
      foreach(array_keys($ad1->wp_options) as $key){
         if(isset($_POST[$key])){
-            $ad1->wp_options[$key] = filter_characters ($_POST[$key]);
+            $ad1->wp_options[$key] = filter_option ($ad1, $key, $_POST[$key]);
         }
       }
 
       foreach(array_keys($ad2->wp_options) as $key){
         if(isset($_POST[$key])){
-              $ad2->wp_options[$key] = filter_characters ($_POST[$key]);
+            $ad2->wp_options[$key] = filter_option ($ad2, $key, $_POST[$key]);
         }
       }
 
       foreach(array_keys($ad3->wp_options) as $key){
         if(isset($_POST[$key])){
-              $ad3->wp_options[$key] = filter_characters ($_POST[$key]);
+            $ad3->wp_options[$key] = filter_option ($ad3, $key, $_POST[$key]);
         }
       }
 
       foreach(array_keys($ad4->wp_options) as $key){
         if(isset($_POST[$key])){
-              $ad4->wp_options[$key] = filter_characters ($_POST[$key]);
+            $ad4->wp_options[$key] = filter_option ($ad4, $key, $_POST[$key]);
         }
       }
 
      foreach(array_keys($ad5->wp_options) as $key){
         if(isset($_POST[$key])){
-            $ad5->wp_options[$key] = filter_characters ($_POST[$key]);
+            $ad5->wp_options[$key] = filter_option ($ad5, $key, $_POST[$key]);
         }
       }
 
       foreach(array_keys($ad6->wp_options) as $key){
         if(isset($_POST[$key])){
-              $ad6->wp_options[$key] = filter_characters ($_POST[$key]);
+            $ad6->wp_options[$key] = filter_option ($ad6, $key, $_POST[$key]);
         }
       }
 
       foreach(array_keys($ad7->wp_options) as $key){
         if(isset($_POST[$key])){
-              $ad7->wp_options[$key] = filter_characters ($_POST[$key]);
+            $ad7->wp_options[$key] = filter_option ($ad7, $key, $_POST[$key]);
         }
       }
 
       foreach(array_keys($ad8->wp_options) as $key){
         if(isset($_POST[$key])){
-              $ad8->wp_options[$key] = filter_characters ($_POST[$key]);
+            $ad8->wp_options[$key] = filter_option ($ad8, $key, $_POST[$key]);
         }
       }
 
      foreach(array_keys($ad9->wp_options) as $key){
         if(isset($_POST[$key])){
-            $ad9->wp_options[$key] = filter_characters ($_POST[$key]);
+            $ad9->wp_options[$key] = filter_option ($ad9, $key, $_POST[$key]);
         }
       }
 
       foreach(array_keys($ad10->wp_options) as $key){
         if(isset($_POST[$key])){
-              $ad10->wp_options[$key] = filter_characters ($_POST[$key]);
+            $ad10->wp_options[$key] = filter_option ($ad10, $key, $_POST[$key]);
         }
       }
 
       foreach(array_keys($ad11->wp_options) as $key){
         if(isset($_POST[$key])){
-              $ad11->wp_options[$key] = filter_characters ($_POST[$key]);
+            $ad11->wp_options[$key] = filter_option ($ad11, $key, $_POST[$key]);
         }
       }
 
       foreach(array_keys($ad12->wp_options) as $key){
         if(isset($_POST[$key])){
-              $ad12->wp_options[$key] = filter_characters ($_POST[$key]);
+            $ad12->wp_options[$key] = filter_option ($ad12, $key, $_POST[$key]);
         }
       }
 
      foreach(array_keys($ad13->wp_options) as $key){
         if(isset($_POST[$key])){
-            $ad13->wp_options[$key] = filter_characters ($_POST[$key]);
+            $ad13->wp_options[$key] = filter_option ($ad13, $key, $_POST[$key]);
         }
       }
 
       foreach(array_keys($ad14->wp_options) as $key){
         if(isset($_POST[$key])){
-              $ad14->wp_options[$key] = filter_characters ($_POST[$key]);
+            $ad14->wp_options[$key] = filter_option ($ad14, $key, $_POST[$key]);
         }
       }
 
       foreach(array_keys($ad15->wp_options) as $key){
         if(isset($_POST[$key])){
-              $ad15->wp_options[$key] = filter_characters ($_POST[$key]);
+            $ad15->wp_options[$key] = filter_option ($ad15, $key, $_POST[$key]);
         }
       }
 
       foreach(array_keys($ad16->wp_options) as $key){
         if(isset($_POST[$key])){
-              $ad16->wp_options[$key] = filter_characters ($_POST[$key]);
+            $ad16->wp_options[$key] = filter_option ($ad16, $key, $_POST[$key]);
         }
       }
 
       foreach(array_keys($adH->wp_options) as $key){
         if(isset($_POST[$key])){
-              $adH->wp_options[$key] = filter_characters ($_POST[$key]);
+            $adH->wp_options[$key] = filter_option_hf ($key, $_POST[$key]);
         }
       }
 
       foreach(array_keys($adF->wp_options) as $key){
         if(isset($_POST[$key])){
-              $adF->wp_options[$key] = filter_characters ($_POST[$key]);
+            $adF->wp_options[$key] = filter_option_hf ($key, $_POST[$key]);
         }
       }
 
-      update_option (AD_OPTIONS, ai_plugin_options ($_POST ['syntax-highlighter-theme'], $_POST ['block-class-name']));
+      update_option (AD_OPTIONS, ai_plugin_options (filter_string ($_POST ['syntax-highlighter-theme']), filter_html_class ($_POST ['block-class-name'])));
 
       update_option (AD_AD1_OPTIONS,  $ad1->wp_options);
       update_option (AD_AD2_OPTIONS,  $ad2->wp_options);
@@ -470,6 +686,9 @@ function ai_menu () {
     echo "<div class='updated' style='margin: 5px 15px 2px 0px; padding: 10px;'><strong>Settings saved.</strong></div>";
 
   } elseif (isset ($_POST [AD_FORM_CLEAR])) {
+
+      check_admin_referer ('save_adinserter_settings');
+
       $ad1  = new ai_Block (1);
       $ad2  = new ai_Block (2);
       $ad3  = new ai_Block (3);
@@ -569,8 +788,30 @@ function adinserter ($ad_number = ""){
     if (!$obj->get_display_settings_home()) return "";
   } else  if (is_single ()) {
     if (!$obj->get_display_settings_post ()) return "";
+
+    $meta_value = get_post_meta (get_the_ID (), '_adinserter_block_exceptions', true);
+    $selected_blocks = explode (",", $meta_value);
+
+    $enabled_on_text = $obj->get_ad_enabled_on_which_posts ();
+    if ($enabled_on_text == AD_ENABLED_ON_ALL_EXCEPT_ON_SELECTED) {
+      if (in_array ($obj->number, $selected_blocks)) return "";
+    }
+    elseif ($enabled_on_text == AD_ENABLED_ONLY_ON_SELECTED) {
+      if (!in_array ($obj->number, $selected_blocks)) return "";
+    }
   } elseif (is_page ()) {
     if (!$obj->get_display_settings_page ()) return "";
+
+    $meta_value = get_post_meta (get_the_ID (), '_adinserter_block_exceptions', true);
+    $selected_blocks = explode (",", $meta_value);
+
+    $enabled_on_text = $obj->get_ad_enabled_on_which_pages ();
+    if ($enabled_on_text == AD_ENABLED_ON_ALL_EXCEPT_ON_SELECTED) {
+      if (in_array ($obj->number, $selected_blocks)) return "";
+    }
+    elseif ($enabled_on_text == AD_ENABLED_ONLY_ON_SELECTED) {
+      if (!in_array ($obj->number, $selected_blocks)) return "";
+    }
   } elseif (is_category()){
     if (!$obj->get_display_settings_category()) return "";
   } elseif (is_search()){
@@ -591,6 +832,8 @@ function adinserter ($ad_number = ""){
   if ($obj->get_ad_data() == AD_EMPTY_DATA) return "";
 
   if (ai_isCategoryAllowed ($obj->get_ad_block_cat(), $obj->get_ad_block_cat_type()) == false) return "";
+
+  if (ai_isTagAllowed ($obj->get_ad_block_tag(), $obj->get_ad_block_tag_type()) == false) return "";
 
   if (ai_isDisplayDateAllowed ($obj, $publish_date) == false) return "";
 
@@ -760,7 +1003,11 @@ function ai_excerpt_hook ($content = ''){
       continue;
     }
 
-    if (ai_isCategoryAllowed ($obj->get_ad_block_cat(), $obj->get_ad_block_cat_type())==false){
+    if (ai_isCategoryAllowed ($obj->get_ad_block_cat(), $obj->get_ad_block_cat_type()) == false) {
+      continue;
+    }
+
+    if (ai_isTagAllowed ($obj->get_ad_block_tag(), $obj->get_ad_block_tag_type()) == false) {
       continue;
     }
 
@@ -820,6 +1067,9 @@ function ai_loop_start_hook ($query){
      $http_referer = $_SERVER['HTTP_REFERER'];
   }
 
+  $meta_value = get_post_meta (get_the_ID (), '_adinserter_block_exceptions', true);
+  $selected_blocks = explode (",", $meta_value);
+
   $ad_code = "";
 
   foreach ($ad_all_data as $block_index => $obj){
@@ -845,9 +1095,25 @@ function ai_loop_start_hook ($query){
     }
     elseif (is_page()){
       if (!$obj->get_display_settings_page()) continue;
+
+      $enabled_on_text = $obj->get_ad_enabled_on_which_pages ();
+      if ($enabled_on_text == AD_ENABLED_ON_ALL_EXCEPT_ON_SELECTED) {
+        if (in_array ($obj->number, $selected_blocks)) continue;
+      }
+      elseif ($enabled_on_text == AD_ENABLED_ONLY_ON_SELECTED) {
+        if (!in_array ($obj->number, $selected_blocks)) continue;
+      }
     }
     elseif (is_single()){
       if (!$obj->get_display_settings_post()) continue;
+
+      $enabled_on_text = $obj->get_ad_enabled_on_which_posts ();
+      if ($enabled_on_text == AD_ENABLED_ON_ALL_EXCEPT_ON_SELECTED) {
+        if (in_array ($obj->number, $selected_blocks)) continue;
+      }
+      elseif ($enabled_on_text == AD_ENABLED_ONLY_ON_SELECTED) {
+        if (!in_array ($obj->number, $selected_blocks)) continue;
+      }
     }
     elseif (is_category()){
       if (!$obj->get_display_settings_category()) continue;
@@ -865,6 +1131,10 @@ function ai_loop_start_hook ($query){
     }
 
     if (ai_isCategoryAllowed ($obj->get_ad_block_cat(), $obj->get_ad_block_cat_type())==false){
+      continue;
+    }
+
+    if (ai_isTagAllowed ($obj->get_ad_block_tag(), $obj->get_ad_block_tag_type())==false){
       continue;
     }
 
@@ -887,7 +1157,7 @@ function ai_loop_start_hook ($query){
 
 function ai_isCategoryAllowed ($categories, $cat_type){
 
-  $categories = trim(strtolower($categories));
+  $categories = trim (strtolower ($categories));
 
   //echo ' listed categories: ' . $categories;
 
@@ -897,7 +1167,7 @@ function ai_isCategoryAllowed ($categories, $cat_type){
       return true;
     }
 
-    $cats_listed = explode(",", strtolower($categories));
+    $cats_listed = explode (",", $categories);
 
     foreach((get_the_category()) as $post_category) {
 
@@ -921,11 +1191,11 @@ function ai_isCategoryAllowed ($categories, $cat_type){
 
   } else {
 
-      if($categories == AD_EMPTY_DATA){
+      if ($categories == AD_EMPTY_DATA){
         return false;
       }
 
-      $cats_listed = explode(",", strtolower($categories));
+      $cats_listed = explode (",", $categories);
 
       foreach((get_the_category()) as $post_category) {
 
@@ -933,11 +1203,11 @@ function ai_isCategoryAllowed ($categories, $cat_type){
 
         foreach($cats_listed as $cat_enabled){
 
-          $post_category_name = strtolower($post_category->cat_name);
+          $post_category_name = strtolower ($post_category->cat_name);
 
           //echo '<br/>Category enabled loop : ' . $cat_enabled . '<br/> category name : ' . $post_category_name;
 
-          if($post_category_name==trim($cat_enabled)){
+          if($post_category_name == trim ($cat_enabled)){
             //echo ' match';
             return true;
           }else{
@@ -949,15 +1219,61 @@ function ai_isCategoryAllowed ($categories, $cat_type){
     }
 }
 
+function ai_isTagAllowed ($tags, $tag_type){
+
+  $tags = trim (strtolower ($tags));
+  $tags_listed = explode (",", $tags);
+  foreach ($tags_listed as $index => $tag_listed) {
+    $tags_listed [$index] = trim ($tag_listed);
+  }
+  $has_any_of_the_given_tags = has_tag ($tags_listed);
+
+//  echo ' listed tags: ' . $tags, "\n";
+
+  if ($tag_type == AD_BLACK_LIST) {
+
+    if ($tags == AD_EMPTY_DATA) {
+      return true;
+    }
+
+    if (is_tag()) {
+      foreach ($tags_listed as $tag_listed) {
+        if (is_tag ($tag_listed)) return false;
+      }
+      return true;
+    }
+
+    return !$has_any_of_the_given_tags;
+
+  } else {
+
+      if ($tags == AD_EMPTY_DATA){
+        return false;
+      }
+
+      if (is_tag()) {
+        foreach ($tags_listed as $tag_listed) {
+          if (is_tag ($tag_listed)) return true;
+        }
+        return false;
+      }
+
+      return $has_any_of_the_given_tags;
+    }
+}
+
 function ai_isDisplayDisabled ($obj, $content){
 
-  if (preg_match ("/<!-- +Ad +Inserter +Ad +".($ad_name = $obj->number)." +Disabled +-->/i", $content)) return true;
+  $ad_name = $obj->get_ad_name();
+
+  if (preg_match ("/<!-- +Ad +Inserter +Ad +".($obj->number)." +Disabled +-->/i", $content)) return true;
 
   if (preg_match ("/<!-- +disable +adinserter +\* +-->/i", $content)) return true;
 
   if (preg_match ("/<!-- +disable +adinserter +".($obj->number)." +-->/i", $content)) return true;
 
-  if (preg_match ("/<!-- +disable +adinserter +".(trim ($obj->get_ad_name()))." +-->/i", $content)) return true;
+//  if (preg_match ("/<!-- +disable +adinserter +".(trim ($obj->get_ad_name()))." +-->/i", $content)) return true;
+  if (strpos ($content, "<!-- disable adinserter " . $ad_name . " -->") != false) return true;
 
   return false;
 }
@@ -1036,8 +1352,30 @@ function generateAdInserterCode ($content, $ad_all_data, $publish_date, $http_re
 
     if (is_single ()) {
       if (!$obj->get_display_settings_post ()) continue;
+
+      $meta_value = get_post_meta (get_the_ID (), '_adinserter_block_exceptions', true);
+      $selected_blocks = explode (",", $meta_value);
+
+      $enabled_on_text = $obj->get_ad_enabled_on_which_posts ();
+      if ($enabled_on_text == AD_ENABLED_ON_ALL_EXCEPT_ON_SELECTED) {
+        if (in_array ($obj->number, $selected_blocks)) continue;
+      }
+      elseif ($enabled_on_text == AD_ENABLED_ONLY_ON_SELECTED) {
+        if (!in_array ($obj->number, $selected_blocks)) continue;
+      }
     } elseif (is_page ()) {
       if (!$obj->get_display_settings_page ()) continue;
+
+      $meta_value = get_post_meta (get_the_ID (), '_adinserter_block_exceptions', true);
+      $selected_blocks = explode (",", $meta_value);
+
+      $enabled_on_text = $obj->get_ad_enabled_on_which_pages ();
+      if ($enabled_on_text == AD_ENABLED_ON_ALL_EXCEPT_ON_SELECTED) {
+        if (in_array ($obj->number, $selected_blocks)) continue;
+      }
+      elseif ($enabled_on_text == AD_ENABLED_ONLY_ON_SELECTED) {
+        if (!in_array ($obj->number, $selected_blocks)) continue;
+      }
     } else continue;
 
     if (ai_isDisplayDisabled ($obj, $content)) {
@@ -1045,6 +1383,10 @@ function generateAdInserterCode ($content, $ad_all_data, $publish_date, $http_re
     }
 
     if (ai_isCategoryAllowed ($obj->get_ad_block_cat(), $obj->get_ad_block_cat_type()) == false) {
+      continue;
+    }
+
+    if (ai_isTagAllowed ($obj->get_ad_block_tag(), $obj->get_ad_block_tag_type()) == false) {
       continue;
     }
 
@@ -1141,6 +1483,10 @@ function ai_generateBeforeParagraph ($block, $content, $obj){
 
   $position = $obj->get_paragraph_number();
 
+  if ($position > 0 && $position < 1) {
+    $position = intval ($position * sizeof ($paragraph_positions) + 0.5);
+  }
+
   if ($position <= 0) {
     $position = rand (0, sizeof ($paragraph_positions) - 1);
   } elseif ($obj->get_direction_type() == AD_DIRECTION_FROM_BOTTOM) {
@@ -1193,6 +1539,10 @@ function ai_generateAfterParagraph ($block, $content, $obj, $before = true){
   }
 
   $position = $obj->get_paragraph_number();
+
+  if ($position > 0 && $position < 1) {
+    $position = intval ($position * sizeof ($paragraph_positions) + 0.5);
+  }
 
   if ($position <= 0) {
     $position = rand (0, sizeof ($paragraph_positions) - 1);
@@ -1512,9 +1862,31 @@ function ai_widget_draw ($block, $obj, $args, $title = '') {
   }
   elseif(is_page()){
      if (!$obj->get_display_settings_page()) return;
+
+     $meta_value = get_post_meta (get_the_ID (), '_adinserter_block_exceptions', true);
+     $selected_blocks = explode (",", $meta_value);
+
+     $enabled_on_text = $obj->get_ad_enabled_on_which_pages ();
+     if ($enabled_on_text == AD_ENABLED_ON_ALL_EXCEPT_ON_SELECTED) {
+       if (in_array ($obj->number, $selected_blocks)) return;
+     }
+     elseif ($enabled_on_text == AD_ENABLED_ONLY_ON_SELECTED) {
+       if (!in_array ($obj->number, $selected_blocks)) return;
+     }
   }
   elseif(is_single()){
      if (!$obj->get_display_settings_post()) return;
+
+     $meta_value = get_post_meta (get_the_ID (), '_adinserter_block_exceptions', true);
+     $selected_blocks = explode (",", $meta_value);
+
+     $enabled_on_text = $obj->get_ad_enabled_on_which_posts ();
+     if ($enabled_on_text == AD_ENABLED_ON_ALL_EXCEPT_ON_SELECTED) {
+       if (in_array ($obj->number, $selected_blocks)) return;
+     }
+     elseif ($enabled_on_text == AD_ENABLED_ONLY_ON_SELECTED) {
+       if (!in_array ($obj->number, $selected_blocks)) return;
+     }
   }
   elseif(is_category()){
      if (!$obj->get_display_settings_category()) return;
@@ -1527,6 +1899,10 @@ function ai_widget_draw ($block, $obj, $args, $title = '') {
   }
 
   if(ai_isCategoryAllowed($obj->get_ad_block_cat(), $obj->get_ad_block_cat_type())==false){
+     return;
+  }
+
+  if(ai_isTagAllowed($obj->get_ad_block_tag(), $obj->get_ad_block_tag_type())==false){
      return;
   }
 
