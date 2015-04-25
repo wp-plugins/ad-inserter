@@ -238,7 +238,7 @@ function print_settings_form (){
   </div>
   <div style="padding:0px 8px 16px 16px;">
      Categories:&nbsp;
-     <input style="border-radius: 5px;" title="Comma separated category names" type="text" name="<?php echo $obj->option_ad_category_list; ?>" value="<?php echo $obj->get_ad_block_cat() ?>" size="60" maxlength="500"/>&nbsp;&nbsp;&nbsp;
+     <input style="border-radius: 5px;" title="Comma separated category names - if category name contains commas use category slug instead" type="text" name="<?php echo $obj->option_ad_category_list; ?>" value="<?php echo $obj->get_ad_block_cat() ?>" size="60" maxlength="500"/>&nbsp;&nbsp;&nbsp;
      <input style="border-radius: 5px;" type="radio" name="<?php echo $obj->option_ad_category_list_type; ?>" value="<?php echo AD_BLACK_LIST; ?>" <?php if ($obj->get_ad_block_cat_type() == AD_BLACK_LIST) echo 'checked '; ?>/> <?php echo AD_BLACK_LIST; ?>&nbsp;&nbsp;
      <input style="border-radius: 5px;" type="radio" name="<?php echo $obj->option_ad_category_list_type; ?>" value="<?php echo AD_WHITE_LIST; ?>" <?php if ($obj->get_ad_block_cat_type() == AD_WHITE_LIST) echo 'checked '; ?>/> <?php echo AD_WHITE_LIST; ?>
   </div>
