@@ -129,8 +129,9 @@ function print_settings_form (){
         <option value="<?php echo AD_SELECT_AFTER_EXCERPT; ?>" <?php echo ($obj->get_append_type()==AD_SELECT_AFTER_EXCERPT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_AFTER_EXCERPT; ?></option>
         <option value="<?php echo AD_SELECT_WIDGET; ?>" <?php echo ($obj->get_append_type()==AD_SELECT_WIDGET) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_WIDGET; ?></option>
      </select>
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-     Display block for
+
+     <div style="float: right;">
+        For
      <select style="border-radius: 5px; margin-bottom: 3px;" id="display-for-users-<?php echo $ad_number; ?>" name="<?php echo $obj->option_display_for_users; ?>" style="width:160px">
         <option value="<?php echo AD_DISPLAY_ALL_USERS; ?>" <?php echo ($obj->get_display_for_users()==AD_DISPLAY_ALL_USERS) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DISPLAY_ALL_USERS; ?></option>
         <option value="<?php echo AD_DISPLAY_LOGGED_IN_USERS; ?>" <?php echo ($obj->get_display_for_users()==AD_DISPLAY_LOGGED_IN_USERS) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DISPLAY_LOGGED_IN_USERS; ?></option>
@@ -148,7 +149,8 @@ function print_settings_form (){
      </select>
      devices
   </div>
-
+  </div>
+  <div style="clear: both;"></div>
   <div style="padding:0px 0px 8px 16px;">
      Block Alignment and Style:&nbsp;&nbsp;&nbsp;
      <select style="border-radius: 5px;" id="block-alignment-<?php echo $ad_number; ?>" name="<?php echo $obj->option_float_type; ?>" style="width:120px">
@@ -161,26 +163,34 @@ function print_settings_form (){
         <option value="<?php echo AD_ALIGNMENT_FLOAT_LEFT; ?>" <?php echo ($obj->get_alignment_type()==AD_ALIGNMENT_FLOAT_LEFT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ALIGNMENT_FLOAT_LEFT; ?></option>
         <option value="<?php echo AD_ALIGNMENT_FLOAT_RIGHT; ?>" <?php echo ($obj->get_alignment_type()==AD_ALIGNMENT_FLOAT_RIGHT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ALIGNMENT_FLOAT_RIGHT; ?></option>
      </select>
-     <span id="custom-css-<?php echo $ad_number; ?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CSS code: <input style="border-radius: 5px;" type="text" name="<?php echo $obj->option_custom_css; ?>" value="<?php echo $obj->get_custom_css() ?>" size="53" maxlength="160" title="Custom CSS code for wrapping div" /></span>
+     <span id="custom-css-<?php echo $ad_number; ?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CSS code: <input style="border-radius: 5px;" type="text" name="<?php echo $obj->option_custom_css; ?>" value="<?php echo $obj->get_custom_css() ?>" size="52" maxlength="160" title="Custom CSS code for wrapping div" /></span>
   </div>
 
   <div style="padding:8px 8px 8px 8px; margin-left: 10px; border: 1px solid #ddd; border-radius: 5px;">
-     <div style="display: inline-block; vertical-align: top; margin-right: 20px; width: 180px;">
-       Block enabled
+     <div id="enabled-pages-<?php echo $ad_number; ?>" style="display: inline-block; vertical-align: top; float: right;">
+       <div style="display: inline-block; margin-right: 20px; margin-top: 4px;">
+          <input style="border-radius: 5px; margin-left: 10px;" type="hidden" name="<?php echo $obj->option_widget_settings_home; ?>" value="0" />
+          <input style="border-radius: 5px; margin-left: 10px;" type="checkbox" name="<?php echo $obj->option_widget_settings_home; ?>" value="1" <?php if ($obj->get_display_settings_home()==AD_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_widget_settings_home; ?>">Homepage</label>
+
+          <input style="border-radius: 5px; margin-left: 25px;" type="hidden" name="<?php echo $obj->option_widget_settings_category; ?>" value="0" />
+          <input style="border-radius: 5px; margin-left: 25px;" type="checkbox" name="<?php echo $obj->option_widget_settings_category; ?>" value="1" <?php if ($obj->get_display_settings_category()==AD_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_widget_settings_category; ?>">Category pages</label>
+
+          <br /><br />
+
+          <input style="border-radius: 5px; margin-left: 10px;" type="hidden" name="<?php echo $obj->option_widget_settings_search; ?>" value="0" />
+          <input style="border-radius: 5px; margin-left: 10px;" type="checkbox" name="<?php echo $obj->option_widget_settings_search; ?>" value="1" <?php if ($obj->get_display_settings_search()==AD_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_widget_settings_search; ?>">Search pages</label>
+
+          <input style="border-radius: 5px; margin-left: 10px;" type="hidden" name="<?php echo $obj->option_widget_settings_archive; ?>" value="0" />
+          <input style="border-radius: 5px; margin-left: 10px;" type="checkbox" name="<?php echo $obj->option_widget_settings_archive; ?>" value="1" <?php if ($obj->get_display_settings_archive()==AD_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_widget_settings_archive; ?>">Archive pages</label>
+       </div>
      </div>
 
-     <div style="float: right; margin-left: 10px; width: 220px;">
-       Default display for posts and pages
-       <hr />
-       Exceptions can be configured on individual Post or Page editor pages
-     </div>
-
-     <div style="display: inline-block; vertical-align: top; margin-right: 10px; margin-bottom: 10px;">
+     <div style="display: inline-block; vertical-align: top; margin-right: 10px;">
 
       <input style="border-radius: 5px;" type="hidden" name="<?php echo $obj->option_widget_settings_post; ?>" value="0" />
       <input style="border-radius: 5px;" type="checkbox" name="<?php echo $obj->option_widget_settings_post; ?>" value="1" <?php if ($obj->get_display_settings_post()==AD_SETTINGS_CHECKED) echo 'checked '; ?>>
 
-      <select style="border-radius: 5px; margin: 0 0 3px 10px;" id="enabled-on-which-posts-<?php echo $ad_number; ?>" name="<?php echo $obj->option_enabled_on_which_posts; ?>" style="width:160px">
+      <select style="border-radius: 5px; margin: 0 0 3px 10px;" title="Default display for posts and pages, exceptions can be configured on individual Post or Page editor pages" id="enabled-on-which-posts-<?php echo $ad_number; ?>" name="<?php echo $obj->option_enabled_on_which_posts; ?>" style="width:160px">
          <option value="<?php echo AD_ENABLED_ON_ALL; ?>" <?php echo ($obj->get_ad_enabled_on_which_posts()==AD_ENABLED_ON_ALL) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ENABLED_ON_ALL; ?></option>
          <option value="<?php echo AD_ENABLED_ON_ALL_EXCEPT_ON_SELECTED; ?>" <?php echo ($obj->get_ad_enabled_on_which_posts()==AD_ENABLED_ON_ALL_EXCEPT_ON_SELECTED) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ENABLED_ON_ALL_EXCEPT_ON_SELECTED; ?></option>
          <option value="<?php echo AD_ENABLED_ONLY_ON_SELECTED; ?>" <?php echo ($obj->get_ad_enabled_on_which_posts()==AD_ENABLED_ONLY_ON_SELECTED) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ENABLED_ONLY_ON_SELECTED; ?></option>
@@ -192,7 +202,7 @@ function print_settings_form (){
       <input style="border-radius: 5px;" type="hidden" name="<?php echo $obj->option_widget_settings_page; ?>" value="0" />
       <input style="border-radius: 5px;" type="checkbox" name="<?php echo $obj->option_widget_settings_page; ?>" value="1" <?php if ($obj->get_display_settings_page()==AD_SETTINGS_CHECKED) echo 'checked '; ?>>
 
-      <select style="border-radius: 5px; margin: 0 0 3px 10px;" id="enabled-on-which-pages-<?php echo $ad_number; ?>" name="<?php echo $obj->option_enabled_on_which_pages; ?>" style="width:160px">
+      <select style="border-radius: 5px; margin: 0 0 3px 10px;" title="Default display for posts and pages, exceptions can be configured on individual Post or Page editor pages" id="enabled-on-which-pages-<?php echo $ad_number; ?>" name="<?php echo $obj->option_enabled_on_which_pages; ?>" style="width:160px">
          <option value="<?php echo AD_ENABLED_ON_ALL; ?>" <?php echo ($obj->get_ad_enabled_on_which_pages()==AD_ENABLED_ON_ALL) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ENABLED_ON_ALL; ?></option>
          <option value="<?php echo AD_ENABLED_ON_ALL_EXCEPT_ON_SELECTED; ?>" <?php echo ($obj->get_ad_enabled_on_which_pages()==AD_ENABLED_ON_ALL_EXCEPT_ON_SELECTED) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ENABLED_ON_ALL_EXCEPT_ON_SELECTED; ?></option>
          <option value="<?php echo AD_ENABLED_ONLY_ON_SELECTED; ?>" <?php echo ($obj->get_ad_enabled_on_which_pages()==AD_ENABLED_ONLY_ON_SELECTED) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_ENABLED_ONLY_ON_SELECTED; ?></option>
@@ -200,26 +210,6 @@ function print_settings_form (){
 
       &nbsp;&nbsp;<label for="<?php echo $obj->option_widget_settings_page; ?>">Pages</label>
 
-     </div>
-     <br />
-
-     <div id="enabled-pages-<?php echo $ad_number; ?>" style="display: inline-block; vertical-align: top; margin-right: 20px;">
-       <div style="display: inline-block; vertical-align: top; margin-right: 20px; width: 180px;">
-         Excerpt, Before Title, Widget and PHP call enabled also on:
-       </div>
-       <div style="display: inline-block; margin-right: 20px; margin-top: 16px;">
-          <input style="border-radius: 5px;" type="hidden" name="<?php echo $obj->option_widget_settings_home; ?>" value="0" />
-          <input style="border-radius: 5px;" type="checkbox" name="<?php echo $obj->option_widget_settings_home; ?>" value="1" <?php if ($obj->get_display_settings_home()==AD_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_widget_settings_home; ?>">Homepage</label>
-
-          <input style="border-radius: 5px; margin-left: 10px;" type="hidden" name="<?php echo $obj->option_widget_settings_category; ?>" value="0" />
-          <input style="border-radius: 5px; margin-left: 10px;" type="checkbox" name="<?php echo $obj->option_widget_settings_category; ?>" value="1" <?php if ($obj->get_display_settings_category()==AD_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_widget_settings_category; ?>">Category pages</label>
-
-          <input style="border-radius: 5px; margin-left: 10px;" type="hidden" name="<?php echo $obj->option_widget_settings_search; ?>" value="0" />
-          <input style="border-radius: 5px; margin-left: 10px;" type="checkbox" name="<?php echo $obj->option_widget_settings_search; ?>" value="1" <?php if ($obj->get_display_settings_search()==AD_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_widget_settings_search; ?>">Search pages</label>
-
-          <input style="border-radius: 5px; margin-left: 10px;" type="hidden" name="<?php echo $obj->option_widget_settings_archive; ?>" value="0" />
-          <input style="border-radius: 5px; margin-left: 10px;" type="checkbox" name="<?php echo $obj->option_widget_settings_archive; ?>" value="1" <?php if ($obj->get_display_settings_archive()==AD_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_widget_settings_archive; ?>">Archive pages</label>
-       </div>
      </div>
   </div>
 
@@ -249,15 +239,15 @@ function print_settings_form (){
      <input style="border-radius: 5px;" type="radio" name="<?php echo $obj->option_ad_tag_list_type; ?>" value="<?php echo AD_WHITE_LIST; ?>" <?php if ($obj->get_ad_block_tag_type() == AD_WHITE_LIST) echo 'checked '; ?>/> <?php echo AD_WHITE_LIST; ?>
   </div>
 
-  <div id="paragraph-settings-<?php echo $ad_number; ?>" style="padding:8px 8px 0 8px; margin: 0 0 10px 10px; border: 1px solid #ddd; border-radius: 5px; height: 65px;">
+  <div id="paragraph-settings-<?php echo $ad_number; ?>" style="padding:8px 8px 0 8px; margin: 0 0 10px 10px; border: 1px solid #ddd; border-radius: 5px;">
     <div style="display: inline-block; vertical-align: ">
       <div style="margin: 3px 0 3px 0; ">
         Minimum number of paragraphs to show this block <input style="border-radius: 5px;" type="text" name="<?php echo $obj->option_paragraph_number_minimum; ?>" value="<?php echo $obj->get_paragraph_number_minimum() ?>" size="2" maxlength="3"/>&nbsp;&nbsp;&nbsp;
-        Skip paragraphs that contain <input style="border-radius: 5px;" title="Comma separated text" type="text" name="<?php echo $obj->option_paragraph_text; ?>" value="<?php echo $obj->get_paragraph_text() ?>" size="28" maxlength="100"/>
+        Skip paragraphs that contain <input style="border-radius: 5px;" title="Comma separated text" type="text" name="<?php echo $obj->option_paragraph_text; ?>" value="<?php echo $obj->get_paragraph_text() ?>" size="24" maxlength="100"/>
       </div>
       <div style="margin: 3px 0 3px 0; ">
-        Paragraph number <input style="border-radius: 5px;" type="text" name="<?php echo $obj->option_paragraph_number; ?>" value="<?php echo $obj->get_paragraph_number() ?>" size="2" maxlength="4"/> &nbsp;&nbsp;&nbsp;&nbsp;0 means random, value between 0 and 1 means relative position.&nbsp;&nbsp;&nbsp;&nbsp; Counting
-        <select style="border-radius: 5px;" name="<?php echo $obj->option_direction_type; ?>" style="width:120px">
+        Paragraph number <input style="border-radius: 5px;" type="text" name="<?php echo $obj->option_paragraph_number; ?>" value="<?php echo $obj->get_paragraph_number() ?>" size="2" maxlength="4"/> 0 means random, value between 0 and 1 means relative position. Counting
+        <select style="border-radius: 5px;" name="<?php echo $obj->option_direction_type; ?>">
           <option value="<?php echo AD_DIRECTION_FROM_TOP; ?>" <?php echo ($obj->get_direction_type()==AD_DIRECTION_FROM_TOP) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DIRECTION_FROM_TOP; ?></option>
           <option value="<?php echo AD_DIRECTION_FROM_BOTTOM; ?>" <?php echo ($obj->get_direction_type()==AD_DIRECTION_FROM_BOTTOM) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DIRECTION_FROM_BOTTOM; ?></option>
         </select>
@@ -265,7 +255,7 @@ function print_settings_form (){
     </div>
   </div>
 
-  <div id="excerpt-settings-<?php echo $ad_number; ?>" style="padding:8px 8px 8px 8px; margin: 0 0 10px 10px; border: 1px solid #ddd; border-radius: 5px; height: 35px;">
+  <div id="excerpt-settings-<?php echo $ad_number; ?>" style="padding:8px 8px 8px 8px; margin: 0 0 10px 10px; border: 1px solid #ddd; border-radius: 5px;">
     Excerpt number <input style="border-radius: 5px;" type="text" name="<?php echo $obj->option_excerpt_number; ?>" value="<?php echo $obj->get_excerpt_number() ?>" size="2" maxlength="2"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 means all excerpts.
   </div>
 
