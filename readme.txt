@@ -261,6 +261,7 @@ ad_code
 1. Settings for one code block. Up to 16 blocks can be configured.
 2. Settings for header code
 3. Ad Inserter settings
+3. Post / Page Ad Inserter Exceptions
 
 
 == Changelog ==
