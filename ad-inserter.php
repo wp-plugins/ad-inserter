@@ -20,6 +20,7 @@ Ad Inserter 1.5.3 - 25 April 2015
 - Fixed Security Vulnerability: Plugin was vulnerable to a combination of CSRF/XSS attacks (credits to Kaustubh Padwad)
 - Fixed bug: In some cases deprecated widgets warning reported errors
 - Added support to white-list or black-list tags
+- Added support for category slugs in category list
 - Added support for relative paragraph positions
 - Added support for individual code block exceptions on post/page editor page
 
@@ -1159,7 +1160,7 @@ function ai_isCategoryAllowed ($categories, $cat_type){
 
   $categories = trim (strtolower ($categories));
 
-  //echo ' listed categories: ' . $categories;
+//  echo ' listed categories: ' . $categories, "<br />\n";
 
   if ($cat_type == AD_BLACK_LIST) {
 
@@ -1175,11 +1176,14 @@ function ai_isCategoryAllowed ($categories, $cat_type){
 
       foreach($cats_listed as $cat_disabled){
 
-        $post_category_name = strtolower($post_category->cat_name);
+        $cat_disabled = trim ($cat_disabled);
+
+        $post_category_name = strtolower ($post_category->cat_name);
+        $post_category_slug = strtolower ($post_category->slug);
 
         //echo '<br/>Category disabled loop : ' . $cat_disabled . '<br/> category name : ' . $post_category_name;
 
-        if($post_category_name==trim($cat_disabled)){
+        if ($post_category_name == $cat_disabled || $post_category_slug == $cat_disabled) {
           //echo ' match';
           return false;
         }else{
@@ -1203,15 +1207,18 @@ function ai_isCategoryAllowed ($categories, $cat_type){
 
         foreach($cats_listed as $cat_enabled){
 
+          $cat_enabled = trim ($cat_enabled);
+
           $post_category_name = strtolower ($post_category->cat_name);
+          $post_category_slug = strtolower ($post_category->slug);
 
-          //echo '<br/>Category enabled loop : ' . $cat_enabled . '<br/> category name : ' . $post_category_name;
+//          echo '<br/>Category enabled loop : ' . $cat_enabled . '<br/> category name : ' . $post_category_name . '<br/> category slug: ' . $post_category_slug;
 
-          if($post_category_name == trim ($cat_enabled)){
-            //echo ' match';
+          if ($post_category_name == $cat_enabled || $post_category_slug == $cat_enabled) {
+//            echo '#match';
             return true;
           }else{
-            //echo ' not match';
+//            echo '#no match';
           }
         }
       }

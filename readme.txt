@@ -71,9 +71,12 @@ Do not display ad if the number of paragraphs is below limit (used only for posi
 
 Display ad only for posts published after N days.
 
-Do not display ads to users from certain referrers (domains) e.g technorati.com, facebook.com,... (black list) or display ads only for certain referrers (white list). **Leave referrers list empty and set it to Black list to show ads for all referrers.**
+Do not display ads to users from certain referrers (domains) e.g technorati.com, facebook.com,... (black list) or display ads only for certain referrers (white list).
+**Leave referrers list empty and set it to Black list to show ads for all referrers.**
 
-Do not display ads in certain caregories e.g sport, news, science,... (black list) or display ads only in certain categories (white list). **Leave category list empty and set it to Black list to show ads in all categories.**
+Do not display ads in certain caregories e.g sport, news, science,... (black list) or display ads only in certain categories (white list).
+**Leave category list empty and set it to Black list to show ads in all categories.**
+**WARNING:** If category name contains commas use category slug instead.
 
 Do not display ads in posts with certain tags (black list) or display ads only in posts with certain tags (white list). **Leave tag list empty and set it to Black list to show ads for all tags.**
 
@@ -266,6 +269,7 @@ ad_code
 * Fixed Security Vulnerability: Plugin was vulnerable to a combination of CSRF/XSS attacks (credits to Kaustubh Padwad)
 * Fixed bug: In some cases deprecated widgets warning reported errors
 * Added support to white-list or black-list tags
+* Added support for category slugs in category list
 * Added support for relative paragraph positions
 * Added support for individual code block exceptions on post/page editor page
 
@@ -382,6 +386,7 @@ ad_code
 Fixed Security Vulnerability (CSRF/XSS attacks);
 Fixed bug where deprecated widgets warning reported errors;
 Added support to white-list or black-list tags;
+Added support for category slugs in category list;
 Added support for relative paragraph positions;
 Added support for individual code block exceptions on post/page editor page
 
