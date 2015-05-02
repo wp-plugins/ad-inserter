@@ -7,7 +7,7 @@ var shSettings = {
   "full_line_selection":"1",
   "show_line_numbers":"0"};
 
-function SyntaxHighlight (id, settings) {
+function SyntaxHighlight (id, block, settings) {
   var textarea, editor, form, session, editDiv;
 
   this.textarea = textarea = jQuery(id);
@@ -26,7 +26,7 @@ function SyntaxHighlight (id, settings) {
 //    height: textarea.height(),
     height: 384,
     'class': textarea.attr('class'),
-    'id':  'editor_'+block
+    'id':  'editor_' + block
   }).insertBefore (textarea);
 
   textarea.css('display', 'none');
@@ -37,7 +37,11 @@ function SyntaxHighlight (id, settings) {
 
   // copy back to textarea on form submit...
   form.submit (function () {
-    textarea.val (session.getValue());
+    var block = textarea.attr ("id").replace ("block_","");
+    var editor_disabled = jQuery("#simple-editor-" + block).is(":checked");
+    if (!editor_disabled) {
+      textarea.val (session.getValue());
+    }
   });
 
   session.setMode ("ace/mode/html");
@@ -102,8 +106,28 @@ jQuery(document).ready(function($) {
   }
 
   for (block = 1; block <= 18; block ++) {
-    syntax_highlighter = new SyntaxHighlight ('#block_' + block, shSettings);
+    syntax_highlighter = new SyntaxHighlight ('#block_' + block, block, shSettings);
     syntax_highlighter.editor.setPrintMarginColumn (1000);
+
+    $('input#simple-editor-' + block).change (function () {
+
+      block = $(this).attr ("id").replace ("simple-editor-","");
+      var editor_disabled = $(this).is(":checked");
+      var editor = ace.edit ("editor_" + block);
+      var textarea = $("#block_" + block);
+      var ace_editor = $("#editor_" + block);
+
+      if (editor_disabled) {
+        textarea.val (editor.session.getValue());
+        textarea.css ('display', 'block');
+        ace_editor.css ('display', 'none');
+      } else {
+          editor.session.setValue (textarea.val ())
+          editor.renderer.updateFull();
+          ace_editor.css ('display', 'block');
+          textarea.css ('display', 'none');
+        }
+    });
   }
 
   $('#ai-tabs').tabs();
@@ -159,4 +183,5 @@ jQuery(document).ready(function($) {
   }
 
 });
+
 

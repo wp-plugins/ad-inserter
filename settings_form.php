@@ -108,6 +108,10 @@ function print_settings_form (){
    <input type="checkbox" style="border-radius: 5px;" name="<?php echo $obj->option_process_php; ?>" value="1" id="process-php-<?php echo $ad_number; ?>" <?php if ($obj->get_process_php () == AD_SETTINGS_CHECKED) echo 'checked '; ?>> <label for="<?php echo $obj->option_process_php; ?>" title="Process PHP code in block">Process PHP</label>
   </div>
 
+  <div style="display: inline-block; padding: 1px 10px; float: right;">
+    <input type="checkbox" style="border-radius: 5px;" name="simple-editor-<?php echo $ad_number; ?>" value="0" id="simple-editor-<?php echo $ad_number; ?>"> <label for="simple-editor-<?php echo $ad_number; ?>" title="Simple editor">Simple editor</label>
+  </div>
+
   <div style="padding-left:16px;">
       HTML / Javascript / PHP code (separate rotating versions with |rotate| )
   </div>
@@ -307,6 +311,10 @@ function print_settings_form (){
    <label for="<?php echo $adH->option_process_php; ?>" title="Process PHP code">Process PHP</label>
   </div>
 
+  <div style="display: inline-block; padding: 1px 10px; float: right;">
+    <input type="checkbox" style="border-radius: 5px;" name="simple-editor-17" value="0" id="simple-editor-17"> <label for="simple-editor-17" title="Simple editor">Simple editor</label>
+  </div>
+
   <div style="padding-left:16px;">
       HTML / Javascript / CSS / PHP code
   </div>
@@ -340,6 +348,10 @@ function print_settings_form (){
    <input style="border-radius: 5px;" type="hidden"   name="<?php echo $adF->option_process_php; ?>" value="0" />
    <input style="border-radius: 5px;" type="checkbox" name="<?php echo $adF->option_process_php; ?>" value="1" id="process-php-18" <?php if ($adF->get_process_php () == AD_SETTINGS_CHECKED) echo 'checked '; ?>>
    <label for="<?php echo $adF->option_process_php; ?>" title="Process PHP code">Process PHP</label>
+  </div>
+
+  <div style="display: inline-block; padding: 1px 10px; float: right;">
+    <input type="checkbox" style="border-radius: 5px;" name="simple-editor-18" value="0" id="simple-editor-18"> <label for="simple-editor-18" title="Simple editor">Simple editor</label>
   </div>
 
   <div style="padding-left:16px;">

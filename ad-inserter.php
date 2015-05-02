@@ -23,6 +23,7 @@ Ad Inserter 1.5.3 - 2 May 2015
 - Added support for relative paragraph positions
 - Added support for individual code block exceptions on post/page editor page
 - Added support for minimum number of words
+- Added support to disable syntax highlighting editor (to allow using copy/paste on mobile devices)
 
 Ad Inserter 1.5.2 - 15 March 2015
 - Fixed bug: Widget titles might be displayed at wrong sidebar positions

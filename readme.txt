@@ -105,6 +105,8 @@ Wrapping divs for code blocks have 'code-block' and 'code-block-N' classes which
 
 To configure syntax highlighting go to Ad Inserter Settings (tab #) and choose theme.
 
+**WARNING:** Test selection, Copy and Paste functions with the syntax highlighting editor do not work on mobile devices. If you need these functions you can temporarily swich to **Simple editor** using the checkbox above the code box.
+
 == Installation ==
 
 Automatic installation: Go to Wordpress Plugins menu, click Add New button, search for "Ad Inserter" and click Install Now.
@@ -274,6 +276,7 @@ ad_code
 * Added support for relative paragraph positions
 * Added support for individual code block exceptions on post/page editor page
 * Added support for minimum number of words
+* Added support to disable syntax highlighting editor (to allow using copy/paste on mobile devices)
 
 = 1.5.2 =
 * Fixed bug: Widget titles might be displayed at wrong sidebar positions
@@ -391,7 +394,8 @@ Added support to white-list or black-list tags;
 Added support for category slugs in category list;
 Added support for relative paragraph positions;
 Added support for individual code block exceptions on post/page editor page;
-Added support for minimum number of words
+Added support for minimum number of words;
+Added support to disable syntax highlighting editor (to allow using copy/paste on mobile devices)
 
 = 1.5.2 =
 Fixed bug: Widget titles might be displayed at wrong sidebar positions;
