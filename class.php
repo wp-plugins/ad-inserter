@@ -49,6 +49,7 @@ abstract class ai_CodeBlock extends ai_BaseCodeBlock {
     var $option_append_type;
     var $option_paragraph_number;
     var $option_paragraph_number_minimum;
+    var $option_minimum_words;
     var $option_excerpt_number;
     var $option_direction_type;
     var $option_float_type;
@@ -85,6 +86,7 @@ abstract class ai_CodeBlock extends ai_BaseCodeBlock {
       $this->wp_options[$this->option_append_type]              = AD_SELECT_NONE;
       $this->wp_options[$this->option_paragraph_number]         = AD_ZERO_DATA;
       $this->wp_options[$this->option_paragraph_number_minimum] = AD_ZERO_DATA;
+      $this->wp_options[$this->option_minimum_words]            = AD_ZERO_DATA;
       $this->wp_options[$this->option_excerpt_number]           = AD_ZERO_DATA;
       $this->wp_options[$this->option_direction_type]           = AD_DIRECTION_FROM_TOP;
       $this->wp_options[$this->option_float_type]               = AD_ALIGNMENT_NONE;
@@ -126,6 +128,12 @@ abstract class ai_CodeBlock extends ai_BaseCodeBlock {
 
    public function get_paragraph_number_minimum(){
      $option = $this->wp_options [$this->option_paragraph_number_minimum];
+     if ($option == '') $option = AD_ZERO_DATA;
+     return $option;
+    }
+
+   public function get_minimum_words(){
+     $option = $this->wp_options [$this->option_minimum_words];
      if ($option == '') $option = AD_ZERO_DATA;
      return $option;
     }
@@ -501,6 +509,7 @@ class ai_Block extends ai_CodeBlock {
    const OPTION_APPEND_TYPE               = "ad#_displayType";
    const OPTION_PARAGRAPH_NUMBER          = "ad#_paragraphNumber";
    const OPTION_PARAGRAPH_NUMBER_MINIMUM  = "ad#_minimum_paragraphs";
+   const OPTION_MINIMUM_WORDS             = "ad#_minimum_words";
    const OPTION_EXCERPT_NUMBER            = "ad#_excerptNumber";
    const OPTION_DIRECTION_TYPE            = "ad#_directionType";
    const OPTION_FLOAT_TYPE                = "ad#_floatType";
@@ -537,6 +546,7 @@ class ai_Block extends ai_CodeBlock {
       $this->option_append_type               = str_replace ("#", $number, self::OPTION_APPEND_TYPE);
       $this->option_paragraph_number          = str_replace ("#", $number, self::OPTION_PARAGRAPH_NUMBER);
       $this->option_paragraph_number_minimum  = str_replace ("#", $number, self::OPTION_PARAGRAPH_NUMBER_MINIMUM);
+      $this->option_minimum_words             = str_replace ("#", $number, self::OPTION_MINIMUM_WORDS);
       $this->option_excerpt_number            = str_replace ("#", $number, self::OPTION_EXCERPT_NUMBER);
       $this->option_direction_type            = str_replace ("#", $number, self::OPTION_DIRECTION_TYPE);
       $this->option_float_type                = str_replace ("#", $number, self::OPTION_FLOAT_TYPE);

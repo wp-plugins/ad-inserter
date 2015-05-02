@@ -10,7 +10,6 @@ Plugin URI: http://igorfuna.com/software/web/ad-inserter-wordpress-plugin
 
 /*
 TO DO
-- minimum number of words
 */
 
 /*
@@ -23,6 +22,7 @@ Ad Inserter 1.5.3 - 25 April 2015
 - Added support for category slugs in category list
 - Added support for relative paragraph positions
 - Added support for individual code block exceptions on post/page editor page
+- Added support for minimum number of words
 
 Ad Inserter 1.5.2 - 15 March 2015
 - Fixed bug: Widget titles might be displayed at wrong sidebar positions
@@ -94,7 +94,7 @@ Ad Inserter 1.2.1 - 19 November 2013
 Ad Inserter 1.2.0 - 15/05/2012
 - Fixed bug: manual tags in posts lists were not removed
 - Added position Before title
-- Added support for minimum nuber of paragraphs
+- Added support for minimum number of paragraphs
 - Added support for page display options for Widget and Before title positions
 - Alignment now works for all display positions
 
@@ -1501,7 +1501,11 @@ function ai_generateBeforeParagraph ($block, $content, $obj){
     $position --;
   } else $position --;
 
-  if (sizeof ($paragraph_positions) >= $obj->get_paragraph_number_minimum()) {
+  $text = str_replace (array ("\n", "  "), " ", $content);
+  $text = strip_tags ($text);
+  $number_of_words = sizeof (explode (" ", $text));
+
+  if (sizeof ($paragraph_positions) >= $obj->get_paragraph_number_minimum() && $number_of_words >= $obj->get_minimum_words()) {
     if (sizeof ($paragraph_positions) > $position) {
       $content_position = $paragraph_positions [$position];
 
@@ -1558,7 +1562,11 @@ function ai_generateAfterParagraph ($block, $content, $obj, $before = true){
     $position --;
   } else $position --;
 
-  if (sizeof ($paragraph_positions) >= $obj->get_paragraph_number_minimum()) {
+  $text = str_replace (array ("\n", "  "), " ", $content);
+  $text = strip_tags ($text);
+  $number_of_words = sizeof (explode (" ", $text));
+
+  if (sizeof ($paragraph_positions) >= $obj->get_paragraph_number_minimum() && $number_of_words >= $obj->get_minimum_words()) {
     if (sizeof ($paragraph_positions) > $position) {
       $content_position = $paragraph_positions [$position];
 

@@ -273,6 +273,7 @@ ad_code
 * Added support for category slugs in category list
 * Added support for relative paragraph positions
 * Added support for individual code block exceptions on post/page editor page
+* Added support for minimum number of words
 
 = 1.5.2 =
 * Fixed bug: Widget titles might be displayed at wrong sidebar positions
@@ -344,7 +345,7 @@ ad_code
 = 1.2.0 =
 * Fixed bug: manual tags in posts lists were not removed
 * Added position Before title
-* Added support for minimum nuber of paragraphs
+* Added support for minimum number of paragraphs
 * Added support for page display options for Widget and Before title positions
 * Alignment now works for all display positions
 
@@ -389,7 +390,8 @@ Fixed bug where deprecated widgets warning reported errors;
 Added support to white-list or black-list tags;
 Added support for category slugs in category list;
 Added support for relative paragraph positions;
-Added support for individual code block exceptions on post/page editor page
+Added support for individual code block exceptions on post/page editor page;
+Added support for minimum number of words
 
 = 1.5.2 =
 Fixed bug: Widget titles might be displayed at wrong sidebar positions;
@@ -461,7 +463,7 @@ Fixed problem: || in ad code (e.g. asynchronous code for AdSense) causes only pa
 = 1.2.0 =
 Fixed bug: manual tags in posts lists were not removed,
 Added position Before title,
-Added support for minimum nuber of paragraphs,
+Added support for minimum number of paragraphs,
 Added support for page display options for Widget and Before title positions,
 Alignment now works for all display positions,
 

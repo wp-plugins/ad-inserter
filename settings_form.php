@@ -241,16 +241,19 @@ function print_settings_form (){
 
   <div id="paragraph-settings-<?php echo $ad_number; ?>" style="padding:8px 8px 0 8px; margin: 0 0 10px 10px; border: 1px solid #ddd; border-radius: 5px;">
     <div style="display: inline-block; vertical-align: ">
-      <div style="margin: 3px 0 3px 0; ">
-        Minimum number of paragraphs to show this block <input style="border-radius: 5px;" type="text" name="<?php echo $obj->option_paragraph_number_minimum; ?>" value="<?php echo $obj->get_paragraph_number_minimum() ?>" size="2" maxlength="3"/>&nbsp;&nbsp;&nbsp;
-        Skip paragraphs that contain <input style="border-radius: 5px;" title="Comma separated text" type="text" name="<?php echo $obj->option_paragraph_text; ?>" value="<?php echo $obj->get_paragraph_text() ?>" size="24" maxlength="100"/>
-      </div>
-      <div style="margin: 3px 0 3px 0; ">
+      <div style="margin: 4px 0 4px 0; ">
         Paragraph number <input style="border-radius: 5px;" type="text" name="<?php echo $obj->option_paragraph_number; ?>" value="<?php echo $obj->get_paragraph_number() ?>" size="2" maxlength="4"/> 0 means random, value between 0 and 1 means relative position. Counting
         <select style="border-radius: 5px;" name="<?php echo $obj->option_direction_type; ?>">
           <option value="<?php echo AD_DIRECTION_FROM_TOP; ?>" <?php echo ($obj->get_direction_type()==AD_DIRECTION_FROM_TOP) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DIRECTION_FROM_TOP; ?></option>
           <option value="<?php echo AD_DIRECTION_FROM_BOTTOM; ?>" <?php echo ($obj->get_direction_type()==AD_DIRECTION_FROM_BOTTOM) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DIRECTION_FROM_BOTTOM; ?></option>
         </select>
+      </div>
+      <div style="margin: 4px 0 4px 0; ">
+        Minimum number of paragraphs <input style="border-radius: 5px;" type="text" name="<?php echo $obj->option_paragraph_number_minimum; ?>" value="<?php echo $obj->get_paragraph_number_minimum() ?>" size="2" maxlength="3"/>&nbsp;&nbsp;&nbsp;
+        Minimum number of words <input style="border-radius: 5px;" type="text" name="<?php echo $obj->option_minimum_words; ?>" value="<?php echo $obj->get_minimum_words() ?>" size="4" maxlength="5"/>&nbsp;&nbsp;&nbsp;
+      </div>
+      <div style="margin: 4px 0 4px 0; ">
+        Skip paragraphs that contain <input style="border-radius: 5px;" title="Comma separated text" type="text" name="<?php echo $obj->option_paragraph_text; ?>" value="<?php echo $obj->get_paragraph_text() ?>" size="79" maxlength="200"/>
       </div>
     </div>
   </div>
