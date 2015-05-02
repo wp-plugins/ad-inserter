@@ -67,7 +67,7 @@ Block Alignment and Style:
 
 PHP processing: Enabled or Disabled
 
-Do not display ad if the number of paragraphs is below limit (used only for position Before or After selected paragraph).
+Do not display ad if the number of paragraphs or the number of words is below limit (used only for position Before or After selected paragraph).
 
 Display ad only for posts published after N days.
 
