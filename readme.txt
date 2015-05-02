@@ -3,7 +3,7 @@ Contributors: spacetime
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LHGZEMRTR7WB4
 Tags: adsense, amazon, clickbank, ad, ads, html, javascript, php, code, widget, sidebar, rotating, banner, banner rotation, contextual, shortcodes, widgets, header, footer, users, logged in, not logged in, mobile, desktop, phone, tablet, custom css
 Requires at least: 3.0
-Tested up to: 4.2
+Tested up to: 4.2.1
 Stable tag: 1.5.2
 License: GPLv3
 

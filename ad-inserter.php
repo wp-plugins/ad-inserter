@@ -15,7 +15,7 @@ TO DO
 /*
 Change Log
 
-Ad Inserter 1.5.3 - 25 April 2015
+Ad Inserter 1.5.3 - 2 May 2015
 - Fixed Security Vulnerability: Plugin was vulnerable to a combination of CSRF/XSS attacks (credits to Kaustubh Padwad)
 - Fixed bug: In some cases deprecated widgets warning reported errors
 - Added support to white-list or black-list tags
