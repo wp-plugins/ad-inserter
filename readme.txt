@@ -1,9 +1,9 @@
 === Ad Inserter ===
 Contributors: spacetime
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LHGZEMRTR7WB4
-Tags: adsense, amazon, clickbank, ad, ads, html, javascript, php, code, widget, sidebar, rotating, banner, banner rotation, contextual, shortcodes, widgets, header, footer, users, logged in, not logged in, mobile, desktop, phone, tablet, custom css
+Tags: adsense, amazon, clickbank, ad, ads, html, javascript, php, code, widget, sidebar, rotating, banner, banner rotation, contextual, shortcodes, widgets, header, footer, users, logged in, not logged in, mobile, desktop, phone, tablet, custom css, category, tag, filter
 Requires at least: 3.0
-Tested up to: 4.2.1
+Tested up to: 4.2.2
 Stable tag: 1.5.3
 License: GPLv3
 
@@ -263,7 +263,7 @@ ad_code
 1. Settings for one code block. Up to 16 blocks can be configured.
 2. Settings for header code
 3. Ad Inserter settings
-3. Post / Page Ad Inserter Exceptions
+4. Post / Page Ad Inserter Exceptions
 
 
 == Changelog ==
