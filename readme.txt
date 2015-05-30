@@ -80,12 +80,17 @@ Do not display ads in certain caregories e.g sport, news, science,... (black lis
 
 Do not display ads in posts with certain tags (black list) or display ads only in posts with certain tags (white list). **Leave tag list empty and set it to Black list to show ads for all tags.**
 
+Do not display ads on pages with certain urls (black list) or display ads only pages with certain urls (white list). **Leave tag list empty and set it to Black list to show ads on all urls.**
+**WARNING:** Separate urls with SPACES.
+
 For all display positions you can also define Wordpress page types where the ads can be displayed:
 
 *   Posts
 *   Pages
 
 You can also disable ads on certain posts or pages. For each code block on posts or pages you first define default display settings. Then you can define post/page exceptions on the post/page editor page (check Ad Inserter Exceptions meta box below).
+
+For display positions Before Paragraph and After Paragraph it is also possible to count only paragraphs that contain/do not contain certain text. If more than one text is defined (comma separated) and "contain" is selected then the paragraph must contain ALL texts.
 
 For display positions Before Excerpt, After Excerpt, Before Title and Widget you can select additional pages where the ads can be displayed:
 
@@ -94,18 +99,22 @@ For display positions Before Excerpt, After Excerpt, Before Title and Widget you
 *   Search Pages
 *   Archive pages
 
+For display positions Before Excerpt and After Excerpt you can also specify comma separated list of excerpt numbers.
+
 Ad Inserter is perfect for displaying AdSense or Amazon ads. It can also be used to display various versions of <a href="https://support.google.com/adsense/answer/65083?ctx=as2&rd=2&ref_topic=23389">AdSense ads using channels</a> to test which format or color combination performs best.
 
 Support for Special Code Blocks:
 
-*   Header scripts (tab H)
-*   Footer scripts (tab F)
+*   Header scripts (tab #)
+*   Footer scripts (tab #)
 
 Wrapping divs for code blocks have 'code-block' and 'code-block-N' classes which can be used for custom styles. Class name can be changed in Ad Inserter settings.
 
 To configure syntax highlighting go to Ad Inserter Settings (tab #) and choose theme.
 
-**WARNING:** Test selection, Copy and Paste functions with the syntax highlighting editor do not work on mobile devices. If you need these functions you can temporarily swich to **Simple editor** using the checkbox above the code box.
+You can also easily copy settings from one block to another. Click on the Import/Export icon next to block name field. Select and copy encoded settings for the source block to the clipboard and paste them into this field of the destination block. Check the **Import settings** checkbox for the destination block and save settings.
+
+**WARNING:** Text selection, Copy and Paste functions with the syntax highlighting editor do not work on mobile devices. If you need these functions you can temporarily swich to **Simple editor** using the checkbox above the code box.
 
 == Installation ==
 
@@ -268,6 +277,15 @@ ad_code
 
 == Changelog ==
 
+= 1.5.4 =
+* Many code optimizations and cosmetic changes
+* Header and Footer code blocks moved to settings tab (#)
+* Added support to process shortcodes of other plugins used in Ad Inserter code blocks
+* Added support to white-list or black-list individual urls
+* Added support to export and import settings for code blocks
+* Added support to specify excerpts for block insertion
+* Added support to specify text that must be present when counting paragraphs
+
 = 1.5.3 =
 * Fixed Security Vulnerability: Plugin was vulnerable to a combination of CSRF/XSS attacks (credits to Kaustubh Padwad)
 * Fixed bug: In some cases deprecated widgets warning reported errors
@@ -386,6 +404,15 @@ ad_code
 
 
 == Upgrade Notice ==
+
+= 1.5.4 =
+Many code optimizations and cosmetic changes;
+Header and Footer code blocks moved to settings tab (#);
+Added support to process shortcodes of other plugins used in Ad Inserter code blocks;
+Added support to white-list or black-list individual urls;
+Added support to export and import settings for code blocks;
+Added support to specify excerpts for block insertion;
+Added support to specify text that must be present when counting paragraphs
 
 = 1.5.3 =
 Fixed Security Vulnerability (CSRF/XSS attacks);
