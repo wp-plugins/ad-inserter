@@ -1,39 +1,64 @@
 === Ad Inserter ===
 Contributors: spacetime
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LHGZEMRTR7WB4
-Tags: adsense, amazon, ad, ads, html, javascript, php, code, widget, sidebar, rotating, banner, contextual
+Tags: adsense, amazon, clickbank, ad, ads, html, javascript, php, code, widget, sidebar, rotating, banner, banner rotation, contextual, shortcodes, widgets, header, footer, users, logged in, not logged in, mobile, desktop, phone, tablet, custom css, category, tag, filter, url, skip
 Requires at least: 3.0
-Tested up to: 3.8.1
-Stable tag: 1.3.3
+Tested up to: 4.2.2
+Stable tag: 1.5.3
 License: GPLv3
 
 Insert any HTML/Javascript/PHP code into Wordpress. Perfect for AdSense or contextual Amazon ads. 16 code blocks, many display options.
 
 == Description ==
 
-A simple solution to insert any ad code into Wordpress. **Perfect for AdSense or contextual Amazon ads.** Simply enter any HTML/Javascript/PHP code and select where and how you want to display it (including widgets).
+A simple solution to insert any code into Wordpress. **Perfect for AdSense or contextual Amazon ads.** Simply enter any HTML/Javascript/PHP code and select where and how you want to display it.
 
-Display Options:
+Automatic Display Options:
 
-*   Display ad Before Content (before post or page text)
-*   Display ad Before Selected Paragraph (0 means random paragraph):
-*   Display ad After Content (after post or page text)
-*   Display ad Before Title (does not work with all themes)
-*   Display ad Before Excerpt
-*   Display ad After Excerpt
-*   Ad as a Widget
-*   Manual - Insert {adinserter AD_NUMBER} or {adinserter AD_NAME} into post or page HTML code to display ad with AD_NAME name or number AD_NUMBER at this position
-*   PHP function call `<?php adinserter (AD_NUMBER); ?>` - Insert code block AD_NUMBER at any position in template file
+*   Display Before Content (before post or page text)
+*   Display Before Selected Paragraph
+*   Display After Selected Paragraph
+*   Display After Content (after post or page text)
+*   Display Before Title (does not work with all themes)
+*   Display Before Excerpt (on blog pages)
+*   Display After Excerpt (on blog pages)
+
+Paragraph number for Automatic Display Options Before and After Paragraph:
+
+*   0 means random paragraph position
+*   value between 0 and 1 means relative position in post or page (e.g. 0.3 means paragraph 30% from top or bottom)
+*   1 or more means paragraph number
+
+Additional Display Options:
+
+*   As a Widget - Simply drag **Ad Inserter** widget to any postition, select code block and you're done
+*   Manual - Insert shortcode [adinserter block="BLOCK_NUMBER"] or [adinserter name="BLOCK_NAME"] into post or page HTML code to display block with BLOCK_NAME name or BLOCK_NUMBER number at this position
+*   PHP function call `<?php if (function_exists ('adinserter')) echo adinserter (BLOCK_NUMBER); ?>` - Insert code block BLOCK_NUMBER at any position in template file
 
 Additional Options:
 
 *   Use {category}, {short_category}, {title}, {short_title}, {tag}, {smart_tag} or {search_query} tags to insert actual post data into code blocks
 *   To rotate different ad versions separate them with |rotate|
 
-Alignment:
+Display Block to:
+
+*   All users
+*   Logged in users
+*   Not logged in users
+
+on:
+
+*   All devices
+*   Desktop devices
+*   Mobile devices (tablets and phones)
+*   Tablet devices
+*   Phone devices
+
+Block Alignment and Style:
 
 *   No Wrapping (leaves ad code as it is, otherwise it is wrapped by a div)
-*   None
+*   Custom CSS (Custom CSS code for wrapping div)
+*   None (simple div with margin)
 *   Align Left
 *   Align Right
 *   Center
@@ -42,18 +67,30 @@ Alignment:
 
 PHP processing: Enabled or Disabled
 
-Do not display ad if the number of paragraphs is below limit (used only for position Before Selected Paragraph).
+Do not display ad if the number of paragraphs or the number of words is below limit (used only for position Before or After selected paragraph).
 
 Display ad only for posts published after N days.
 
-Do not display ads to users from certain referrers (domains) e.g technorati.com, facebook.com,... (black list) or display ads only for certain referrers (white list). **Leave referrers list empty and set to Black list to show ads for all referrers.**
+Do not display ads to users from certain referrers (domains) e.g technorati.com, facebook.com,... (black list) or display ads only for certain referrers (white list).
+**Leave referrers list empty and set it to Black list to show ads for all referrers.**
 
-Do not display ads in certain caregories e.g sport, news, science,... (black list) or display ads only in certain categories (white list). **Leave category list empty and set to Black list to show ads in all categories.**
+Do not display ads in certain caregories e.g sport, news, science,... (black list) or display ads only in certain categories (white list).
+**Leave category list empty and set it to Black list to show ads in all categories.**
+**WARNING:** If category name contains commas use category slug instead.
+
+Do not display ads in posts with certain tags (black list) or display ads only in posts with certain tags (white list). **Leave tag list empty and set it to Black list to show ads for all tags.**
+
+Do not display ads on pages with certain urls (black list) or display ads only pages with certain urls (white list). **Leave url list empty and set it to Black list to show ads on all urls.**
+**WARNING:** Separate urls with SPACES.
 
 For all display positions you can also define Wordpress page types where the ads can be displayed:
 
 *   Posts
 *   Pages
+
+You can also disable ads on certain posts or pages. For each code block on posts or pages you first define default display settings. Then you can define post/page exceptions on the post/page editor page (check Ad Inserter Exceptions meta box below).
+
+For display positions Before Paragraph and After Paragraph it is also possible to count only paragraphs that contain/do not contain certain text. If more than one text is defined (comma separated) and "contain" is selected then the paragraph must contain ALL texts.
 
 For display positions Before Excerpt, After Excerpt, Before Title and Widget you can select additional pages where the ads can be displayed:
 
@@ -62,13 +99,22 @@ For display positions Before Excerpt, After Excerpt, Before Title and Widget you
 *   Search Pages
 *   Archive pages
 
-You can also disable ads in certain posts. For example, to disable ad block 1 with name Test Block in post put the following HTML code within post or page code:
-
-`<!-- disable adinserter 1 -->`
-or
-`<!-- disable adinserter Test Block -->`
+For display positions Before Excerpt and After Excerpt you can also specify comma separated list of excerpt numbers (1 - 9).
 
 Ad Inserter is perfect for displaying AdSense or Amazon ads. It can also be used to display various versions of <a href="https://support.google.com/adsense/answer/65083?ctx=as2&rd=2&ref_topic=23389">AdSense ads using channels</a> to test which format or color combination performs best.
+
+Support for Special Code Blocks:
+
+*   Header scripts (tab #)
+*   Footer scripts (tab #)
+
+Wrapping divs for code blocks have 'code-block' and 'code-block-N' classes which can be used for custom styles. Class name can be changed in Ad Inserter settings.
+
+To configure syntax highlighting go to Ad Inserter Settings (tab #) and choose theme.
+
+You can also easily copy settings from one block to another. Click on the Import/Export icon next to block name field. Select and copy encoded settings for the source block to the clipboard and paste them into this field of the destination block. Check the **Import settings** checkbox for the destination block and save settings.
+
+**WARNING:** Text selection, Copy and Paste functions with the syntax highlighting editor do not work on mobile devices. If you need these functions you can temporarily swich to **Simple editor** using the checkbox above the code box.
 
 == Installation ==
 
@@ -90,7 +136,27 @@ Manual installation:
 4. Save settings.
 
 
-= How can I insert the post category name into my ad code? =
+= How can I replace deprecated widgets with the new one? =
+
+0. This is needed ONLY if you have used widgets with Ad Inserter version 1.4.1 or older
+1. Locate all code blocks that are configured as widgets.
+2. Locate all widget positions (sidebars) where you have the old Ad Inserter widgets (warning message should list them).
+3. Drag new "Ad Inserter" widget to the position where there is the old, deprecated widget.
+4. Select code block for this widget to be the same as it is for the old one.
+5. Drag the old, deprecated widget to the left to remove it.
+6. Replace steps for all old widgets.
+
+
+= How can I disable ads on specific posts/pages? =
+
+1. Go to Ad Inserter settings page and define default display options for post/page.
+2. Enable automatic display on posts/pages and choose default display: **On all**, **On all except selected** or **Only on selected**.
+3. Go to post/page editor and open **Ad Inserter Exceptions** meta box below.
+4. Check default display options for wanted code blocks.
+4. Set exceptions for this post or page.
+
+
+= How can I insert post category name into my ad code? =
 
 1. Use {category} in the ad. This will be replaced with the post category name.
 2. You can also use
@@ -122,6 +188,15 @@ ad_code_2
 ad_code_3`
 
 
+= How can place ads below Read More tag? =
+
+Configure ad block with the following options:
+
+*   Automatic display: After Paragraph
+*   Paragraph Number: 1
+*   Count only paragraphs that CONTAIN: `<span id="more-`
+
+
 = How can I use PHP code for code block? =
 
 Enter PHP code surrounded by PHP tags.
@@ -135,10 +210,10 @@ Some HTML/Javascript code
 
 = How can I insert code block directly into template php file? =
 
-Call adinserter function with code block number as parameter.
-Example:
+Enable PHP function adinserter for code block and call adinserter function with code block number as parameter.
+Example for block 3:
 
-`<?php adinserter (AD_NUMBER); ?>`
+`<?php echo adinserter (3); ?>`
 
 This would generate code as defined for the code block number AD_NUMBER.
 
@@ -151,7 +226,7 @@ For titles and search terms use tags. For example, the code below would display 
 `<div style="height: 531px;">
 <script type="text/javascript">
 var amzn_wdgt={widget:"Search"};
-amzn_wdgt.tag="adinserter-20";
+amzn_wdgt.tag="ad-inserter-20";
 amzn_wdgt.columns="1";
 amzn_wdgt.rows="5";
 amzn_wdgt.defaultSearchTerm="{smart_tag}";
@@ -177,7 +252,7 @@ Another example for nice contextual carousel below posts:
 `<div style="overflow: auto; width: 100%;">
 <script type='text/javascript'>
 var amzn_wdgt={widget:'Carousel'};
-amzn_wdgt.tag='adinserter-20';
+amzn_wdgt.tag='ad-inserter-20';
 amzn_wdgt.widgetType='SearchAndAdd';
 amzn_wdgt.searchIndex='All';
 amzn_wdgt.keywords='{smart_tag}';
@@ -203,10 +278,66 @@ ad_code
 
 == Screenshots ==
 
-1. This screenshot shows settings for one ad block. Up to 16 ad blocks can be configured.
+1. Settings for one code block (Widget). Up to 16 blocks can be configured.
+2. Settings for one code block (Before Paragraph)
+3. Ad Inserter settings + Header and Footer Scripts
+4. Post / Page Ad Inserter Exceptions
 
 
 == Changelog ==
+
+= 1.5.4 =
+* Many code optimizations and cosmetic changes
+* Header and Footer code blocks moved to settings tab (#)
+* Added support to process shortcodes of other plugins used in Ad Inserter code blocks
+* Added support to white-list or black-list individual urls
+* Added support to export and import settings for code blocks
+* Added support to specify excerpts for block insertion
+* Added support to specify text that must be present when counting paragraphs
+
+= 1.5.3 =
+* Fixed Security Vulnerability: Plugin was vulnerable to a combination of CSRF/XSS attacks (credits to Kaustubh Padwad)
+* Fixed bug: In some cases deprecated widgets warning reported errors
+* Added support to white-list or black-list tags
+* Added support for category slugs in category list
+* Added support for relative paragraph positions
+* Added support for individual code block exceptions on post/page editor page
+* Added support for minimum number of words
+* Added support to disable syntax highlighting editor (to allow using copy/paste on mobile devices)
+
+= 1.5.2 =
+* Fixed bug: Widget titles might be displayed at wrong sidebar positions
+* Change: Default code block CSS class name was changed from ad-inserter to code-block to prevent Ad Blockers from blocking Ad Inserter divs
+* Added warning message if deprecated widgets are used
+* Added support to display blocks on desktop + tablet and desktop + phone devices
+
+= 1.5.1 =
+* Few fixes to solve plugin incompatibility issues
+* Added support to disable all ads on specific page
+
+= 1.5.0 =
+* Added support to display blocks on all, desktop or mobile devices
+* Added support for new widgets API - one widget for all code blocks with multiple instances
+* Added support to change wrapping code CSS class name
+* Fixed bug: Display block N days after post is published was not working properly
+* Fixed bug: Display block after paragraph in some cases was not working propery
+
+= 1.4.1 =
+* Fixed bug: Code blocks configured as widgets were not displayed properly on widgets admin page
+
+= 1.4.0 =
+* Added support to skip paragraphs with specified text
+* Added position After paragraph
+* Added support for header and footer scripts
+* Added support for custom CSS styles
+* Added support to display blocks to all, logged in or not logged in users
+* Added support for syntax highlighting
+* Added support for shortcodes
+* Added classes to block wrapping divs
+* Few bugs fixed
+
+= 1.3.5 =
+* Fixed bug: missing echo for PHP function call example
 
 = 1.3.4 =
 * Added option for no code wrapping with div
@@ -244,7 +375,7 @@ ad_code
 = 1.2.0 =
 * Fixed bug: manual tags in posts lists were not removed
 * Added position Before title
-* Added support for minimum nuber of paragraphs
+* Added support for minimum number of paragraphs
 * Added support for page display options for Widget and Before title positions
 * Alignment now works for all display positions
 
@@ -283,6 +414,59 @@ ad_code
 
 == Upgrade Notice ==
 
+= 1.5.4 =
+Many code optimizations and cosmetic changes;
+Header and Footer code blocks moved to settings tab (#);
+Added support to process shortcodes of other plugins used in Ad Inserter code blocks;
+Added support to white-list or black-list individual urls;
+Added support to export and import settings for code blocks;
+Added support to specify excerpts for block insertion;
+Added support to specify text that must be present when counting paragraphs
+
+= 1.5.3 =
+Fixed Security Vulnerability (CSRF/XSS attacks);
+Fixed bug where deprecated widgets warning reported errors;
+Added support to white-list or black-list tags;
+Added support for category slugs in category list;
+Added support for relative paragraph positions;
+Added support for individual code block exceptions on post/page editor page;
+Added support for minimum number of words;
+Added support to disable syntax highlighting editor (to allow using copy/paste on mobile devices)
+
+= 1.5.2 =
+Fixed bug: Widget titles might be displayed at wrong sidebar positions;
+Change: Default code block CSS class name changed to code-block;
+Warning message if deprecated widgets are used;
+Display blocks on desktop + tablet and desktop + phone devices
+
+= 1.5.1 =
+Few fixes to solve plugin incompatibility issues;
+Support to disable all ads on specific page
+
+= 1.5.0 =
+Display blocks on all, desktop or mobile devices;
+New widgets API - one widget for all code blocks with multiple instances - PLEASE REPLACE ALL OLD WIDGETS WITH THE NEW ONE!
+Wrapping code CSS class name can be changed;
+Fixed bug: Display block N days after post is published;
+Fixed bug: Display block after paragraph
+
+= 1.4.1 =
+Fixed bug: Code blocks configured as widgets were not displayed properly on widgets admin page
+
+= 1.4.0 =
+Added support to skip paragraphs with specified text
+Added position After paragraph
+Added support for header and footer scripts
+Added support for custom CSS styles
+Added support to display blocks to all, logged in or not logged in users
+Added support for syntax highlighting
+Added support for shortcodes
+Added classes to block wrapping divs
+Few bugs fixed
+
+= 1.3.5 =
+Fixed bug: missing echo for PHP function call example
+
 = 1.3.4 =
 Fixed bug: in some cases Before Title display setting inserted code into RSS feed,
 Selected code block position is preserved after settings are saved,
@@ -319,7 +503,7 @@ Fixed problem: || in ad code (e.g. asynchronous code for AdSense) causes only pa
 = 1.2.0 =
 Fixed bug: manual tags in posts lists were not removed,
 Added position Before title,
-Added support for minimum nuber of paragraphs,
+Added support for minimum number of paragraphs,
 Added support for page display options for Widget and Before title positions,
 Alignment now works for all display positions,
 
@@ -349,3 +533,4 @@ Support for different sidebar implementations in various themes
 
 = 1.0.0 =
 Initial release
+
