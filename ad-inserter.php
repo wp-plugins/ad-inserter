@@ -15,7 +15,7 @@ TO DO
 /*
 Change Log
 
-Ad Inserter 1.5.4 - 30 May 2015
+Ad Inserter 1.5.4 - 31 May 2015
 - Many code optimizations and cosmetic changes
 - Header and Footer code blocks moved to settings tab (#)
 - Added support to process shortcodes of other plugins used in Ad Inserter code blocks
@@ -192,7 +192,7 @@ function ai_init_hook() {
   for ($counter = 1; $counter <= AD_INSERTER_BLOCKS; $counter ++) {
     $obj = new ai_Block ($counter);
     $obj->load_options ($counter);
-    if($obj->get_append_type() == AD_SELECT_WIDGET){
+    if($obj->get_display_type() == AD_SELECT_WIDGET){
       // register widget
 //      $widget_options = array ('classname' => 'ad-inserter-widget', 'description' => "Ad Inserter code block ".$counter);
       $widget_options = array ('classname' => 'ad-inserter-widget', 'description' => "DEPRECATED - Use 'Ad Inserter' widget instead.");
@@ -321,7 +321,7 @@ function ai_meta_box_callback ($post) {
     $individual_text_enabled    = $enabled_on_text == AD_ENABLED_ON_ALL_EXCEPT_ON_SELECTED;
 
     $ad_number = $obj->number;
-    $display_type = $obj->get_append_type();
+    $display_type = $obj->get_display_type();
     if ($rows % 2 != 0) $background = "#F0F0F0"; else $background = "#FFF";
     echo '<tr style="background: ', $background, ';">';
     echo '  <td style="text-align: right;">', $obj->number, '</td>';
@@ -855,13 +855,13 @@ function ai_content_hook ($content = ''){
       continue;
     }
 
-    if ($obj->get_append_type() == AD_SELECT_BEFORE_PARAGRAPH) {
+    if ($obj->get_display_type() == AD_SELECT_BEFORE_PARAGRAPH) {
       $content = ai_generateBeforeParagraph ($counter, $content, $obj);
-    } elseif ($obj->get_append_type() == AD_SELECT_AFTER_PARAGRAPH) {
+    } elseif ($obj->get_display_type() == AD_SELECT_AFTER_PARAGRAPH) {
       $content = ai_generateAfterParagraph ($counter, $content, $obj);
-    } elseif ($obj->get_append_type () == AD_SELECT_BEFORE_CONTENT) {
+    } elseif ($obj->get_display_type () == AD_SELECT_BEFORE_CONTENT) {
       $content = ai_generateDivBefore ($counter, $content, $obj);
-    } elseif ($obj->get_append_type() == AD_SELECT_AFTER_CONTENT) {
+    } elseif ($obj->get_display_type() == AD_SELECT_AFTER_CONTENT) {
       $content = ai_generateDivAfter ($counter, $content, $obj);
     }
 
@@ -943,7 +943,7 @@ function ai_excerpt_hook ($content = ''){
     if ($display_for_devices == AD_DISPLAY_DESKTOP_TABLET_DEVICES && !(AI_DESKTOP || AI_TABLET)) continue;
     if ($display_for_devices == AD_DISPLAY_DESKTOP_PHONE_DEVICES && !(AI_DESKTOP || AI_PHONE)) continue;
 
-    if ($obj->get_append_type () != AD_SELECT_BEFORE_EXCERPT && $obj->get_append_type () != AD_SELECT_AFTER_EXCERPT) continue;
+    if ($obj->get_display_type () != AD_SELECT_BEFORE_EXCERPT && $obj->get_display_type () != AD_SELECT_AFTER_EXCERPT) continue;
 
     $excerpt_number = $obj->get_excerpt_number();
     $excerpt_settings = array ();
@@ -996,7 +996,7 @@ function ai_excerpt_hook ($content = ''){
     if ($obj->get_alignment_type() == AD_ALIGNMENT_NO_WRAPPING) $ad_code = ai_getAdCode ($obj); else
       $ad_code = "<div class='" . $block_class_name . " " . $block_class_name . "-" .($block_index)."' style='" . $obj->get_alignmet_style() . "'>" . ai_getAdCode ($obj) . "</div>";
 
-    if ($obj->get_append_type () == AD_SELECT_BEFORE_EXCERPT)
+    if ($obj->get_display_type () == AD_SELECT_BEFORE_EXCERPT)
         $content = $ad_code . $content; else
           $content = $content . $ad_code;
   }
@@ -1042,7 +1042,7 @@ function ai_loop_start_hook ($query){
     if ($display_for_devices == AD_DISPLAY_DESKTOP_TABLET_DEVICES && !(AI_DESKTOP || AI_TABLET)) continue;
     if ($display_for_devices == AD_DISPLAY_DESKTOP_PHONE_DEVICES && !(AI_DESKTOP || AI_PHONE)) continue;
 
-    if ($obj->get_append_type () != AD_SELECT_BEFORE_TITLE) continue;
+    if ($obj->get_display_type () != AD_SELECT_BEFORE_TITLE) continue;
 
     if (is_front_page ()){
       if (!$obj->get_display_settings_home()) continue;
@@ -1781,7 +1781,7 @@ function ai_widget_draw ($block, $obj, $args, $title = '') {
       $http_referer = $_SERVER['HTTP_REFERER'];
   }
 
-//  if ($obj->get_append_type () != AD_SELECT_WIDGET) return;
+//  if ($obj->get_display_type () != AD_SELECT_WIDGET) return;
 
   //if empty data, continue next
   if($obj->get_ad_data()==AD_EMPTY_DATA){
@@ -1838,7 +1838,7 @@ function ai_widget_draw ($block, $obj, $args, $title = '') {
   }
 
   if (ai_isUrlAllowed ($obj->get_ad_url_list(), $obj->get_ad_url_list_type()) == false) {
-    continue;
+    return;
   }
 
   if (ai_isRefererAllowed($obj, $http_referer, $obj->get_ad_domain_list_type()) == false){

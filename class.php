@@ -227,18 +227,18 @@ abstract class ai_BaseCodeBlock {
     }
 
    public function get_ad_data(){
-    $ad_data = $this->wp_options [AI_OPTION_CODE];
+    $ad_data = isset ($this->wp_options [AI_OPTION_CODE]) ? $this->wp_options [AI_OPTION_CODE] : "";
      return $ad_data;
    }
 
    public function get_enable_manual (){
-    $enable_manual = $this->wp_options [AI_OPTION_ENABLE_MANUAL];
+    $enable_manual = isset ($this->wp_options [AI_OPTION_ENABLE_MANUAL]) ? $this->wp_options [AI_OPTION_ENABLE_MANUAL] : "";
      if ($enable_manual == '') $enable_manual = AD_SETTINGS_NOT_CHECKED;
      return $enable_manual;
    }
 
    public function get_process_php (){
-    $process_php = $this->wp_options [AI_OPTION_PROCESS_PHP];
+    $process_php = isset ($this->wp_options [AI_OPTION_PROCESS_PHP]) ? $this->wp_options [AI_OPTION_PROCESS_PHP] : "";
      if ($process_php == '') $process_php = AD_SETTINGS_NOT_CHECKED;
      return $process_php;
    }
@@ -288,59 +288,59 @@ abstract class ai_CodeBlock extends ai_BaseCodeBlock {
       $this->wp_options [AI_OPTION_DISPLAY_FOR_DEVICES]        = AD_DISPLAY_ALL_DEVICES;
     }
 
-   public function get_append_type(){
-     $option = $this->wp_options [AI_OPTION_DISPLAY_TYPE];
+   public function get_display_type(){
+     $option = isset ($this->wp_options [AI_OPTION_DISPLAY_TYPE]) ? $this->wp_options [AI_OPTION_DISPLAY_TYPE] : "";
      if ($option == '') $option = AD_SELECT_NONE;
      elseif ($option == AD_SELECT_MANUAL) $option = AD_SELECT_NONE;
      return $option;
     }
 
    public function get_paragraph_number(){
-     $option = $this->wp_options [AI_OPTION_PARAGRAPH_NUMBER];
+     $option = isset ($this->wp_options [AI_OPTION_PARAGRAPH_NUMBER]) ? $this->wp_options [AI_OPTION_PARAGRAPH_NUMBER] : "";
      if ($option == '') $option = AD_ZERO_DATA;
      return $option;
     }
 
    public function get_paragraph_number_minimum(){
-     $option = $this->wp_options [AI_OPTION_MIN_PARAGRAPHS];
+     $option = isset ($this->wp_options [AI_OPTION_MIN_PARAGRAPHS]) ? $this->wp_options [AI_OPTION_MIN_PARAGRAPHS] : "";
      if ($option == '') $option = AD_ZERO_DATA;
      return $option;
     }
 
    public function get_minimum_words(){
-     $option = $this->wp_options [AI_OPTION_MIN_WORDS];
+     $option = isset ($this->wp_options [AI_OPTION_MIN_WORDS]) ? $this->wp_options [AI_OPTION_MIN_WORDS] : "";
      if ($option == '') $option = AD_ZERO_DATA;
      return $option;
     }
 
    public function get_excerpt_number(){
-     $option = $this->wp_options [AI_OPTION_EXCERPT_NUMBER];
+     $option = isset ($this->wp_options [AI_OPTION_EXCERPT_NUMBER]) ? $this->wp_options [AI_OPTION_EXCERPT_NUMBER] : "";
      if ($option == '') $option = AD_ZERO_DATA;
      return $option;
     }
 
    public function get_direction_type(){
-     $option = $this->wp_options [AI_OPTION_DIRECTION_TYPE];
+     $option = isset ($this->wp_options [AI_OPTION_DIRECTION_TYPE]) ? $this->wp_options [AI_OPTION_DIRECTION_TYPE] : "";
      if ($option == '') $option = AD_DIRECTION_FROM_TOP;
      return $option;
     }
 
    public function get_alignment_type(){
      // Update old field names
-     $alignment = $this->wp_options [AI_OPTION_ALIGNMENT_TYPE];
-     if($alignment == 'Left'){
-       $alignment = AD_ALIGNMENT_FLOAT_LEFT;
-       $this->wp_options [AI_OPTION_ALIGNMENT_TYPE] = $alignment;
-     } else
-     if($alignment == 'Right'){
-       $alignment = AD_ALIGNMENT_FLOAT_RIGHT;
-       $this->wp_options [AI_OPTION_ALIGNMENT_TYPE] = $alignment;
+     $option = isset ($this->wp_options [AI_OPTION_ALIGNMENT_TYPE]) ? $this->wp_options [AI_OPTION_ALIGNMENT_TYPE] : "";
+     if ($option == 'Left'){
+       $option = AD_ALIGNMENT_FLOAT_LEFT;
+       $this->wp_options [AI_OPTION_ALIGNMENT_TYPE] = $option;
      }
-     if ($alignment == '') $option = AD_ALIGNMENT_NONE;
-     return $this->wp_options [AI_OPTION_ALIGNMENT_TYPE];
+     elseif ($option == 'Right'){
+       $option = AD_ALIGNMENT_FLOAT_RIGHT;
+       $this->wp_options [AI_OPTION_ALIGNMENT_TYPE] = $option;
+     }
+     elseif ($option == '') $option = AD_ALIGNMENT_NONE;
+     return $option;
     }
 
-   public function get_alignmet_style($margin = true){
+   public function get_alignmet_style ($margin = true){
     if ($this->get_alignment_type() == AD_ALIGNMENT_LEFT) {
       if ($margin)
         $style = "text-align:left;margin:8px 0px;"; else
@@ -379,70 +379,72 @@ abstract class ai_CodeBlock extends ai_BaseCodeBlock {
    }
 
    public function get_display_settings_home(){
-     $widget_settings = $this->wp_options [AI_OPTION_DISPLAY_ON_HOMEPAGE];
-     if ($widget_settings == '') $widget_settings = AD_SETTINGS_CHECKED;
-     return $widget_settings;
+     $option = isset ($this->wp_options [AI_OPTION_DISPLAY_ON_HOMEPAGE]) ? $this->wp_options [AI_OPTION_DISPLAY_ON_HOMEPAGE] : "";
+     if ($option == '') $option = AD_SETTINGS_CHECKED;
+     return $option;
    }
 
    public function get_display_settings_page(){
-     $widget_settings = $this->wp_options [AI_OPTION_DISPLAY_ON_PAGES];
-     if ($widget_settings == '') $widget_settings = AD_SETTINGS_NOT_CHECKED;
-     return $widget_settings;
+     $option = isset ($this->wp_options [AI_OPTION_DISPLAY_ON_PAGES]) ? $this->wp_options [AI_OPTION_DISPLAY_ON_PAGES] : "";
+     if ($option == '') $option = AD_SETTINGS_NOT_CHECKED;
+     return $option;
    }
 
    public function get_display_settings_post(){
-     $widget_settings = $this->wp_options [AI_OPTION_DISPLAY_ON_POSTS];
-     if ($widget_settings == '') $widget_settings = AD_SETTINGS_CHECKED;
-     return $widget_settings;
+     $option = isset ($this->wp_options [AI_OPTION_DISPLAY_ON_POSTS]) ? $this->wp_options [AI_OPTION_DISPLAY_ON_POSTS] : "";
+     if ($option == '') $option = AD_SETTINGS_CHECKED;
+     return $option;
    }
 
    public function get_display_settings_category(){
-     $widget_settings = $this->wp_options [AI_OPTION_DISPLAY_ON_CATEGORY_PAGES];
-     if ($widget_settings == '') $widget_settings = AD_SETTINGS_CHECKED;
-     return $widget_settings;
+     $option = isset ($this->wp_options [AI_OPTION_DISPLAY_ON_CATEGORY_PAGES]) ? $this->wp_options [AI_OPTION_DISPLAY_ON_CATEGORY_PAGES] : "";
+     if ($option == '') $option = AD_SETTINGS_CHECKED;
+     return $option;
    }
 
    public function get_display_settings_search(){
-     $widget_settings = $this->wp_options [AI_OPTION_DISPLAY_ON_SEARCH_PAGES];
-     if ($widget_settings == '') $widget_settings = AD_SETTINGS_CHECKED;
-     return $widget_settings;
+     $option = isset ($this->wp_options [AI_OPTION_DISPLAY_ON_SEARCH_PAGES]) ? $this->wp_options [AI_OPTION_DISPLAY_ON_SEARCH_PAGES] : "";
+     if ($option == '') $option = AD_SETTINGS_CHECKED;
+     return $option;
    }
 
    public function get_display_settings_archive(){
-     $widget_settings = $this->wp_options [AI_OPTION_DISPLAY_ON_ARCHIVE_PAGES];
-     if ($widget_settings == '') $widget_settings = AD_SETTINGS_CHECKED;
-     return $widget_settings;
+     $option = isset ($this->wp_options [AI_OPTION_DISPLAY_ON_ARCHIVE_PAGES]) ? $this->wp_options [AI_OPTION_DISPLAY_ON_ARCHIVE_PAGES] : "";
+     if ($option == '') $option = AD_SETTINGS_CHECKED;
+     return $option;
    }
 
    public function get_enable_manual (){
-     $enable_manual = $this->wp_options [AI_OPTION_ENABLE_MANUAL];
-     if ($enable_manual == '') {
-       $display_option = $this->wp_options [AI_OPTION_DISPLAY_TYPE];
+     $option = isset ($this->wp_options [AI_OPTION_ENABLE_MANUAL]) ? $this->wp_options [AI_OPTION_ENABLE_MANUAL] : "";
+     if ($option == '') {
+       $display_option = $this->get_display_type ();
        if ($display_option == AD_SELECT_MANUAL)
-         $enable_manual = AD_SETTINGS_CHECKED; else
-           $enable_manual = AD_SETTINGS_NOT_CHECKED;
+         $option = AD_SETTINGS_CHECKED; else
+           $option = AD_SETTINGS_NOT_CHECKED;
      }
-     return $enable_manual;
+     return $option;
    }
 
    public function get_enable_php_call (){
-     $enable_php_call = $this->wp_options [AI_OPTION_ENABLE_PHP_CALL];
-     if ($enable_php_call == '') $enable_php_call = AD_SETTINGS_NOT_CHECKED;
-     return $enable_php_call;
+     $option = isset ($this->wp_options [AI_OPTION_ENABLE_PHP_CALL]) ? $this->wp_options [AI_OPTION_ENABLE_PHP_CALL] : "";
+     if ($option == '') $option = AD_SETTINGS_NOT_CHECKED;
+     return $option;
    }
 
    public function get_paragraph_text (){
-     return $this->wp_options [AI_OPTION_PARAGRAPH_TEXT];
+     $paragraph_text = isset ($this->wp_options [AI_OPTION_PARAGRAPH_TEXT]) ? $this->wp_options [AI_OPTION_PARAGRAPH_TEXT] : "";
+     return $paragraph_text;
    }
 
    public function get_paragraph_text_type (){
-     $paragraph_text_type = $this->wp_options [AI_OPTION_PARAGRAPH_TEXT_TYPE];
-     if ($paragraph_text_type == '') $paragraph_text_type = AD_DO_NOT_CONTAIN;
-     return $paragraph_text_type;
+     $option = isset ($this->wp_options [AI_OPTION_PARAGRAPH_TEXT_TYPE]) ? $this->wp_options [AI_OPTION_PARAGRAPH_TEXT_TYPE] : "";
+     if ($option == '') $option = AD_DO_NOT_CONTAIN;
+     return $option;
    }
 
    public function get_custom_css (){
-     return $this->wp_options [AI_OPTION_CUSTOM_CSS];
+     $option = isset ($this->wp_options [AI_OPTION_CUSTOM_CSS]) ? $this->wp_options [AI_OPTION_CUSTOM_CSS] : "";
+     return $option;
    }
 
    public function get_display_for_users (){
@@ -463,7 +465,8 @@ abstract class ai_CodeBlock extends ai_BaseCodeBlock {
 
    public function get_ad_data_replaced(){
 
-     $general_tag = $this->wp_options [AI_OPTION_GENERAL_TAG];
+     $general_tag = isset ($this->wp_options [AI_OPTION_GENERAL_TAG]) ? $this->wp_options [AI_OPTION_GENERAL_TAG] : "";
+
      $general_tag = str_replace ("&amp;", " and ", $general_tag);
      $title = $general_tag;
      $short_title = $general_tag;
@@ -615,76 +618,82 @@ abstract class ai_CodeBlock extends ai_BaseCodeBlock {
    }
 
    public function get_ad_general_tag(){
-     $option = $this->wp_options [AI_OPTION_GENERAL_TAG];
+     $option = isset ($this->wp_options [AI_OPTION_GENERAL_TAG]) ? $this->wp_options [AI_OPTION_GENERAL_TAG] : "";
      if ($option == '') $option = AD_GENERAL_TAG;
      return $option;
    }
 
 	public function get_ad_after_day(){
-     $option = $this->wp_options [AI_OPTION_AFTER_DAYS];
+     $option = isset ($this->wp_options [AI_OPTION_AFTER_DAYS]) ? $this->wp_options [AI_OPTION_AFTER_DAYS] : "";
      if ($option == '') $option = AD_ZERO_DATA;
      return $option;
    }
 
   public function get_ad_url_list(){
-      return $this->wp_options [AI_OPTION_URL_LIST];
+     $option = isset ($this->wp_options [AI_OPTION_URL_LIST]) ? $this->wp_options [AI_OPTION_URL_LIST] : "";
+     return $option;
   }
 
   public function get_ad_url_list_type (){
-     $option = $this->wp_options [AI_OPTION_URL_LIST_TYPE];
+     $option = isset ($this->wp_options [AI_OPTION_URL_LIST_TYPE]) ? $this->wp_options [AI_OPTION_URL_LIST_TYPE] : "";
      if ($option == '') $option = AD_BLACK_LIST;
      return $option;
   }
 
   public function get_ad_domain_list(){
-      return $this->wp_options [AI_OPTION_DOMAIN_LIST];
+     $option = isset ($this->wp_options [AI_OPTION_DOMAIN_LIST]) ? $this->wp_options [AI_OPTION_DOMAIN_LIST] : "";
+     return $option;
    }
 
   public function get_ad_domain_list_type (){
-     $option = $this->wp_options [AI_OPTION_DOMAIN_LIST_TYPE];
+     $option = isset ($this->wp_options [AI_OPTION_DOMAIN_LIST_TYPE]) ? $this->wp_options [AI_OPTION_DOMAIN_LIST_TYPE] : "";
      if ($option == '') $option = AD_BLACK_LIST;
      return $option;
    }
 
 	public function get_ad_name(){
-     $option = $this->wp_options [AI_OPTION_NAME];
+     $option = isset ($this->wp_options [AI_OPTION_NAME]) ? $this->wp_options [AI_OPTION_NAME] : "";
      if ($option == '') $option = AD_NAME. " " . $this->number;
      return $option;
    }
 
 	public function get_ad_block_cat(){
-      return $this->wp_options [AI_OPTION_CATEGORY_LIST];
+     $option = isset ($this->wp_options [AI_OPTION_CATEGORY_LIST]) ? $this->wp_options [AI_OPTION_CATEGORY_LIST] : "";
+     return $option;
    }
 
   public function get_ad_block_cat_type(){
+     $option = isset ($this->wp_options [AI_OPTION_CATEGORY_LIST_TYPE]) ? $this->wp_options [AI_OPTION_CATEGORY_LIST_TYPE] : "";
+
      // Update old data
-     if($this->wp_options [AI_OPTION_CATEGORY_LIST_TYPE] == ''){
+     if ($option == ''){
+       $option = AD_BLACK_LIST;
        $this->wp_options [AI_OPTION_CATEGORY_LIST_TYPE] = AD_BLACK_LIST;
      }
 
-     $option = $this->wp_options [AI_OPTION_CATEGORY_LIST_TYPE];
      if ($option == '') $option = AD_BLACK_LIST;
      return $option;
    }
 
   public function get_ad_block_tag(){
-      return $this->wp_options [AI_OPTION_TAG_LIST];
+     $option = isset ($this->wp_options [AI_OPTION_TAG_LIST]) ? $this->wp_options [AI_OPTION_TAG_LIST] : "";
+     return $option;
   }
 
   public function get_ad_block_tag_type(){
-     $option = $this->wp_options [AI_OPTION_TAG_LIST_TYPE];
+     $option = isset ($this->wp_options [AI_OPTION_TAG_LIST_TYPE]) ? $this->wp_options [AI_OPTION_TAG_LIST_TYPE] : "";
      if ($option == '') $option = AD_BLACK_LIST;
      return $option;
   }
 
   public function get_ad_enabled_on_which_pages (){
-    $option = $this->wp_options [AI_OPTION_ENABLED_ON_WHICH_PAGES];
+    $option = isset ($this->wp_options [AI_OPTION_ENABLED_ON_WHICH_PAGES]) ? $this->wp_options [AI_OPTION_ENABLED_ON_WHICH_PAGES] : "";
     if ($option == '') $option = AD_ENABLED_ON_ALL;
     return $option;
   }
 
   public function get_ad_enabled_on_which_posts (){
-    $option = $this->wp_options [AI_OPTION_ENABLED_ON_WHICH_POSTS];
+    $option = isset ($this->wp_options [AI_OPTION_ENABLED_ON_WHICH_POSTS]) ? $this->wp_options [AI_OPTION_ENABLED_ON_WHICH_POSTS] : "";
     if ($option == '') $option = AD_ENABLED_ON_ALL;
     return $option;
   }

@@ -65,6 +65,15 @@ SyntaxHighlight.prototype.applySettings = function () {
 
 jQuery(document).ready(function($) {
 
+  function configure_editor_language (block) {
+
+    var editor = ace.edit ("editor_" + block);
+
+    if ($("input#process-php-"+block).is(":checked")) {
+      editor.getSession ().setMode ("ace/mode/php");
+    } else editor.getSession ().setMode ("ace/mode/html");
+  }
+
   function process_display_elements (block) {
 
     $("#paragraph-settings-"+block).hide();
@@ -98,14 +107,10 @@ jQuery(document).ready(function($) {
       $("#custom-css-"+block).show();
     }
 
-    var editor = ace.edit ("editor_" + block);
-
-    if ($("input#process-php-"+block).is(":checked")) {
-      editor.getSession ().setMode ("ace/mode/php");
-    } else editor.getSession ().setMode ("ace/mode/html");
+    configure_editor_language (block);
   }
 
-  for (block = 1; block <= 18; block ++) {
+  function configure_editor (block) {
     syntax_highlighter = new SyntaxHighlight ('#block_' + block, block, shSettings);
     syntax_highlighter.editor.setPrintMarginColumn (1000);
 
@@ -130,7 +135,18 @@ jQuery(document).ready(function($) {
     });
   }
 
+  blocks = $('#ad_form').attr('blocks');
+
+  for (block = 1; block <= blocks; block ++) {
+    configure_editor (block);
+  }
+  configure_editor ('h');
+  configure_editor ('f');
+
   $('#ai-tabs').tabs();
+
+  $('#ai-tabs a').css ("width", "14px").css ("text-align", "center");
+  $('#ad-tabs').css ("padding", ".2em 0 0 .6em");
 
   var active_tab = $("#ai-active-tab").attr ("value");
   var tab_index = $('#ai-tabs a[href="#tab-'+active_tab+'"]').parent().index();
@@ -141,8 +157,10 @@ jQuery(document).ready(function($) {
     tab_index = tab_index.replace ("ai-tab","");
     $("#ai-active-tab").attr ("value", tab_index);
 
-    var editor = ace.edit ("editor_" + tab_index);
-    editor.getSession ().highlightLines (10000000);
+    if (tab_index != 0) {
+      var editor = ace.edit ("editor_" + tab_index);
+      editor.getSession ().highlightLines (10000000);
+    }
   });
 
   //hover states on the static widgets
@@ -159,10 +177,10 @@ jQuery(document).ready(function($) {
   $('#ad-tabs').show();
 
   $(function() {
-    $('#ai-settings input[type=submit], #ai-settings button').button();
+    $('#ai-settings input[type=submit], #ai-settings button').button().show ();
   });
 
-  for (ad_block = 1; ad_block <= 18; ad_block++) {
+  for (ad_block = 1; ad_block <= blocks; ad_block++) {
     $("select#display-type-"+ad_block).change (function() {
       block = $(this).attr('id').replace ("display-type-", "");
       process_display_elements (block);
@@ -180,8 +198,27 @@ jQuery(document).ready(function($) {
       process_display_elements (block);
     });
     process_display_elements (ad_block);
+
+    $("#export_switch_"+ad_block).button ({
+      icons: {
+        primary: "ui-icon-gear",
+        secondary: "ui-icon-triangle-1-s"
+      },
+      text: false
+    }).show ().click (function () {
+      tab_index = $(this).attr ("id");
+      tab_index = tab_index.replace ("export_switch_","");
+      $("#export_container_" + tab_index).toggle ();
+    });
+
   }
 
+  $("input#process-php-h").change (function() {
+    configure_editor_language ('h')
+  });
+
+  $("input#process-php-f").change (function() {
+    configure_editor_language ('f')
+  });
+
 });
-
-

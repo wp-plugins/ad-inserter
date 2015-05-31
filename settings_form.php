@@ -53,10 +53,10 @@ function print_settings_form (){
     $obj = $ad_array [$ad_number];
 
     $ad_name = $obj->get_ad_name();
-    if ($obj->get_append_type() != AD_SELECT_NONE) $ad_name .= ": ".$obj->get_append_type();
+    if ($obj->get_display_type() != AD_SELECT_NONE) $ad_name .= ": ".$obj->get_display_type();
 
     $style = "";
-    if ($obj->get_append_type() != AD_SELECT_NONE) $style = "font-weight: bold; color: #e44;";
+    if ($obj->get_display_type() != AD_SELECT_NONE) $style = "font-weight: bold; color: #e44;";
     elseif ($obj->get_enable_manual()) $style = "font-weight: bold; color: #66e;";
     elseif ($obj->get_enable_php_call()) $style = "font-weight: bold; color: #66e;";
 
@@ -94,7 +94,7 @@ function print_settings_form (){
       <div style="display: inline-block; padding: 2px 10px; float: right;">
         <input type="hidden"   style="border-radius: 5px;" name="<?php echo AI_OPTION_IMPORT, WP_FORM_FIELD_POSTFIX, $ad_number; ?>" value="0" />
         <input type="checkbox" style="border-radius: 5px;" name="<?php echo AI_OPTION_IMPORT, WP_FORM_FIELD_POSTFIX, $ad_number; ?>" value="1" id="import-<?php echo $ad_number; ?>">
-        <label for="<?php echo AI_OPTION_IMPORT, WP_FORM_FIELD_POSTFIX, $ad_number; ?>" title="Import settings when saving - if checked, the encoded settings below will be imported for this block">Import Settings to block <?php echo $ad_number; ?></label>
+        <label for="<?php echo AI_OPTION_IMPORT, WP_FORM_FIELD_POSTFIX, $ad_number; ?>" title="Import settings when saving - if checked, the encoded settings below will be imported for this block">Import Settings for block <?php echo $ad_number; ?></label>
       </div>
 
       <div style="float: left; padding-left:10px;">
@@ -123,15 +123,15 @@ function print_settings_form (){
   <div style="padding:8px 8px 8px 16px;">
      Automatic Display:
      <select style="border-radius: 5px; margin-bottom: 3px;" id="display-type-<?php echo $ad_number; ?>" name="<?php echo AI_OPTION_DISPLAY_TYPE, WP_FORM_FIELD_POSTFIX, $ad_number; ?>" style="width:200px">
-        <option value="<?php echo AD_SELECT_NONE; ?>" <?php echo ($obj->get_append_type()==AD_SELECT_NONE) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_NONE; ?></option>
-        <option value="<?php echo AD_SELECT_BEFORE_TITLE; ?>" <?php echo ($obj->get_append_type()==AD_SELECT_BEFORE_TITLE) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_BEFORE_TITLE; ?></option>
-        <option value="<?php echo AD_SELECT_BEFORE_CONTENT; ?>" <?php echo ($obj->get_append_type()==AD_SELECT_BEFORE_CONTENT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_BEFORE_CONTENT; ?></option>
-        <option value="<?php echo AD_SELECT_BEFORE_PARAGRAPH; ?>" <?php echo ($obj->get_append_type()==AD_SELECT_BEFORE_PARAGRAPH) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_BEFORE_PARAGRAPH; ?></option>
-        <option value="<?php echo AD_SELECT_AFTER_PARAGRAPH; ?>" <?php echo ($obj->get_append_type()==AD_SELECT_AFTER_PARAGRAPH) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_AFTER_PARAGRAPH; ?></option>
-        <option value="<?php echo AD_SELECT_AFTER_CONTENT; ?>" <?php echo ($obj->get_append_type()==AD_SELECT_AFTER_CONTENT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_AFTER_CONTENT; ?></option>
-        <option value="<?php echo AD_SELECT_BEFORE_EXCERPT; ?>" <?php echo ($obj->get_append_type()==AD_SELECT_BEFORE_EXCERPT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_BEFORE_EXCERPT; ?></option>
-        <option value="<?php echo AD_SELECT_AFTER_EXCERPT; ?>" <?php echo ($obj->get_append_type()==AD_SELECT_AFTER_EXCERPT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_AFTER_EXCERPT; ?></option>
-        <option value="<?php echo AD_SELECT_WIDGET; ?>" <?php echo ($obj->get_append_type()==AD_SELECT_WIDGET) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_WIDGET; ?></option>
+        <option value="<?php echo AD_SELECT_NONE; ?>" <?php echo ($obj->get_display_type()==AD_SELECT_NONE) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_NONE; ?></option>
+        <option value="<?php echo AD_SELECT_BEFORE_TITLE; ?>" <?php echo ($obj->get_display_type()==AD_SELECT_BEFORE_TITLE) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_BEFORE_TITLE; ?></option>
+        <option value="<?php echo AD_SELECT_BEFORE_CONTENT; ?>" <?php echo ($obj->get_display_type()==AD_SELECT_BEFORE_CONTENT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_BEFORE_CONTENT; ?></option>
+        <option value="<?php echo AD_SELECT_BEFORE_PARAGRAPH; ?>" <?php echo ($obj->get_display_type()==AD_SELECT_BEFORE_PARAGRAPH) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_BEFORE_PARAGRAPH; ?></option>
+        <option value="<?php echo AD_SELECT_AFTER_PARAGRAPH; ?>" <?php echo ($obj->get_display_type()==AD_SELECT_AFTER_PARAGRAPH) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_AFTER_PARAGRAPH; ?></option>
+        <option value="<?php echo AD_SELECT_AFTER_CONTENT; ?>" <?php echo ($obj->get_display_type()==AD_SELECT_AFTER_CONTENT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_AFTER_CONTENT; ?></option>
+        <option value="<?php echo AD_SELECT_BEFORE_EXCERPT; ?>" <?php echo ($obj->get_display_type()==AD_SELECT_BEFORE_EXCERPT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_BEFORE_EXCERPT; ?></option>
+        <option value="<?php echo AD_SELECT_AFTER_EXCERPT; ?>" <?php echo ($obj->get_display_type()==AD_SELECT_AFTER_EXCERPT) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_AFTER_EXCERPT; ?></option>
+        <option value="<?php echo AD_SELECT_WIDGET; ?>" <?php echo ($obj->get_display_type()==AD_SELECT_WIDGET) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_SELECT_WIDGET; ?></option>
      </select>
 
      <div style="float: right;">
@@ -224,7 +224,7 @@ function print_settings_form (){
           Categories:
         </td>
         <td style="padding-right: 10px;">
-          <input style="border-radius: 5px;" title="Comma separated category names - if category name contains commas use category slug instead" type="text" name="<?php echo AI_OPTION_CATEGORY_LIST, WP_FORM_FIELD_POSTFIX, $ad_number; ?>" value="<?php echo $obj->get_ad_block_cat() ?>" size="60" maxlength="500"/>
+          <input style="border-radius: 5px;" title="Comma separated category names - if category name contains commas use category slug instead" type="text" name="<?php echo AI_OPTION_CATEGORY_LIST, WP_FORM_FIELD_POSTFIX, $ad_number; ?>" value="<?php echo $obj->get_ad_block_cat() ?>" size="58" maxlength="500"/>
         </td>
         <td style="padding-right: 10px;">
           <input style="border-radius: 5px;" type="radio" name="<?php echo AI_OPTION_CATEGORY_LIST_TYPE, WP_FORM_FIELD_POSTFIX, $ad_number; ?>" value="<?php echo AD_BLACK_LIST; ?>" <?php if ($obj->get_ad_block_cat_type() == AD_BLACK_LIST) echo 'checked '; ?>/> <?php echo AD_BLACK_LIST; ?>
@@ -238,7 +238,7 @@ function print_settings_form (){
           Tags:
         </td>
         <td style="padding-right: 10px;">
-          <input style="border-radius: 5px;" title="Comma separated tags" type="text" name="<?php echo AI_OPTION_TAG_LIST, WP_FORM_FIELD_POSTFIX, $ad_number; ?>" value="<?php echo $obj->get_ad_block_tag() ?>" size="60" maxlength="500"/>
+          <input style="border-radius: 5px;" title="Comma separated tags" type="text" name="<?php echo AI_OPTION_TAG_LIST, WP_FORM_FIELD_POSTFIX, $ad_number; ?>" value="<?php echo $obj->get_ad_block_tag() ?>" size="58" maxlength="500"/>
         </td>
         <td style="padding-right: 10px;">
           <input style="border-radius: 5px;" type="radio" name="<?php echo AI_OPTION_TAG_LIST_TYPE, WP_FORM_FIELD_POSTFIX, $ad_number; ?>" value="<?php echo AD_BLACK_LIST; ?>" <?php if ($obj->get_ad_block_tag_type() == AD_BLACK_LIST) echo 'checked '; ?>/> <?php echo AD_BLACK_LIST; ?>
@@ -252,7 +252,7 @@ function print_settings_form (){
           Urls:
         </td>
         <td style="padding-right: 10px;">
-          <input style="border-radius: 5px;" title="SPACE separated urls starting with / (use only when you need to taget a specific url not accessible by other means)" type="text" name="<?php echo AI_OPTION_URL_LIST, WP_FORM_FIELD_POSTFIX, $ad_number; ?>" value="<?php echo $obj->get_ad_url_list() ?>" size="60" maxlength="500"/>
+          <input style="border-radius: 5px;" title="SPACE separated urls starting with / (use only when you need to taget a specific url not accessible by other means)" type="text" name="<?php echo AI_OPTION_URL_LIST, WP_FORM_FIELD_POSTFIX, $ad_number; ?>" value="<?php echo $obj->get_ad_url_list() ?>" size="58" maxlength="500"/>
         </td>
         <td style="padding-right: 10px;">
           <input style="border-radius: 5px;" type="radio" name="<?php echo AI_OPTION_URL_LIST_TYPE, WP_FORM_FIELD_POSTFIX, $ad_number; ?>" value="<?php echo AD_BLACK_LIST; ?>" <?php if ($obj->get_ad_url_list_type() == AD_BLACK_LIST) echo 'checked '; ?>/> <?php echo AD_BLACK_LIST; ?>
@@ -266,7 +266,7 @@ function print_settings_form (){
           Referers:
         </td>
         <td style="padding-right: 10px;">
-          <input style="border-radius: 5px;" title="Comma separated domains" type="text" name="<?php echo AI_OPTION_DOMAIN_LIST, WP_FORM_FIELD_POSTFIX, $ad_number; ?>" value="<?php echo $obj->get_ad_domain_list() ?>" size="60" maxlength="500"/>
+          <input style="border-radius: 5px;" title="Comma separated domains" type="text" name="<?php echo AI_OPTION_DOMAIN_LIST, WP_FORM_FIELD_POSTFIX, $ad_number; ?>" value="<?php echo $obj->get_ad_domain_list() ?>" size="58" maxlength="500"/>
         </td>
         <td style="padding-right: 10px;">
           <input style="border-radius: 5px;" type="radio" name="<?php echo AI_OPTION_DOMAIN_LIST_TYPE, WP_FORM_FIELD_POSTFIX, $ad_number; ?>" value="<?php echo AD_BLACK_LIST; ?>" <?php if ($obj->get_ad_domain_list_type() == AD_BLACK_LIST) echo 'checked '; ?>/> <?php echo AD_BLACK_LIST; ?>
@@ -288,13 +288,14 @@ function print_settings_form (){
   <div id="paragraph-settings-<?php echo $ad_number; ?>" style="padding:8px 8px 0 8px; margin: 0 0 10px 10px; border: 1px solid #ddd; border-radius: 5px;">
     <div style="display: inline-block; vertical-align: ">
       <div style="margin: 4px 0 4px 0; ">
-        Paragraph number <input style="border-radius: 5px;" type="text" name="<?php echo AI_OPTION_PARAGRAPH_NUMBER, WP_FORM_FIELD_POSTFIX, $ad_number; ?>" value="<?php echo $obj->get_paragraph_number() ?>" size="2" maxlength="4"/> 0 means random, value between 0 and 1 means relative position. Counting
+        Paragraph number <input style="border-radius: 5px;" type="text" name="<?php echo AI_OPTION_PARAGRAPH_NUMBER, WP_FORM_FIELD_POSTFIX, $ad_number; ?>" value="<?php echo $obj->get_paragraph_number() ?>" size="2" maxlength="4"/> &nbsp; 0 means random, value between 0 and 1 means relative position.
+      </div>
+      <div style="margin: 4px 0 4px 0; ">
+        Counting
         <select style="border-radius: 5px;" name="<?php echo AI_OPTION_DIRECTION_TYPE, WP_FORM_FIELD_POSTFIX, $ad_number; ?>">
           <option value="<?php echo AD_DIRECTION_FROM_TOP; ?>" <?php echo ($obj->get_direction_type()==AD_DIRECTION_FROM_TOP) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DIRECTION_FROM_TOP; ?></option>
           <option value="<?php echo AD_DIRECTION_FROM_BOTTOM; ?>" <?php echo ($obj->get_direction_type()==AD_DIRECTION_FROM_BOTTOM) ? AD_SELECT_SELECTED : AD_EMPTY_VALUE; ?>><?php echo AD_DIRECTION_FROM_BOTTOM; ?></option>
-        </select>
-      </div>
-      <div style="margin: 4px 0 4px 0; ">
+        </select>&nbsp;&nbsp;&nbsp;
         Minimum number of paragraphs <input style="border-radius: 5px;" type="text" name="<?php echo AI_OPTION_MIN_PARAGRAPHS, WP_FORM_FIELD_POSTFIX, $ad_number; ?>" value="<?php echo $obj->get_paragraph_number_minimum() ?>" size="2" maxlength="3"/>&nbsp;&nbsp;&nbsp;
         Minimum number of words <input style="border-radius: 5px;" type="text" name="<?php echo AI_OPTION_MIN_WORDS, WP_FORM_FIELD_POSTFIX, $ad_number; ?>" value="<?php echo $obj->get_minimum_words() ?>" size="4" maxlength="5"/>&nbsp;&nbsp;&nbsp;
       </div>

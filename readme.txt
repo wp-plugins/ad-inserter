@@ -1,7 +1,7 @@
 === Ad Inserter ===
 Contributors: spacetime
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LHGZEMRTR7WB4
-Tags: adsense, amazon, clickbank, ad, ads, html, javascript, php, code, widget, sidebar, rotating, banner, banner rotation, contextual, shortcodes, widgets, header, footer, users, logged in, not logged in, mobile, desktop, phone, tablet, custom css, category, tag, filter
+Tags: adsense, amazon, clickbank, ad, ads, html, javascript, php, code, widget, sidebar, rotating, banner, banner rotation, contextual, shortcodes, widgets, header, footer, users, logged in, not logged in, mobile, desktop, phone, tablet, custom css, category, tag, filter, url, skip
 Requires at least: 3.0
 Tested up to: 4.2.2
 Stable tag: 1.5.3
@@ -80,7 +80,7 @@ Do not display ads in certain caregories e.g sport, news, science,... (black lis
 
 Do not display ads in posts with certain tags (black list) or display ads only in posts with certain tags (white list). **Leave tag list empty and set it to Black list to show ads for all tags.**
 
-Do not display ads on pages with certain urls (black list) or display ads only pages with certain urls (white list). **Leave tag list empty and set it to Black list to show ads on all urls.**
+Do not display ads on pages with certain urls (black list) or display ads only pages with certain urls (white list). **Leave url list empty and set it to Black list to show ads on all urls.**
 **WARNING:** Separate urls with SPACES.
 
 For all display positions you can also define Wordpress page types where the ads can be displayed:
@@ -99,7 +99,7 @@ For display positions Before Excerpt, After Excerpt, Before Title and Widget you
 *   Search Pages
 *   Archive pages
 
-For display positions Before Excerpt and After Excerpt you can also specify comma separated list of excerpt numbers.
+For display positions Before Excerpt and After Excerpt you can also specify comma separated list of excerpt numbers (1 - 9).
 
 Ad Inserter is perfect for displaying AdSense or Amazon ads. It can also be used to display various versions of <a href="https://support.google.com/adsense/answer/65083?ctx=as2&rd=2&ref_topic=23389">AdSense ads using channels</a> to test which format or color combination performs best.
 
@@ -188,6 +188,15 @@ ad_code_2
 ad_code_3`
 
 
+= How can place ads below Read More tag? =
+
+Configure ad block with the following options:
+
+*   Automatic display: After Paragraph
+*   Paragraph Number: 1
+*   Count only paragraphs that CONTAIN: `<span id="more-`
+
+
 = How can I use PHP code for code block? =
 
 Enter PHP code surrounded by PHP tags.
@@ -269,9 +278,9 @@ ad_code
 
 == Screenshots ==
 
-1. Settings for one code block. Up to 16 blocks can be configured.
-2. Settings for header code
-3. Ad Inserter settings
+1. Settings for one code block (Widget). Up to 16 blocks can be configured.
+2. Settings for one code block (Before Paragraph)
+3. Ad Inserter settings + Header and Footer Scripts
 4. Post / Page Ad Inserter Exceptions
 
 
