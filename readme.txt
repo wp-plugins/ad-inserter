@@ -29,6 +29,8 @@ Paragraph number for Automatic Display Options Before and After Paragraph:
 *   value between 0 and 1 means relative position in post or page (e.g. 0.3 means paragraph 30% from top or bottom)
 *   1 or more means paragraph number
 
+Paragraphs can be counted from top or from bottom. It is also possible to count only paragraphs that contain/do not contain certain text. If more than one text is defined (comma separated) and "contain" is selected then the paragraph must contain ALL texts.
+
 Additional Display Options:
 
 *   As a Widget - Simply drag **Ad Inserter** widget to any postition, select code block and you're done
@@ -90,8 +92,6 @@ For all display positions you can also define Wordpress page types where the ads
 
 You can also disable ads on certain posts or pages. For each code block on posts or pages you first define default display settings. Then you can define post/page exceptions on the post/page editor page (check Ad Inserter Exceptions meta box below).
 
-For display positions Before Paragraph and After Paragraph it is also possible to count only paragraphs that contain/do not contain certain text. If more than one text is defined (comma separated) and "contain" is selected then the paragraph must contain ALL texts.
-
 For display positions Before Excerpt, After Excerpt, Before Title and Widget you can select additional pages where the ads can be displayed:
 
 *   Homepage
@@ -112,7 +112,7 @@ Wrapping divs for code blocks have 'code-block' and 'code-block-N' classes which
 
 To configure syntax highlighting go to Ad Inserter Settings (tab #) and choose theme.
 
-You can also easily copy settings from one block to another. Click on the Import/Export icon next to block name field. Select and copy encoded settings for the source block to the clipboard and paste them into this field of the destination block. Check the **Import settings** checkbox for the destination block and save settings.
+You can also easily copy settings from one block to another. Click on the Import/Export icon next to block name field. Select and copy encoded settings for the source block to the clipboard and paste them into this field of the destination block. Check the **Import settings** checkbox for the destination block and save settings. Please note that the block name is not imported, what you put in the name field will be saved.
 
 **WARNING:** Text selection, Copy and Paste functions with the syntax highlighting editor do not work on mobile devices. If you need these functions you can temporarily swich to **Simple editor** using the checkbox above the code box.
 
@@ -199,7 +199,7 @@ Configure ad block with the following options:
 
 = How can I use PHP code for code block? =
 
-Enter PHP code surrounded by PHP tags.
+Enter PHP code surrounded by PHP tags and check Process PHP.
 Example:
 
 `<div style="width: 100%;">
@@ -213,9 +213,9 @@ Some HTML/Javascript code
 Enable PHP function adinserter for code block and call adinserter function with code block number as parameter.
 Example for block 3:
 
-`<?php echo adinserter (3); ?>`
+`<?php if (function_exists ('adinserter')) echo adinserter (3); ?>`
 
-This would generate code as defined for the code block number AD_NUMBER.
+This would generate code as defined for the code block number 3.
 
 
 = How can I create contextual Amazon ad (to show items related to the post)? =
