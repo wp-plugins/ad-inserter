@@ -132,7 +132,7 @@ Manual installation:
 
 1. After activation, click "Settings / Ad Inserter" to access the setup page.
 2. Put ad (or any other HTML/Javascript/PHP) code into the ad box.
-3. Set the display options.
+3. Set display options.
 4. Save settings.
 
 

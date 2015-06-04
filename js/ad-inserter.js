@@ -169,16 +169,12 @@ jQuery(document).ready(function($) {
     function() {$(this).removeClass ('ui-state-hover');}
   );
 
-  $(function() {
-    $('#ai-settings').tooltip();
-  });
+  $('#ai-settings').tooltip();
 
   $('#dummy-tabs').hide();
   $('#ad-tabs').show();
 
-  $(function() {
-    $('#ai-settings input[type=submit], #ai-settings button').button().show ();
-  });
+  $('#ai-settings input[type=submit], #ai-settings button').button().show ();
 
   for (ad_block = 1; ad_block <= blocks; ad_block++) {
     $("select#display-type-"+ad_block).change (function() {
