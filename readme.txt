@@ -112,7 +112,9 @@ Wrapping divs for code blocks have 'code-block' and 'code-block-N' classes which
 
 To configure syntax highlighting go to Ad Inserter Settings (tab #) and choose theme.
 
-You can also easily copy settings from one block to another. Click on the Import/Export icon next to block name field. Select and copy encoded settings for the source block to the clipboard and paste them into this field of the destination block. Check the **Import settings** checkbox for the destination block and save settings. Please note that the block name is not imported, what you put in the name field will be saved.
+You can also easily copy settings from one block to another. Click on the Import/Export icon next to the Save button. Select encoded settings for the source block, copy them to the clipboard and paste them into the same field of the destination block. Check the **Import settings** checkbox for the destination block and save settings. Please note that the block name is not imported, what you put in the name field will be saved.
+
+You can also copy complete Ad Inserter settings from one website to another. Go to settings tab (#) and click on the Import/Export icon next to the Save button. Select encoded settings for the source website, copy them to the clipboard and then paste them into the same field of the destination website. Check the **Import settings** checkbox for the destination website and save settings.
 
 **WARNING:** Text selection, Copy and Paste functions with the syntax highlighting editor do not work on mobile devices. If you need these functions you can temporarily swich to **Simple editor** using the checkbox above the code box.
 
@@ -286,6 +288,10 @@ ad_code
 
 == Changelog ==
 
+= 1.5.5 =
+* Few bug fixes and code improvements
+* Added support to export and import all Ad Inserter settings
+
 = 1.5.4 =
 * Many code optimizations and cosmetic changes
 * Header and Footer code blocks moved to settings tab (#)
@@ -413,6 +419,10 @@ ad_code
 
 
 == Upgrade Notice ==
+
+= 1.5.5 =
+Few bug fixes and code improvements;
+Added support to export and import all Ad Inserter settings
 
 = 1.5.4 =
 Many code optimizations and cosmetic changes;

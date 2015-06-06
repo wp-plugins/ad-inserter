@@ -15,6 +15,10 @@ TO DO
 /*
 Change Log
 
+Ad Inserter 1.5.5 - 6 June 2015
+- Few bug fixes and code improvements
+- Added support to export and import all Ad Inserter settings
+
 Ad Inserter 1.5.4 - 31 May 2015
 - Many code optimizations and cosmetic changes
 - Header and Footer code blocks moved to settings tab (#)
@@ -158,7 +162,7 @@ if (version_compare ($wp_version, "3.0", "<")) {
 //include required files
 require_once 'class.php';
 require_once 'constants.php';
-require_once 'settings_form.php';
+require_once 'settings.php';
 require_once 'includes/Mobile_Detect.php';
 
 
@@ -228,19 +232,7 @@ function ai_admin_enqueue_scripts ($hook_suffix) {
 }
 
 function ai_admin_notice_hook () {
-  global $current_screen;
-
-//  $plugin_options = ai_plugin_options ();
-//  $plugin_db_options = get_option (AD_OPTIONS);
-
-//  $ad_inserter_installed = get_option ('ad1_name') != '';
-
-//  if ($ad_inserter_installed && !isset ($plugin_db_options ['VERSION']) && ($current_screen->id != "settings_page_ad-inserter" || (!isset ($_POST [AD_FORM_SAVE]) && !isset ($_POST [AD_FORM_CLEAR])))) {
-//    echo "<div class='updated'><strong>
-//      Notice: ".AD_INSERTER_TITLE." plugin was updated. New version can insert ads also on static pages.
-//      Please <a href=\"/wp-admin/options-general.php?page=ad-inserter.php\">check</a> if page display options for all ad slots are set properly.
-//      Make required changes and save ".AD_INSERTER_TITLE." settings to remove this notice.</strong></div>";
-//  }
+  global $current_screen, $ai_db_options;
 
   $sidebar_widgets = wp_get_sidebars_widgets();
   $sidebars_with_deprecated_widgets = array ();
@@ -248,9 +240,12 @@ function ai_admin_notice_hook () {
   foreach ($sidebar_widgets as $sidebar_widget_index => $sidebar_widget) {
     if (is_array ($sidebar_widget))
       foreach ($sidebar_widget as $widget) {
-        if (preg_match ("/ai_widget([\d]+)/", $widget)) {
+        if (preg_match ("/ai_widget([\d]+)/", $widget, $widget_number)) {
+          if (isset ($widget_number [1]) && is_numeric ($widget_number [1])) {
+            $is_widget = $ai_db_options [$widget_number [1]][AI_OPTION_DISPLAY_TYPE] == AD_SELECT_WIDGET;
+          } else $is_widget = false;
           $sidebar_name = $GLOBALS ['wp_registered_sidebars'][$sidebar_widget_index]['name'];
-          if ($sidebar_name != "")
+          if ($is_widget && $sidebar_name != "")
             $sidebars_with_deprecated_widgets [$sidebar_widget_index] = $sidebar_name;
         }
       }
@@ -320,7 +315,6 @@ function ai_meta_box_callback ($post) {
     $individual_option_enabled  = $general_enabled && ($enabled_on_text == AD_ENABLED_ON_ALL_EXCEPT_ON_SELECTED || $enabled_on_text == AD_ENABLED_ONLY_ON_SELECTED);
     $individual_text_enabled    = $enabled_on_text == AD_ENABLED_ON_ALL_EXCEPT_ON_SELECTED;
 
-    $ad_number = $obj->number;
     $display_type = $obj->get_display_type();
     if ($rows % 2 != 0) $background = "#F0F0F0"; else $background = "#FFF";
     echo '<tr style="background: ', $background, ';">';
@@ -352,12 +346,11 @@ function ai_meta_box_callback ($post) {
     echo '  </td>';
 
     echo '  <td style="padding: 0 10px 0 10px; text-align: left;">';
-    echo '<input type="hidden"   style="border-radius: 5px;" name="adinserter_selected_block_', $ad_number, '" value="0" />';
-    echo '<input type="', $individual_option_enabled ? 'checkbox' : 'hidden', '" style="border-radius: 5px;" name="adinserter_selected_block_', $ad_number, '" value="1"';
-    if (in_array ($ad_number, $selected_blocks)) echo 'checked ';
-    echo '>';
+    echo '<input type="hidden"   style="border-radius: 5px;" name="adinserter_selected_block_', $block, '" value="0" />';
+    if ($individual_option_enabled)
+    echo '<input type="checkbox" style="border-radius: 5px;" name="adinserter_selected_block_', $block, '" value="1"', in_array ($block, $selected_blocks) ? ' checked': '', ' />';
 
-    echo '<label for="adinserter_selected_block_', $ad_number, '">';
+    echo '<label for="adinserter_selected_block_', $block, '">';
     if ($individual_option_enabled) {
       if (!$individual_text_enabled) echo 'Enabled'; else echo 'Disabled';
     }
@@ -386,10 +379,12 @@ function ai_save_meta_box_data ($post_id) {
   if (defined ('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
 
   // Check the user's permissions.
-  if (isset ($_POST ['post_type']) && 'page' == $_POST ['post_type']) {
+  if (isset ($_POST ['post_type'])) {
+    if ($_POST ['post_type'] == 'page') {
     if (!current_user_can ('edit_page', $post_id)) return;
   } else {
     if (!current_user_can ('edit_post', $post_id)) return;
+    }
   }
 
   /* OK, it's safe for us to save the data now. */
@@ -399,10 +394,12 @@ function ai_save_meta_box_data ($post_id) {
     $option_name = 'adinserter_selected_block_' . $block;
     if (!isset ($_POST [$option_name])) return;
     if ($_POST [$option_name]) $selected []= $block;
+//    $selected []= $block."#".$_POST [$option_name];
   }
 
   // Update the meta field in the database.
   update_post_meta ($post_id, '_adinserter_block_exceptions', implode (",", $selected));
+//  update_post_meta ($post_id, '_adinserter_block_exceptions', implode (",", ''));
 }
 
 function ai_widgets_init_hook () {
@@ -562,6 +559,18 @@ function ai_settings () {
 
     check_admin_referer ('save_adinserter_settings');
 
+
+    $import_switch_name = AI_OPTION_IMPORT . WP_FORM_FIELD_POSTFIX . '0';
+    if (isset ($_POST [$import_switch_name]) && $_POST [$import_switch_name] == "1") {
+      // Import Ad Inserter settings
+      $saved_settings = $ai_db_options;
+      $ai_options = @unserialize (base64_decode (str_replace (array ("\\\""), array ("\""), $_POST ["export_settings_0"])));
+      if ($ai_options === false) {
+        $ai_options = $saved_settings;
+        $invalid_blocks []= 0;
+      }
+    } else {
+        // Try to import individual settings
     $ai_options = array ();
 
     $invalid_blocks = array ();
@@ -604,10 +613,6 @@ function ai_settings () {
       delete_option (str_replace ("#", $block, AD_ADx_OPTIONS));
     }
 
-    if (!empty ($invalid_blocks)) {
-      echo "<div class='error' style='margin: 5px 15px 2px 0px; padding: 10px;'>Error importing settings for block", count ($invalid_blocks) == 1 ? "" : "s:", " ", implode (", ", $invalid_blocks), "</div>";
-    }
-
     $adH  = new ai_AdH();
     $adF  = new ai_AdF();
 
@@ -628,6 +633,14 @@ function ai_settings () {
     $ai_options [AI_HEADER_OPTION_NAME] = $adH->wp_options;
     $ai_options [AI_FOOTER_OPTION_NAME] = $adF->wp_options;
     $ai_options [AI_GLOBAL_OPTION_NAME] = ai_plugin_options (filter_string ($_POST ['syntax-highlighter-theme']), filter_html_class ($_POST ['block-class-name']));
+      }
+
+    if (!empty ($invalid_blocks)) {
+      if ($invalid_blocks [0] == 0) {
+             echo "<div class='error' style='margin: 5px 15px 2px 0px; padding: 10px;'>Error importing Ad Inserter settings.</div>";
+      } else echo "<div class='error' style='margin: 5px 15px 2px 0px; padding: 10px;'>Error importing settings for block", count ($invalid_blocks) == 1 ? "" : "s:", " ", implode (", ", $invalid_blocks), ".</div>";
+    }
+
     update_option (WP_OPTION_NAME, $ai_options);
 
     // Reload options
@@ -884,7 +897,6 @@ function ai_excerpt_hook ($content = ''){
   if(isset($_SERVER['HTTP_REFERER'])) {
       $http_referer = $_SERVER['HTTP_REFERER'];
   }
-
 
   if (!defined ('AD_INSERTER_EXCERPT_1')) {
     define ('AD_INSERTER_EXCERPT_1', true);

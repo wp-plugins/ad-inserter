@@ -1,20 +1,20 @@
 <?php
 
-@include_once 'functions.php';
+if (!defined ('AD_INSERTER_PLUGIN_DIR'))
+  define ('AD_INSERTER_PLUGIN_DIR', plugin_dir_path (__FILE__));
 
-//define constant variable Ad Inserter
+if (file_exists (AD_INSERTER_PLUGIN_DIR.'functions.php')) {
+  include_once 'functions.php';
+}
 
 if (!defined( 'AD_INSERTER_TITLE'))
   define ('AD_INSERTER_TITLE', 'Ad Inserter');
 
 if (!defined( 'AD_INSERTER_VERSION'))
-  define ('AD_INSERTER_VERSION', '1.5.4');
+  define ('AD_INSERTER_VERSION', '1.5.5');
 
 if (!defined ('AD_INSERTER_BLOCKS'))
   define ('AD_INSERTER_BLOCKS', 16);
-
-if (!defined ('AD_INSERTER_PLUGIN_DIR'))
-  define ('AD_INSERTER_PLUGIN_DIR', plugin_dir_path (__FILE__));
 
 if (!defined ('AD_INSERTER_PLUGIN_BASENAME'))
   define ('AD_INSERTER_PLUGIN_BASENAME', plugin_basename (__FILE__));
