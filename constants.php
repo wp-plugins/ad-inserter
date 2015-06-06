@@ -4,7 +4,7 @@ if (!defined ('AD_INSERTER_PLUGIN_DIR'))
   define ('AD_INSERTER_PLUGIN_DIR', plugin_dir_path (__FILE__));
 
 if (file_exists (AD_INSERTER_PLUGIN_DIR.'functions.php')) {
-  include_once 'functions.php';
+  include_once AD_INSERTER_PLUGIN_DIR.'functions.php';
 }
 
 if (!defined( 'AD_INSERTER_TITLE'))

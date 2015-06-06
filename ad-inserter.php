@@ -150,6 +150,8 @@ Ad Inserter 1.0.0 - 14/11/2010
 //ini_set('display_errors',1);
 //error_reporting (E_ALL);
 
+if (!defined ('AD_INSERTER_PLUGIN_DIR'))
+  define ('AD_INSERTER_PLUGIN_DIR', plugin_dir_path (__FILE__));
 
 /* Version check */
 global $wp_version;
@@ -160,10 +162,10 @@ if (version_compare ($wp_version, "3.0", "<")) {
 }
 
 //include required files
-require_once 'class.php';
-require_once 'constants.php';
-require_once 'settings.php';
-require_once 'includes/Mobile_Detect.php';
+require_once AD_INSERTER_PLUGIN_DIR.'class.php';
+require_once AD_INSERTER_PLUGIN_DIR.'constants.php';
+require_once AD_INSERTER_PLUGIN_DIR.'settings.php';
+require_once AD_INSERTER_PLUGIN_DIR.'includes/Mobile_Detect.php';
 
 
 $detect = new ai_Mobile_Detect;
@@ -188,6 +190,8 @@ add_action ('wp_footer',        'ai_wp_footer_hook');
 add_action ('widgets_init',     'ai_widgets_init_hook');
 add_action ('add_meta_boxes',   'ai_add_meta_box');
 add_action ('save_post',        'ai_save_meta_box_data');
+
+add_filter ('plugin_action_links_'.plugin_basename (__FILE__), 'ai_plugin_action_links');
 
 
 function ai_init_hook() {
@@ -256,6 +260,12 @@ function ai_admin_notice_hook () {
     implode (", ", $sidebars_with_deprecated_widgets),
     ". Please replace them with the new 'Ad Inserter' code block widget. See <a href='https://wordpress.org/plugins/ad-inserter/faq/' target='_blank'>FAQ</a> for details.</strong></div>";
   }
+}
+
+function ai_plugin_action_links ($links) {
+  $settings_link = '<a href="'.admin_url ('options-general.php?page=ad-inserter.php').'">Settings</a>';
+  array_unshift ($links, $settings_link);
+  return $links;
 }
 
 function ai_add_meta_box() {

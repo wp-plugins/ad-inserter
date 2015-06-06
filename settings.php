@@ -1,9 +1,9 @@
 <?php
 
-require_once 'constants.php';
+require_once AD_INSERTER_PLUGIN_DIR.'constants.php';
 
 if (file_exists (AD_INSERTER_PLUGIN_DIR.'functions.php')) {
-  include_once 'functions.php';
+  include_once AD_INSERTER_PLUGIN_DIR.'functions.php';
 }
 
 function print_settings_form (){

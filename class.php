@@ -1,6 +1,6 @@
 <?php
 
-require_once 'constants.php';
+require_once AD_INSERTER_PLUGIN_DIR.'constants.php';
 
 abstract class ai_BaseCodeBlock {
     var $wp_options;
