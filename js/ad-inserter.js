@@ -206,8 +206,17 @@ jQuery(document).ready(function($) {
       tab_index = tab_index.replace ("export_switch_","");
       $("#export_container_" + tab_index).toggle ();
     });
-
   }
+
+  $("#export_switch_0").button ({
+    icons: {
+      primary: "ui-icon-gear",
+      secondary: "ui-icon-triangle-1-s"
+    },
+    text: false
+  }).show ().click (function () {
+    $("#export_container_0").toggle ();
+  });
 
   $("input#process-php-h").change (function() {
     configure_editor_language ('h')
