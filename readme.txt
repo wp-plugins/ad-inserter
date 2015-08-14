@@ -3,7 +3,7 @@ Contributors: spacetime
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LHGZEMRTR7WB4
 Tags: adsense, amazon, clickbank, ad, ads, html, javascript, php, code, widget, sidebar, rotating, banner, banner rotation, contextual, shortcodes, widgets, header, footer, users, logged in, not logged in, mobile, desktop, phone, tablet, custom css, category, tag, filter, url, skip
 Requires at least: 3.0
-Tested up to: 4.2.2
+Tested up to: 4.2.4
 Stable tag: 1.5.5
 License: GPLv3
 
@@ -11,7 +11,9 @@ Insert any HTML/Javascript/PHP code into Wordpress. Perfect for AdSense or conte
 
 == Description ==
 
-A simple solution to insert any code into Wordpress. **Perfect for AdSense or contextual Amazon ads.** Simply enter any HTML/Javascript/PHP code and select where and how you want to display it.
+Need to install ads or widgets on Wordpress website?
+
+Ad Inserter is a simple yet powerful solution to insert any code into Wordpress. **Perfect for AdSense or contextual Amazon ads.** Simply enter any HTML/Javascript/PHP code and select where and how you want to display it.
 
 Automatic Display Options:
 
@@ -288,6 +290,10 @@ ad_code
 
 == Changelog ==
 
+= 1.5.6 =
+* Fixed Security Vulnerability: Plugin was vulnerable to Cross-Site Scripting (XSS)
+* Few bug fixes and code improvements
+
 = 1.5.5 =
 * Few bug fixes and code improvements
 * Added support to export and import all Ad Inserter settings
@@ -419,6 +425,10 @@ ad_code
 
 
 == Upgrade Notice ==
+
+= 1.5.6 =
+Fixed Security Vulnerability: Plugin was vulnerable to Cross-Site Scripting (XSS);
+Few bug fixes and code improvements
 
 = 1.5.5 =
 Few bug fixes and code improvements;

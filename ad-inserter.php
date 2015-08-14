@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Ad Inserter
-Version: 1.5.5
+Version: 1.5.6
 Description: A simple solution to insert any code into Wordpress. Simply enter any HTML, Javascript or PHP code and select where and how you want to display it.
 Author: Spacetime
 Author URI: http://igorfuna.com/
@@ -14,6 +14,10 @@ TO DO
 
 /*
 Change Log
+
+Ad Inserter 1.5.6 - 14 August 2015
+- Fixed Security Vulnerability: Plugin was vulnerable to Cross-Site Scripting (XSS)
+- Few bug fixes and code improvements
 
 Ad Inserter 1.5.5 - 6 June 2015
 - Few bug fixes and code improvements
@@ -356,7 +360,7 @@ function ai_meta_box_callback ($post) {
     echo '  </td>';
 
     echo '  <td style="padding: 0 10px 0 10px; text-align: left;">';
-    echo '<input type="hidden"   style="border-radius: 5px;" name="adinserter_selected_block_', $block, '" value="0" />';
+//    echo '<input type="hidden"   style="border-radius: 5px;" name="adinserter_selected_block_', $block, '" value="0" />';
     if ($individual_option_enabled)
     echo '<input type="checkbox" style="border-radius: 5px;" name="adinserter_selected_block_', $block, '" value="1"', in_array ($block, $selected_blocks) ? ' checked': '', ' />';
 
@@ -402,9 +406,8 @@ function ai_save_meta_box_data ($post_id) {
   $selected = array ();
   for ($block = 1; $block <= AD_INSERTER_BLOCKS; $block ++) {
     $option_name = 'adinserter_selected_block_' . $block;
-    if (!isset ($_POST [$option_name])) return;
+//    if (!isset ($_POST [$option_name])) return;
     if ($_POST [$option_name]) $selected []= $block;
-//    $selected []= $block."#".$_POST [$option_name];
   }
 
   // Update the meta field in the database.

@@ -11,6 +11,10 @@ function print_settings_form (){
 
   if (isset ($_GET ['subpage'])) $subpage = $_GET ['subpage']; else $subpage = 'main';
 
+  $active_tab = isset ($_POST ['ai-active-tab']) ? $_POST ['ai-active-tab'] : 1;
+  if (!is_numeric ($active_tab)) $active_tab = 1;
+  if ($active_tab < 0 || $active_tab > 16) $active_tab = 1;
+
   $ad_array = array ();
   for ($block = 1; $block <= AD_INSERTER_BLOCKS; $block ++) {
     $ad = new ai_Block ($block);
@@ -29,6 +33,30 @@ function print_settings_form (){
 
 ?>
 <style>
+.nav-tab {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.nav-tab-active, .nav-tab-active:hover {
+  background: #fff;
+}
+.exceptions a {
+  text-decoration: none;
+}
+.exceptions th.page {
+  text-align: left;
+}
+.exceptions td.page {
+  padding-right: 20px;
+}
+.exceptions td.id {
+  padding-right: 10px;
+  text-align: right;
+}
+.exceptions th.block, .exceptions td.block {
+  text-align: center;
+  width: 20px;
+}
 </style>
 
 <div id="ai-settings" style="margin-right: 16px; float: left; ">
@@ -50,10 +78,9 @@ function print_settings_form (){
   }
 ?>
   </div>
+
 <?php
   if ($subpage == 'exceptions') {
-?>
-<?php
   } else {
 ?>
 
@@ -513,7 +540,7 @@ function print_settings_form (){
   </div>
 </div>
 
-<input id="ai-active-tab" type="hidden" name="ai-active-tab" value="<?php echo isset ($_POST ['ai-active-tab']) ? $_POST ['ai-active-tab'] : 1; ?>" />
+<input id="ai-active-tab" type="hidden" name="ai-active-tab" value="<?php echo $active_tab; ?>" />
 
 <?php wp_nonce_field ('save_adinserter_settings'); ?>
 

@@ -11,7 +11,7 @@ if (!defined( 'AD_INSERTER_TITLE'))
   define ('AD_INSERTER_TITLE', 'Ad Inserter');
 
 if (!defined( 'AD_INSERTER_VERSION'))
-  define ('AD_INSERTER_VERSION', '1.5.5');
+  define ('AD_INSERTER_VERSION', '1.5.6');
 
 if (!defined ('AD_INSERTER_BLOCKS'))
   define ('AD_INSERTER_BLOCKS', 16);
