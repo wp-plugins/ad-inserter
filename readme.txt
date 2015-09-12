@@ -3,7 +3,7 @@ Contributors: spacetime
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LHGZEMRTR7WB4
 Tags: adsense, amazon, clickbank, ad, ads, html, javascript, php, code, widget, sidebar, rotating, banner, banner rotation, contextual, shortcodes, widgets, header, footer, users, logged in, not logged in, mobile, desktop, phone, tablet, custom css, category, tag, filter, url, skip
 Requires at least: 3.0
-Tested up to: 4.2.4
+Tested up to: 4.3
 Stable tag: 1.5.6
 License: GPLv3
 
@@ -160,6 +160,28 @@ Manual installation:
 4. Set exceptions for this post or page.
 
 
+= How can I use PHP code for code block? =
+
+Enter PHP code surrounded by PHP tags and check Process PHP.
+Example:
+
+`<div style="width: 100%;">
+Some HTML/Javascript code
+</div>
+<?php echo "PHP code by Ad Inserter"; ?>`
+
+
+= How can I exclude ads from group of similar pages?  =
+
+For example, to exclude ads from all pages that contain /shop/ in the address use the following PHP code (don't forget to enable PHP processing for the block):
+
+`<?php if (strpos ($_SERVER ['REQUEST_URI'], '/shop/') === false) { ?>
+
+AD CODE
+
+<?php } ?>`
+
+
 = How can I insert post category name into my ad code? =
 
 1. Use {category} in the ad. This will be replaced with the post category name.
@@ -199,17 +221,6 @@ Configure ad block with the following options:
 *   Automatic display: After Paragraph
 *   Paragraph Number: 1
 *   Count only paragraphs that CONTAIN: `<span id="more-`
-
-
-= How can I use PHP code for code block? =
-
-Enter PHP code surrounded by PHP tags and check Process PHP.
-Example:
-
-`<div style="width: 100%;">
-Some HTML/Javascript code
-</div>
-<?php echo "PHP code by Ad Inserter"; ?>`
 
 
 = How can I insert code block directly into template php file? =
